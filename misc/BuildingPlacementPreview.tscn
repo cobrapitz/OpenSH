@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://misc/BuildingPlacementPreview.gd" type="Script" id=1]
+
+[node name="BuildingPlacementPreview" type="Node2D"]
+modulate = Color( 0.403922, 0, 0.996078, 0.513726 )
+script = ExtResource( 1 )

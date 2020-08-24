@@ -1,0 +1,185 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://worlds/World0.tscn" type="PackedScene" id=1]
+[ext_resource path="res://resources/GUI/paper_by_darkwood67_0/paper_by_darkwood67/brown_age_by_darkwood67.jpg" type="Texture" id=2]
+[ext_resource path="res://resources/GUI/320x180_book_scaled.png" type="Texture" id=3]
+[ext_resource path="res://resources/grassland_tiles.png" type="Texture" id=4]
+[ext_resource path="res://gui/Buildings.gd" type="Script" id=5]
+[ext_resource path="res://gui/StatsBook.gd" type="Script" id=6]
+[ext_resource path="res://gui/GUI.gd" type="Script" id=7]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 517.1, 731.1, 233.7, 208.05 )
+
+[node name="Game" type="Node"]
+
+[node name="World0" parent="." instance=ExtResource( 1 )]
+
+[node name="GUILayer" type="CanvasLayer" parent="."]
+
+[node name="GUI" type="Control" parent="GUILayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Info" type="RichTextLabel" parent="GUILayer/GUI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelBottom" type="Control" parent="GUILayer/GUI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelMiddle" type="Control" parent="GUILayer/GUI/PanelBottom"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 144.0
+margin_top = -104.0
+margin_right = -145.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="TextureRect" parent="GUILayer/GUI/PanelBottom/PanelMiddle"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 7
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Buildings" type="Control" parent="GUILayer/GUI/PanelBottom/PanelMiddle"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 4.0
+margin_right = -4.0
+margin_bottom = -4.0
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MilitaryBuildings" type="Control" parent="GUILayer/GUI/PanelBottom/PanelMiddle/Buildings"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TrainingCamp" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/Buildings/MilitaryBuildings"]
+margin_left = 73.1238
+margin_top = 13.7731
+margin_right = 156.124
+margin_bottom = 87.7731
+texture_normal = SubResource( 1 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/Buildings/MilitaryBuildings"]
+margin_left = 172.826
+margin_top = 13.7731
+margin_right = 255.826
+margin_bottom = 87.7731
+texture_normal = SubResource( 1 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Building3" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/Buildings/MilitaryBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 284.549
+margin_top = 13.7731
+margin_right = 367.549
+margin_bottom = 87.7731
+disabled = true
+texture_normal = SubResource( 1 )
+expand = true
+
+[node name="Building4" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/Buildings/MilitaryBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 389.201
+margin_top = 13.7731
+margin_right = 472.201
+margin_bottom = 87.7731
+disabled = true
+texture_normal = SubResource( 1 )
+expand = true
+
+[node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/Buildings/MilitaryBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 499.509
+margin_top = 13.7731
+margin_right = 582.509
+margin_bottom = 87.7731
+disabled = true
+texture_normal = SubResource( 1 )
+expand = true
+
+[node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/Buildings/MilitaryBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 608.483
+margin_top = 13.7731
+margin_right = 647.483
+margin_bottom = 49.7731
+disabled = true
+texture_normal = SubResource( 1 )
+expand = true
+
+[node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/Buildings/MilitaryBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 608.483
+margin_top = 13.7731
+margin_right = 647.483
+margin_bottom = 49.7731
+disabled = true
+texture_normal = SubResource( 1 )
+expand = true
+
+[node name="StatsBook" type="TextureButton" parent="GUILayer/GUI/PanelBottom"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -140.0
+margin_top = -101.0
+texture_normal = ExtResource( 3 )
+expand = true
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Gold" type="Label" parent="GUILayer/GUI/PanelBottom/StatsBook"]
+margin_left = 24.0203
+margin_top = 14.653
+margin_right = 68.0203
+margin_bottom = 50.653
+
+[node name="Minimap" type="Panel" parent="GUILayer/GUI/PanelBottom"]
+self_modulate = Color( 1, 1, 1, 0.411765 )
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0908
+margin_top = -104.0
+margin_right = 132.091
+__meta__ = {
+"_edit_use_anchors_": false
+}

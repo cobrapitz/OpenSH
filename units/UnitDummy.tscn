@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://units/Unit.gd" type="Script" id=1]
+[ext_resource path="res://resources/Red_blob_scaled.png" type="Texture" id=2]
+
+[node name="UnitDummy" type="Sprite"]
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 34, 37, 31, 28 )
+script = ExtResource( 1 )

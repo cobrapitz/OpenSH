@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://buildings/BuildingTrainingCamp.gd" type="Script" id=1]
+[ext_resource path="res://resources/grassland_tiles.png" type="Texture" id=2]
+
+[node name="BuildingTrainingCamp" type="Sprite"]
+position = Vector2( -19.0488, -73.8141 )
+texture = ExtResource( 2 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 510, 730, 245, 220 )
+script = ExtResource( 1 )
+building_size = Vector2( 4, 4 )
