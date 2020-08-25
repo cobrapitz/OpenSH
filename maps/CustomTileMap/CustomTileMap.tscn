@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://maps/CustomTileMap/CustomTileMap.gd" type="Script" id=1]
+[ext_resource path="res://tilesets/basic_tileset.tres" type="TileSet" id=2]
+
+[node name="CustomTileMap" type="YSort"]
+sort_enabled = false
+script = ExtResource( 1 )
+tileset = ExtResource( 2 )

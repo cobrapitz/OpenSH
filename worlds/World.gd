@@ -291,6 +291,7 @@ func _init_pathfinding():
 			continue
 		var astar_id = _get_astar_cell_id(Vector2(w, h))
 		astar.add_point(astar_id, Vector2(w, h))
+	
 	_init_neighbours()
 
 

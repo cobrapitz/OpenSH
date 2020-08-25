@@ -37,3 +37,5 @@ format = 1
 __meta__ = {
 "_editor_description_": ""
 }
+
+[node name="CustomTileMap" type="Node2D" parent="."]
