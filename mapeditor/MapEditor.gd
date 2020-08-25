@@ -17,3 +17,10 @@ func _input(event):
 		_tilemap.set_cell_world(\
 				_tilemap.get_global_mouse_position().x, \
 				_tilemap.get_global_mouse_position().y, 2)
+	if Input.is_action_pressed("left_ctrl"):
+		if Input.is_action_just_pressed("mouse_right"):
+			_tilemap.add_astar_cell(Global.world_to_isotile(_tilemap.get_global_mouse_position()))
+			return
+		elif Input.is_action_just_pressed("mouse_left"):
+			_tilemap.remove_astar_cell(Global.world_to_isotile(_tilemap.get_global_mouse_position()))
+			return

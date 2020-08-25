@@ -7,3 +7,6 @@
 sort_enabled = false
 script = ExtResource( 1 )
 tileset = ExtResource( 2 )
+
+[node name="AStarMap" type="TileMap" parent="."]
+format = 1
