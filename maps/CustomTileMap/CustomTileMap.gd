@@ -9,10 +9,20 @@ export(Vector2) var cell_size = Vector2(64, 32)
 
 
 onready var astar_tilemap = $AStarMap
+onready var cell_boundaries = $CellBoundaries
 
 
-var _cells = []
-var _cellPositionMap = {}
+const TileBoundary = preload("res://misc/TileBoundary.tscn")
+
+
+var _cells = {}
+var _bg_cells = {}
+var _cell_position_map = {}
+var _cell_bg_position_map = {}
+
+# used for selecting tiles
+var shapes = []
+var pols = []
 
 # used to swap between world and map coords
 var _tilemap = TileMap.new()
@@ -36,12 +46,29 @@ func _ready():
 		_map_cell_height = 1
 
 
+func get_cell_texture_region(id, subtile):
+	var pos = tileset.autotile_get_size(id)
+	pos.x += cell_size.x * subtile.x - cell_size.x
+	pos.y += cell_size.y * subtile.y - cell_size.y 
+	return Rect2(pos, cell_size)
+
+
+func get_texture(id):
+	return tileset.tile_get_texture(id)
+
+
 func set_cell(x, y, tile_id, subtile = Vector2(0, 0)):
 	if get_cell(x, y) != null:
-		return
+		return get_cell(x, y)
 
 	var cell = Sprite.new()
+	var cell_bg = Sprite.new()
+	cell_bg.show_behind_parent = true
 	add_child(cell)
+	cell.add_child(cell_bg)
+	cell_bg.position.y + 100
+	
+	cell_bg.texture = preload("res://resources/cells/cell_bg.png")
 	
 	cell.position = _tilemap.map_to_world(Vector2(x, y))
 	cell.position.y += cell_size.y * 0.5
@@ -53,23 +80,39 @@ func set_cell(x, y, tile_id, subtile = Vector2(0, 0)):
 	pos.y += cell_size.y * subtile.y - cell_size.y 
 	cell.region_rect = Rect2(pos, cell_size)
 	
-	_cellPositionMap[_tilemap.world_to_map(cell.position)] = cell
+	_cell_position_map[_tilemap.world_to_map(cell.position)] = cell
+	_cell_bg_position_map[_tilemap.world_to_map(cell.position)] = cell_bg
 	add_astar_cell(_tilemap.world_to_map(cell.position))
 	_update_used_rect(cell)
 	_update_pathfinding()
+	_init_map()
+	
 	return cell
 
 
 func set_cell_world(x, y, tile_id, subtile = Vector2(0, 0)):
 	var cp = _tilemap.world_to_map(Vector2(x, y))
 	if get_cell(cp.x, cp.y) != null:
-		return
+		return get_cell(cp.x, cp.y)
+	
+	var ysort = YSort.new()
 	
 	var cell = Sprite.new()
-	add_child(cell)
+	var cell_bg = Sprite.new()
+	
+	add_child(ysort)
+	ysort.add_child(cell_bg)
+	ysort.add_child(cell)
+	
+	
+	cell_bg.texture = preload("res://resources/cells/cell_bg.png")
 	
 	cell.position = _tilemap.map_to_world(cp)
 	cell.position.y += cell_size.y * 0.5
+	
+	cell_bg.position = cell.position
+	cell_bg.position.y -= 1
+	cell_bg.offset.y += 49
 	
 	cell.texture = tileset.tile_get_texture(2)
 	cell.region_enabled = true
@@ -78,21 +121,50 @@ func set_cell_world(x, y, tile_id, subtile = Vector2(0, 0)):
 	pos.y += cell_size.y * subtile.y - cell_size.y 
 	cell.region_rect = Rect2(pos, cell_size)
 	
-	_cellPositionMap[cp] = cell
+	_cell_position_map[cp] = cell
+	_cell_bg_position_map[cp] = cell_bg
 	add_astar_cell(cp)
 	_update_used_rect(cell)
 	_update_pathfinding()
+	_init_map()
+	
 	return cell
 
 
+func set_cell_offset_world(x, y, offset : Vector2):
+	var cp = _tilemap.world_to_map(Vector2(x, y))
+	var cell = get_cell(cp.x, cp.y)
+	var cell_bg = get_cell_bg(cp.x, cp.y)
+	if cell == null or cell_bg == null:
+		return
+	
+	cell.offset = offset
+	cell_bg.offset = offset + Vector2(0, 49)
+	_init_map()
+
+
+func set_cell_offset(x, y, offset : Vector2):
+	var cell = get_cell(x, y)
+	if cell == null:
+		return
+	
+	cell.offset = offset
+
+
 func get_cell(x, y):
-	if _cellPositionMap.has(Vector2(x, y)):
-		return _cellPositionMap[Vector2(x, y)]
+	if _cell_position_map.has(Vector2(x, y)):
+		return _cell_position_map[Vector2(x, y)]
+	return null
+
+
+func get_cell_bg(x, y):
+	if _cell_bg_position_map.has(Vector2(x, y)):
+		return _cell_bg_position_map[Vector2(x, y)]
 	return null
 
 
 func get_cells():
-	return _cells
+	return _cells.values()
 
 
 func get_used_cells_amount() -> int:
@@ -111,11 +183,136 @@ func _update_used_rect(cell):
 		_used_rect.size.y = cell.position.y
 
 
+func select_cell() -> int:
+	var mp = get_global_mouse_position()
+	
+	var selected_shapes = []
+	
+	for i in range(shapes.size()):
+		if shapes[i] == null:
+			continue
+		var inside = true
+		var shape : Shape2D = shapes[i].shape
+		$MouseCollision.global_position = mp
+		
+		var col = shape.collide(pols[i].transform, 
+				$MouseCollision/CollisionShape2D.shape, $MouseCollision.transform)
+		
+		if col:
+			#print(i)ds
+			selected_shapes.append(i)
+	
+	if !selected_shapes.empty():
+		var selected_shape = selected_shapes[0]
+		for idx in selected_shapes:
+			if shapes[selected_shape].position.y < shapes[idx].position.y:
+				selected_shape = idx
+		return selected_shape
+	return -1
+
+
+func get_tile_by_collision(world_position : Vector2):
+	var selected_shapes = []
+	
+	for i in range(shapes.size()):
+		if shapes[i] == null:
+			continue
+		var inside = true
+		var shape : Shape2D = shapes[i].shape
+		$MouseCollision.global_position = world_position
+		
+		var col = shape.collide(pols[i].transform, 
+				$MouseCollision/CollisionShape2D.shape, $MouseCollision.transform)
+		
+		if col:
+			selected_shapes.append(i)
+	
+	if !selected_shapes.empty():
+		var selected_shape = selected_shapes[0]
+		for idx in selected_shapes:
+			if shapes[selected_shape].position.y < shapes[idx].position.y:
+				selected_shape = idx
+		return selected_shape
+	return -1
+
+
+func _init_map():
+	for child in $CellBoundaries.get_children():
+		child.queue_free()
+	for child in $Shapes.get_children():
+		child.queue_free()
+	for child in $Shapes.get_children():
+		child.queue_free()
+	
+	
+	var size = _cell_position_map.size()
+	pols.resize(size)
+	shapes.resize(size)
+	_cells.clear()
+	_bg_cells.clear()
+	
+	var idx = 0
+	var used = []
+	
+	for cell in _cell_position_map.keys():
+		var cell_area := Polygon2D.new()
+		var shape := ConvexPolygonShape2D.new()
+		var cell_shape := CollisionShape2D.new()
+		
+		cell_shape.shape = shape
+		
+		$CellBoundaries.add_child(cell_area)
+		$Shapes.add_child(cell_shape)
+		
+		var polygon = []
+		polygon.append(Vector2(-1, 0))
+		polygon.append(Vector2(0, -0.5))
+		polygon.append(Vector2(1, 0))
+		polygon.append(Vector2(1, 4))
+		polygon.append(Vector2(0, 3.5))
+		polygon.append(Vector2(-1, 4))
+		
+		var current_cell = get_cell(cell.x, cell.y)
+		var current_cell_bg = get_cell_bg(cell.x, cell.y)
+		
+		for i in range(polygon.size()):
+			polygon[i] *= cell_size.x / 2
+			polygon[i].y += cell_size.y / 2
+			polygon[i].y += current_cell.offset.y
+		
+		cell_area.polygon = polygon
+		cell_area.color = Color(randf(), randf(), randf())
+		cell_area.position = _tilemap.map_to_world(cell)
+		
+		shape.points = polygon
+		cell_shape.position = _tilemap.map_to_world(cell)
+		
+		pols[idx] = cell_area
+		shapes[idx] = cell_shape
+		_cells[idx] = current_cell
+		_bg_cells[idx] = current_cell_bg
+		
+		idx += 1
+	
+	#print(used)
+	
+	var i = 0
+	for cell in _cell_position_map.keys():
+		i += 1
+		var world_position = _tilemap.map_to_world(cell)
+		var tile_boundary = TileBoundary.instance()
+		cell_boundaries.add_child(tile_boundary)
+		tile_boundary.global_position = world_position
+
+
+# PATHFINDING
+
+
 func _update_pathfinding():
 	var width = _map_cell_width
 	var height = _map_cell_height
 	
-	for cell in _cellPositionMap.keys():
+	for cell in _cell_position_map.keys():
 		var w = cell.x
 		var h = cell.y
 		if get_astar_cell(Vector2(w, h)) == -1:
@@ -130,7 +327,7 @@ func _update_neighbours():
 	var width = _map_cell_width
 	var height = _map_cell_height
 	
-	for cell in _cellPositionMap.keys():
+	for cell in _cell_position_map.keys():
 		var x = cell.x
 		var y = cell.y
 		var center = _get_astar_cell_id(Vector2(x, y))
@@ -177,9 +374,9 @@ func _update_neighbours():
 
 func _add_astar_vicinity_cells(center_id : int):
 	var center_position = _astar_id_to_cell_position(center_id)
-	print(center_position)
+	#print(center_position)
 	
-	print(get_astar_cell(center_position))
+	#print(get_astar_cell(center_position))
 	
 	if get_astar_cell(center_position) != -1:
 		return
@@ -208,7 +405,7 @@ func remove_astar_cell(cell_position : Vector2):
 
 
 func add_astar_cell(cell_position : Vector2):
-	print("add cell to ", cell_position)
+	#print("add cell to ", cell_position)
 	var id = _get_astar_cell_id(cell_position)
 	astar.add_point(id, cell_position)
 	_add_astar_vicinity_cells(id)

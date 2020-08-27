@@ -1,12 +1,25 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://maps/CustomTileMap/CustomTileMap.gd" type="Script" id=1]
 [ext_resource path="res://tilesets/basic_tileset.tres" type="TileSet" id=2]
 
+[sub_resource type="CircleShape2D" id=1]
+radius = 0.5
+
 [node name="CustomTileMap" type="YSort"]
-sort_enabled = false
 script = ExtResource( 1 )
 tileset = ExtResource( 2 )
 
 [node name="AStarMap" type="TileMap" parent="."]
 format = 1
+
+[node name="CellBoundaries" type="YSort" parent="."]
+visible = false
+
+[node name="Shapes" type="YSort" parent="."]
+visible = false
+
+[node name="MouseCollision" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MouseCollision"]
+shape = SubResource( 1 )
