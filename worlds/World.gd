@@ -442,6 +442,10 @@ func _astar_id_to_world_position(id : int) -> Vector2:
 
 
 func _set_building_preview(selected_building, preview_texture):
+	if not Global.BuildingsDict.has(selected_building):
+		print(selected_building, " doesn't exist (yet)")
+		return
+	
 	building_preview.enable(preview_texture)
 	building_selected = selected_building
 	print("selected: ", Global.BuildingsDict[selected_building])

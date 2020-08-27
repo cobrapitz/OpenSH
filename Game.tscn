@@ -4,16 +4,20 @@
 [ext_resource path="res://resources/GUI/paper_by_darkwood67_0/paper_by_darkwood67/brown_age_by_darkwood67.jpg" type="Texture" id=2]
 [ext_resource path="res://resources/GUI/320x180_book_scaled.png" type="Texture" id=3]
 [ext_resource path="res://resources/grassland_tiles.png" type="Texture" id=4]
-[ext_resource path="res://gui/Buildings.gd" type="Script" id=5]
-[ext_resource path="res://gui/StatsBook.gd" type="Script" id=6]
 [ext_resource path="res://gui/GUI.gd" type="Script" id=7]
+[ext_resource path="res://Game.gd" type="Script" id=8]
 
 [sub_resource type="Environment" id=1]
 background_mode = 4
 adjustment_enabled = true
-adjustment_brightness = 1.17
-adjustment_contrast = 1.16
-adjustment_saturation = 1.09
+adjustment_brightness = 1.15
+adjustment_contrast = 1.13
+adjustment_saturation = 1.06
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 517.1, 731.1, 233.7, 208.05 )
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
@@ -21,6 +25,7 @@ atlas = ExtResource( 4 )
 region = Rect2( 517.1, 731.1, 233.7, 208.05 )
 
 [node name="Game" type="Node"]
+script = ExtResource( 8 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 1 )
@@ -35,6 +40,7 @@ __meta__ = {
 [node name="GUI" type="Control" parent="GUILayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -43,156 +49,748 @@ __meta__ = {
 [node name="Info" type="RichTextLabel" parent="GUILayer/GUI"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PanelBottom" type="Control" parent="GUILayer/GUI"]
+[node name="PanelBottom" type="HBoxContainer" parent="GUILayer/GUI"]
+anchor_top = 0.783
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = 0.199982
+mouse_filter = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PanelMiddle" type="Control" parent="GUILayer/GUI/PanelBottom"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 144.0
-margin_top = -104.0
-margin_right = -145.0
+margin_right = 702.0
+margin_bottom = 130.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Background" type="TextureRect" parent="GUILayer/GUI/PanelBottom/PanelMiddle"]
+[node name="PanelBuilding" type="Control" parent="GUILayer/GUI/PanelBottom/PanelMiddle"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="TextureRect" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
 texture = ExtResource( 2 )
 expand = true
 stretch_mode = 7
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
 }
 
-[node name="Buildings" type="Control" parent="GUILayer/GUI/PanelBottom/PanelMiddle"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="BuildingsDisplay" type="Control" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding"]
+anchor_left = 0.0655271
+anchor_top = 0.115385
+anchor_right = 0.934473
+anchor_bottom = 0.746154
 margin_left = 4.0
 margin_top = 4.0
 margin_right = -4.0
 margin_bottom = -4.0
-script = ExtResource( 5 )
+mouse_filter = 2
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
 }
 
-[node name="MilitaryBuildings" type="Control" parent="GUILayer/GUI/PanelBottom/PanelMiddle/Buildings"]
+[node name="MilitaryBuildings" type="HBoxContainer" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TrainingCamp" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/Buildings/MilitaryBuildings"]
-margin_left = 73.1238
-margin_top = 13.7731
-margin_right = 156.124
-margin_bottom = 87.7731
-texture_normal = SubResource( 2 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/Buildings/MilitaryBuildings"]
-margin_left = 172.826
-margin_top = 13.7731
-margin_right = 255.826
-margin_bottom = 87.7731
-texture_normal = SubResource( 2 )
+[node name="TrainingCamp" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/MilitaryBuildings"]
+margin_right = 82.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Building3" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/Buildings/MilitaryBuildings"]
+[node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/MilitaryBuildings"]
+margin_left = 86.0
+margin_right = 168.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Building3" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/MilitaryBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 284.549
-margin_top = 13.7731
-margin_right = 367.549
-margin_bottom = 87.7731
+margin_left = 172.0
+margin_right = 254.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Building4" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/MilitaryBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 258.0
+margin_right = 340.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 disabled = true
 texture_normal = SubResource( 2 )
 expand = true
 
-[node name="Building4" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/Buildings/MilitaryBuildings"]
+[node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/MilitaryBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 389.201
-margin_top = 13.7731
-margin_right = 472.201
-margin_bottom = 87.7731
+margin_left = 344.0
+margin_right = 426.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 disabled = true
 texture_normal = SubResource( 2 )
 expand = true
 
-[node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/Buildings/MilitaryBuildings"]
+[node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/MilitaryBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 499.509
-margin_top = 13.7731
-margin_right = 582.509
-margin_bottom = 87.7731
+margin_left = 430.0
+margin_right = 512.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 disabled = true
 texture_normal = SubResource( 2 )
 expand = true
 
-[node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/Buildings/MilitaryBuildings"]
+[node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/MilitaryBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 608.483
-margin_top = 13.7731
-margin_right = 647.483
-margin_bottom = 49.7731
+margin_left = 516.0
+margin_right = 602.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 disabled = true
 texture_normal = SubResource( 2 )
 expand = true
 
-[node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/Buildings/MilitaryBuildings"]
-modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 608.483
-margin_top = 13.7731
-margin_right = 647.483
-margin_bottom = 49.7731
-disabled = true
-texture_normal = SubResource( 2 )
-expand = true
-
-[node name="StatsBook" type="TextureButton" parent="GUILayer/GUI/PanelBottom"]
-anchor_left = 1.0
-anchor_top = 1.0
+[node name="ProductionBuildings" type="HBoxContainer" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -140.0
-margin_top = -101.0
-texture_normal = ExtResource( 3 )
-expand = true
-script = ExtResource( 6 )
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Gold" type="Label" parent="GUILayer/GUI/PanelBottom/StatsBook"]
-margin_left = 24.0203
-margin_top = 14.653
-margin_right = 68.0203
-margin_bottom = 50.653
+[node name="TrainingCamp" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ProductionBuildings"]
+margin_right = 82.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ProductionBuildings"]
+margin_left = 86.0
+margin_right = 168.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Building3" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ProductionBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 172.0
+margin_right = 254.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Building4" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ProductionBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 258.0
+margin_right = 340.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ProductionBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 344.0
+margin_right = 426.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ProductionBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 430.0
+margin_right = 512.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ProductionBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 516.0
+margin_right = 602.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="ResourceBuildings" type="HBoxContainer" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TrainingCamp" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ResourceBuildings"]
+margin_right = 82.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ResourceBuildings"]
+margin_left = 86.0
+margin_right = 168.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Building3" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ResourceBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 172.0
+margin_right = 254.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Building4" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ResourceBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 258.0
+margin_right = 340.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ResourceBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 344.0
+margin_right = 426.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ResourceBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 430.0
+margin_right = 512.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ResourceBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 516.0
+margin_right = 602.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="CivilBuildings" type="HBoxContainer" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TrainingCamp" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/CivilBuildings"]
+margin_right = 82.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/CivilBuildings"]
+margin_left = 86.0
+margin_right = 168.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Building3" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/CivilBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 172.0
+margin_right = 254.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Building4" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/CivilBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 258.0
+margin_right = 340.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/CivilBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 344.0
+margin_right = 426.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/CivilBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 430.0
+margin_right = 512.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/CivilBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 516.0
+margin_right = 602.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="FortificationBuildings" type="HBoxContainer" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TrainingCamp" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FortificationBuildings"]
+margin_right = 82.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FortificationBuildings"]
+margin_left = 86.0
+margin_right = 168.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Building3" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FortificationBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 172.0
+margin_right = 254.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Building4" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FortificationBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 258.0
+margin_right = 340.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FortificationBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 344.0
+margin_right = 426.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FortificationBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 430.0
+margin_right = 512.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FortificationBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 516.0
+margin_right = 602.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="FoodBuildings" type="HBoxContainer" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TrainingCamp" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FoodBuildings"]
+margin_right = 82.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FoodBuildings"]
+margin_left = 86.0
+margin_right = 168.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Building3" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FoodBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 172.0
+margin_right = 254.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Building4" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FoodBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 258.0
+margin_right = 340.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FoodBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 344.0
+margin_right = 426.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FoodBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 430.0
+margin_right = 512.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FoodBuildings"]
+modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
+margin_left = 516.0
+margin_right = 602.0
+margin_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+disabled = true
+texture_normal = SubResource( 2 )
+expand = true
+
+[node name="BuildingTypesContainer" type="HBoxContainer" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding"]
+anchor_left = 0.064
+anchor_top = 0.831
+anchor_right = 0.467
+anchor_bottom = 1.0
+mouse_filter = 2
+custom_constants/separation = 8
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Fortification" type="Button" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingTypesContainer"]
+margin_right = 40.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Resource" type="Button" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingTypesContainer"]
+margin_left = 48.0
+margin_right = 88.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Food" type="Button" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingTypesContainer"]
+margin_left = 96.0
+margin_right = 136.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Civil" type="Button" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingTypesContainer"]
+margin_left = 144.0
+margin_right = 184.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Military" type="Button" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingTypesContainer"]
+margin_left = 192.0
+margin_right = 232.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Production" type="Button" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingTypesContainer"]
+margin_left = 240.0
+margin_right = 282.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding"]
+anchor_left = 0.849
+anchor_top = 0.831
+anchor_right = 0.939
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="TradeMenu" type="Button" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/HBoxContainer"]
+margin_right = 29.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="StatisticsMenu" type="Button" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/HBoxContainer"]
+margin_left = 33.0
+margin_right = 63.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PanelOverview" type="Control" parent="GUILayer/GUI/PanelBottom/PanelMiddle"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="TextureRect" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelOverview"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 0
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 7
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Panel" type="Panel" parent="GUILayer/GUI/PanelBottom"]
+margin_left = 706.0
+margin_right = 734.0
+margin_bottom = 130.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GUILayer/GUI/PanelBottom/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="MainMenuButton" type="Button" parent="GUILayer/GUI/PanelBottom/Panel/VBoxContainer"]
+margin_right = 28.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="InfoButton" type="Button" parent="GUILayer/GUI/PanelBottom/Panel/VBoxContainer"]
+margin_top = 44.0
+margin_right = 28.0
+margin_bottom = 84.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="DeleteCursorButton" type="Button" parent="GUILayer/GUI/PanelBottom/Panel/VBoxContainer"]
+margin_top = 88.0
+margin_right = 28.0
+margin_bottom = 130.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Minimap" type="Panel" parent="GUILayer/GUI/PanelBottom"]
 self_modulate = Color( 1, 1, 1, 0.411765 )
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 10.0908
-margin_top = -104.0
-margin_right = 132.091
+margin_left = 738.0
+margin_right = 878.0
+margin_bottom = 130.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OverviewBookButton" type="TextureButton" parent="GUILayer/GUI/PanelBottom"]
+margin_left = 882.0
+margin_right = 1024.0
+margin_bottom = 130.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = ExtResource( 3 )
+expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
