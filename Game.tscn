@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://worlds/World0.tscn" type="PackedScene" id=1]
 [ext_resource path="res://resources/GUI/paper_by_darkwood67_0/paper_by_darkwood67/brown_age_by_darkwood67.jpg" type="Texture" id=2]
@@ -7,15 +7,46 @@
 [ext_resource path="res://gui/Buildings.gd" type="Script" id=5]
 [ext_resource path="res://gui/StatsBook.gd" type="Script" id=6]
 [ext_resource path="res://gui/GUI.gd" type="Script" id=7]
+[ext_resource path="res://resources/GUI/white.png" type="Texture" id=8]
+[ext_resource path="res://shaders/blur_gles3.shader" type="Shader" id=9]
+[ext_resource path="res://materials/empty_material.tres" type="Material" id=10]
+[ext_resource path="res://gui/menu/resolution_button.gd" type="Script" id=11]
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 517.1, 731.1, 233.7, 208.05 )
 
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 9 )
+shader_param/amount = null
+
 [node name="Game" type="Node"]
 
-[node name="World0" parent="." instance=ExtResource( 1 )]
+[node name="ViewportContainer2" type="ViewportContainer" parent="."]
+material = ExtResource( 10 )
+margin_right = 1024.0
+margin_bottom = 600.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="ViewportContainer2"]
+size = Vector2( 1024, 600 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="ViewportContainer" type="ViewportContainer" parent="ViewportContainer2"]
+material = ExtResource( 10 )
+margin_right = 1024.0
+margin_bottom = 600.0
+
+[node name="Viewport" type="Viewport" parent="ViewportContainer2/ViewportContainer"]
+size = Vector2( 1024, 600 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="World0" parent="ViewportContainer2/ViewportContainer/Viewport" instance=ExtResource( 1 )]
 
 [node name="GUILayer" type="CanvasLayer" parent="."]
 
@@ -180,6 +211,43 @@ anchor_bottom = 1.0
 margin_left = 10.0908
 margin_top = -104.0
 margin_right = 132.091
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuControl" type="Control" parent="GUILayer"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuButtons" type="Control" parent="GUILayer/MenuControl"]
+visible = false
+margin_right = 1024.0
+margin_bottom = 600.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ResolutionButton" type="Button" parent="GUILayer/MenuControl/MenuButtons"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_right = 12.0
+margin_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Selected resolution: 1920x1080"
+script = ExtResource( 11 )
+
+[node name="BlurGles3" type="TextureRect" parent="GUILayer/MenuControl"]
+material = SubResource( 2 )
+margin_right = 1024.0
+margin_bottom = 600.0
+texture = ExtResource( 8 )
+expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
