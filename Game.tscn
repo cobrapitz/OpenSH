@@ -14,12 +14,12 @@ adjustment_brightness = 1.15
 adjustment_contrast = 1.13
 adjustment_saturation = 1.06
 
-[sub_resource type="AtlasTexture" id=3]
+[sub_resource type="AtlasTexture" id=2]
 flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 517.1, 731.1, 233.7, 208.05 )
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=3]
 flags = 4
 atlas = ExtResource( 4 )
 region = Rect2( 517.1, 731.1, 233.7, 208.05 )
@@ -118,10 +118,10 @@ __meta__ = {
 
 [node name="TrainingCamp" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/MilitaryBuildings"]
 margin_right = 82.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = SubResource( 3 )
+texture_normal = SubResource( 2 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -130,10 +130,10 @@ __meta__ = {
 [node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/MilitaryBuildings"]
 margin_left = 86.0
 margin_right = 168.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -143,11 +143,11 @@ __meta__ = {
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 172.0
 margin_right = 254.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -157,44 +157,44 @@ __meta__ = {
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 258.0
 margin_right = 340.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/MilitaryBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 344.0
 margin_right = 426.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/MilitaryBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 430.0
 margin_right = 512.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/MilitaryBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 516.0
 margin_right = 602.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="ProductionBuildings" type="HBoxContainer" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay"]
@@ -207,10 +207,10 @@ __meta__ = {
 
 [node name="TrainingCamp" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ProductionBuildings"]
 margin_right = 82.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -219,10 +219,10 @@ __meta__ = {
 [node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ProductionBuildings"]
 margin_left = 86.0
 margin_right = 168.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -232,11 +232,11 @@ __meta__ = {
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 172.0
 margin_right = 254.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -246,44 +246,44 @@ __meta__ = {
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 258.0
 margin_right = 340.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ProductionBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 344.0
 margin_right = 426.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ProductionBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 430.0
 margin_right = 512.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ProductionBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 516.0
 margin_right = 602.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="ResourceBuildings" type="HBoxContainer" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay"]
@@ -296,10 +296,10 @@ __meta__ = {
 
 [node name="TrainingCamp" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ResourceBuildings"]
 margin_right = 82.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -308,10 +308,10 @@ __meta__ = {
 [node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ResourceBuildings"]
 margin_left = 86.0
 margin_right = 168.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -321,11 +321,11 @@ __meta__ = {
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 172.0
 margin_right = 254.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -335,44 +335,44 @@ __meta__ = {
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 258.0
 margin_right = 340.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ResourceBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 344.0
 margin_right = 426.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ResourceBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 430.0
 margin_right = 512.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ResourceBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 516.0
 margin_right = 602.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="CivilBuildings" type="HBoxContainer" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay"]
@@ -385,10 +385,10 @@ __meta__ = {
 
 [node name="TrainingCamp" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/CivilBuildings"]
 margin_right = 82.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -397,10 +397,10 @@ __meta__ = {
 [node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/CivilBuildings"]
 margin_left = 86.0
 margin_right = 168.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -410,11 +410,11 @@ __meta__ = {
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 172.0
 margin_right = 254.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -424,44 +424,44 @@ __meta__ = {
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 258.0
 margin_right = 340.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/CivilBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 344.0
 margin_right = 426.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/CivilBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 430.0
 margin_right = 512.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/CivilBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 516.0
 margin_right = 602.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="FortificationBuildings" type="HBoxContainer" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay"]
@@ -474,10 +474,10 @@ __meta__ = {
 
 [node name="TrainingCamp" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FortificationBuildings"]
 margin_right = 82.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -486,10 +486,10 @@ __meta__ = {
 [node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FortificationBuildings"]
 margin_left = 86.0
 margin_right = 168.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -499,11 +499,11 @@ __meta__ = {
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 172.0
 margin_right = 254.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -513,44 +513,44 @@ __meta__ = {
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 258.0
 margin_right = 340.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FortificationBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 344.0
 margin_right = 426.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FortificationBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 430.0
 margin_right = 512.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FortificationBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 516.0
 margin_right = 602.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="FoodBuildings" type="HBoxContainer" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay"]
@@ -563,10 +563,10 @@ __meta__ = {
 
 [node name="TrainingCamp" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FoodBuildings"]
 margin_right = 82.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -575,10 +575,10 @@ __meta__ = {
 [node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FoodBuildings"]
 margin_left = 86.0
 margin_right = 168.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -588,11 +588,11 @@ __meta__ = {
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 172.0
 margin_right = 254.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -602,44 +602,44 @@ __meta__ = {
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 258.0
 margin_right = 340.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FoodBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 344.0
 margin_right = 426.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FoodBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 430.0
 margin_right = 512.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FoodBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
 margin_left = 516.0
 margin_right = 602.0
-margin_bottom = 74.0
+margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 disabled = true
-texture_normal = SubResource( 2 )
+texture_normal = SubResource( 3 )
 expand = true
 
 [node name="BuildingTypesContainer" type="HBoxContainer" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding"]

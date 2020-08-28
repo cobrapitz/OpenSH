@@ -68,7 +68,8 @@ func set_cell(x, y, tile_id, subtile = Vector2(0, 0)):
 	cell.add_child(cell_bg)
 	cell_bg.position.y + 100
 	
-	cell_bg.texture = preload("res://resources/cells/cell_bg.png")
+	#cell_bg.texture = preload("res://resources/cells/cell_bg.png")
+	cell_bg.texture = preload("res://resources/walls/hjm-mossy_wall_low.png")
 	
 	cell.position = _tilemap.map_to_world(Vector2(x, y))
 	cell.position.y += cell_size.y * 0.5
@@ -91,6 +92,7 @@ func set_cell(x, y, tile_id, subtile = Vector2(0, 0)):
 
 
 func set_cell_world(x, y, tile_id, subtile = Vector2(0, 0)):
+	#var now = OS.get_ticks_msec()
 	var cp = _tilemap.world_to_map(Vector2(x, y))
 	if get_cell(cp.x, cp.y) != null:
 		return get_cell(cp.x, cp.y)
@@ -101,9 +103,8 @@ func set_cell_world(x, y, tile_id, subtile = Vector2(0, 0)):
 	var cell_bg = Sprite.new()
 	
 	add_child(ysort)
-	ysort.add_child(cell_bg)
+	#ysort.add_child(cell_bg)
 	ysort.add_child(cell)
-	
 	
 	cell_bg.texture = preload("res://resources/cells/cell_bg.png")
 	
@@ -114,12 +115,19 @@ func set_cell_world(x, y, tile_id, subtile = Vector2(0, 0)):
 	cell_bg.position.y -= 1
 	cell_bg.offset.y += 49
 	
-	cell.texture = tileset.tile_get_texture(2)
+	cell.texture = tileset.tile_get_texture(tile_id)
 	cell.region_enabled = true
-	var pos = tileset.autotile_get_size(2)
+	var pos = tileset.autotile_get_size(tile_id)
 	pos.x += cell_size.x * subtile.x - cell_size.x
 	pos.y += cell_size.y * subtile.y - cell_size.y 
+	
+	# temp
+	pos = Vector2(777, 389)
+	cell_size = Vector2(64, 124)
+	
 	cell.region_rect = Rect2(pos, cell_size)
+	#print(cell.region_rect)
+	return cell
 	
 	_cell_position_map[cp] = cell
 	_cell_bg_position_map[cp] = cell_bg
@@ -127,6 +135,7 @@ func set_cell_world(x, y, tile_id, subtile = Vector2(0, 0)):
 	_update_used_rect(cell)
 	_update_pathfinding()
 	_init_map()
+	#print("time: ", OS.get_ticks_msec() - now)
 	
 	return cell
 

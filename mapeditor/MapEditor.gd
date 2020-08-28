@@ -42,11 +42,14 @@ func _unhandled_input(event):
 				_height_box.value -= 1
 	
 	if Input.is_action_just_pressed("mouse_left"):
+		#var now = OS.get_ticks_msec()
+		
 		var mp = _tilemap.get_global_mouse_position()
 		_tilemap.set_cell_world(\
 				mp.x, \
-				mp.y, 2)
+				mp.y, 19)
 		_tilemap.set_cell_offset_world(mp.x, mp.y, Vector2(0, -_height_box.value))
+		#print("total: ", OS.get_ticks_msec() - now)
 		
 	if Input.is_action_just_pressed("mouse_middle"):
 		var selected_tile = _tilemap.select_cell()
