@@ -129,7 +129,7 @@ __meta__ = {
 
 [node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/MilitaryBuildings"]
 margin_left = 86.0
-margin_right = 168.0
+margin_right = 169.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -141,8 +141,8 @@ __meta__ = {
 
 [node name="Building3" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/MilitaryBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 172.0
-margin_right = 254.0
+margin_left = 173.0
+margin_right = 255.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -155,8 +155,8 @@ __meta__ = {
 
 [node name="Building4" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/MilitaryBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 258.0
-margin_right = 340.0
+margin_left = 259.0
+margin_right = 342.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -166,8 +166,8 @@ expand = true
 
 [node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/MilitaryBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 344.0
-margin_right = 426.0
+margin_left = 346.0
+margin_right = 428.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -177,8 +177,8 @@ expand = true
 
 [node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/MilitaryBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 430.0
-margin_right = 512.0
+margin_left = 432.0
+margin_right = 515.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -188,7 +188,7 @@ expand = true
 
 [node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/MilitaryBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 516.0
+margin_left = 519.0
 margin_right = 602.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
@@ -218,7 +218,7 @@ __meta__ = {
 
 [node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ProductionBuildings"]
 margin_left = 86.0
-margin_right = 168.0
+margin_right = 169.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -230,8 +230,8 @@ __meta__ = {
 
 [node name="Building3" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ProductionBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 172.0
-margin_right = 254.0
+margin_left = 173.0
+margin_right = 255.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -244,8 +244,8 @@ __meta__ = {
 
 [node name="Building4" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ProductionBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 258.0
-margin_right = 340.0
+margin_left = 259.0
+margin_right = 342.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -255,8 +255,8 @@ expand = true
 
 [node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ProductionBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 344.0
-margin_right = 426.0
+margin_left = 346.0
+margin_right = 428.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -266,8 +266,8 @@ expand = true
 
 [node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ProductionBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 430.0
-margin_right = 512.0
+margin_left = 432.0
+margin_right = 515.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -277,7 +277,7 @@ expand = true
 
 [node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ProductionBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 516.0
+margin_left = 519.0
 margin_right = 602.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
@@ -307,7 +307,7 @@ __meta__ = {
 
 [node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ResourceBuildings"]
 margin_left = 86.0
-margin_right = 168.0
+margin_right = 169.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -319,8 +319,8 @@ __meta__ = {
 
 [node name="Building3" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ResourceBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 172.0
-margin_right = 254.0
+margin_left = 173.0
+margin_right = 255.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -333,8 +333,8 @@ __meta__ = {
 
 [node name="Building4" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ResourceBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 258.0
-margin_right = 340.0
+margin_left = 259.0
+margin_right = 342.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -344,8 +344,8 @@ expand = true
 
 [node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ResourceBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 344.0
-margin_right = 426.0
+margin_left = 346.0
+margin_right = 428.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -355,8 +355,8 @@ expand = true
 
 [node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ResourceBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 430.0
-margin_right = 512.0
+margin_left = 432.0
+margin_right = 515.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -366,7 +366,7 @@ expand = true
 
 [node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/ResourceBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 516.0
+margin_left = 519.0
 margin_right = 602.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
@@ -396,7 +396,7 @@ __meta__ = {
 
 [node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/CivilBuildings"]
 margin_left = 86.0
-margin_right = 168.0
+margin_right = 169.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -408,8 +408,8 @@ __meta__ = {
 
 [node name="Building3" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/CivilBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 172.0
-margin_right = 254.0
+margin_left = 173.0
+margin_right = 255.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -422,8 +422,8 @@ __meta__ = {
 
 [node name="Building4" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/CivilBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 258.0
-margin_right = 340.0
+margin_left = 259.0
+margin_right = 342.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -433,8 +433,8 @@ expand = true
 
 [node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/CivilBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 344.0
-margin_right = 426.0
+margin_left = 346.0
+margin_right = 428.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -444,8 +444,8 @@ expand = true
 
 [node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/CivilBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 430.0
-margin_right = 512.0
+margin_left = 432.0
+margin_right = 515.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -455,7 +455,7 @@ expand = true
 
 [node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/CivilBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 516.0
+margin_left = 519.0
 margin_right = 602.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
@@ -485,7 +485,7 @@ __meta__ = {
 
 [node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FortificationBuildings"]
 margin_left = 86.0
-margin_right = 168.0
+margin_right = 169.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -497,8 +497,8 @@ __meta__ = {
 
 [node name="Building3" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FortificationBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 172.0
-margin_right = 254.0
+margin_left = 173.0
+margin_right = 255.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -511,8 +511,8 @@ __meta__ = {
 
 [node name="Building4" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FortificationBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 258.0
-margin_right = 340.0
+margin_left = 259.0
+margin_right = 342.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -522,8 +522,8 @@ expand = true
 
 [node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FortificationBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 344.0
-margin_right = 426.0
+margin_left = 346.0
+margin_right = 428.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -533,8 +533,8 @@ expand = true
 
 [node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FortificationBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 430.0
-margin_right = 512.0
+margin_left = 432.0
+margin_right = 515.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -544,7 +544,7 @@ expand = true
 
 [node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FortificationBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 516.0
+margin_left = 519.0
 margin_right = 602.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
@@ -574,7 +574,7 @@ __meta__ = {
 
 [node name="SignPost" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FoodBuildings"]
 margin_left = 86.0
-margin_right = 168.0
+margin_right = 169.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -586,8 +586,8 @@ __meta__ = {
 
 [node name="Building3" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FoodBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 172.0
-margin_right = 254.0
+margin_left = 173.0
+margin_right = 255.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -600,8 +600,8 @@ __meta__ = {
 
 [node name="Building4" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FoodBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 258.0
-margin_right = 340.0
+margin_left = 259.0
+margin_right = 342.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -611,8 +611,8 @@ expand = true
 
 [node name="Building5" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FoodBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 344.0
-margin_right = 426.0
+margin_left = 346.0
+margin_right = 428.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -622,8 +622,8 @@ expand = true
 
 [node name="Building6" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FoodBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 430.0
-margin_right = 512.0
+margin_left = 432.0
+margin_right = 515.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -633,7 +633,7 @@ expand = true
 
 [node name="Building7" type="TextureButton" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingsDisplay/FoodBuildings"]
 modulate = Color( 0.498039, 0.498039, 0.498039, 1 )
-margin_left = 516.0
+margin_left = 519.0
 margin_right = 602.0
 margin_bottom = 73.0
 size_flags_horizontal = 3
@@ -675,20 +675,20 @@ size_flags_vertical = 3
 
 [node name="Civil" type="Button" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingTypesContainer"]
 margin_left = 144.0
-margin_right = 184.0
+margin_right = 185.0
 margin_bottom = 21.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Military" type="Button" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingTypesContainer"]
-margin_left = 192.0
-margin_right = 232.0
+margin_left = 193.0
+margin_right = 233.0
 margin_bottom = 21.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Production" type="Button" parent="GUILayer/GUI/PanelBottom/PanelMiddle/PanelBuilding/BuildingTypesContainer"]
-margin_left = 240.0
+margin_left = 241.0
 margin_right = 282.0
 margin_bottom = 21.0
 size_flags_horizontal = 3
@@ -760,12 +760,12 @@ size_flags_vertical = 3
 [node name="InfoButton" type="Button" parent="GUILayer/GUI/PanelBottom/Panel/VBoxContainer"]
 margin_top = 44.0
 margin_right = 28.0
-margin_bottom = 84.0
+margin_bottom = 85.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="DeleteCursorButton" type="Button" parent="GUILayer/GUI/PanelBottom/Panel/VBoxContainer"]
-margin_top = 88.0
+margin_top = 89.0
 margin_right = 28.0
 margin_bottom = 130.0
 size_flags_horizontal = 3
@@ -774,7 +774,7 @@ size_flags_vertical = 3
 [node name="Minimap" type="Panel" parent="GUILayer/GUI/PanelBottom"]
 self_modulate = Color( 1, 1, 1, 0.411765 )
 margin_left = 738.0
-margin_right = 878.0
+margin_right = 879.0
 margin_bottom = 130.0
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -784,7 +784,7 @@ __meta__ = {
 }
 
 [node name="OverviewBookButton" type="TextureButton" parent="GUILayer/GUI/PanelBottom"]
-margin_left = 882.0
+margin_left = 883.0
 margin_right = 1024.0
 margin_bottom = 130.0
 size_flags_horizontal = 3

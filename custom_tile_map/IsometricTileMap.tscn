@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://custom_tile_map/IsometricTileMap.gd" type="Script" id=1]
+
+[node name="IsometricTileMap" type="YSort"]
+script = ExtResource( 1 )

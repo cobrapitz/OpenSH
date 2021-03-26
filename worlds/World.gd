@@ -70,7 +70,7 @@ func _ready():
 	
 	tile_marker.enable(ground_tilemap, ground_tilemap.get_cell_size())
 	
-	EventSystem.register_to_event(EventSystem.Events.selected_building, funcref(self, "_set_building_preview"))
+	EventSystem.connect("on_building_selected", self, "_set_building_preview")
 
 
 func _process(delta: float) -> void:
@@ -303,6 +303,9 @@ func _init_neighbours():
 		var x = cell.x
 		var y = cell.y
 		var center = _get_astar_cell_id(Vector2(x, y))
+		
+		if !astar.has_point(center):
+			continue
 		
 		var l = _get_astar_cell_id(Vector2(x - 1, y))
 		var r = _get_astar_cell_id(Vector2(x + 1, y))

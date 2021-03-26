@@ -1,37 +1,38 @@
-extends Sprite
-
-
-var _end_position := Vector2.ZERO
+extends Polygon2D
 
 
 func _ready():
+	var pol = []
+	
+	pol.append(Vector2(0,0))
+	pol.append(Vector2(1,0))
+	pol.append(Vector2(1,1))
+	pol.append(Vector2(0,1))
+	
+	polygon = pol
+	
 	set_process(false)
 	hide()
 
 
 func _process(delta: float) -> void:
-	scale.x = get_select_rect(false).size.x / texture.get_size().x
-	scale.y = get_select_rect(false).size.y / texture.get_size().y
+	polygon[2] = get_global_mouse_position()
+	
+	polygon[1].y = polygon[2].y
+	polygon[1].x = polygon[0].x
+	
+	polygon[3].x = polygon[2].x
+	polygon[3].y = polygon[0].y
 
 
 func start(start_position : Vector2):
 	set_process(true)
 	show()
-	global_position = start_position
+	polygon[0] = start_position
 
 
 func get_select_rect(correct = true) -> Rect2:
-	var rect = Rect2(global_position, get_global_mouse_position() - global_position)
-	
-	if correct:
-		if global_position.x > get_global_mouse_position().x:
-			rect.size.x *= -1.0
-			rect.position.x -= rect.size.x
-		
-		if global_position.y > get_global_mouse_position().y:
-			rect.size.y *= -1.0
-			rect.position.y -= rect.size.y
-	
+	var rect = Rect2(polygon[0], polygon[2] - polygon[0])
 	return rect 
 
 

@@ -69,13 +69,23 @@ const CELL_Y = CELL_SIZE.y
 const CELL_X_HALF = CELL_SIZE.x / 2
 const CELL_Y_HALF = CELL_SIZE.y / 2
 
+const CHUNK_SIZE = Vector2(250, 250)
+const MAP_SIZE = 2500
+const CACHE_CELLS_SIZE = 5000
+
 const MAX_CELL_HEIGHT = 124
 const PIXEL_PER_HEIGHT = 8
+
+const MAX_INT = 9223372036854775807
+const MAX_SQURE_INT = 3000000000 #3037000499
+
 
 var _map := TileMap.new()
 
 var gui
 var world
+
+var _timers = {}
 
 func _ready():
 	add_child(_map)
@@ -93,3 +103,15 @@ func isotile_to_world(position: Vector2) -> Vector2:
 
 func get_mouse_center_isometric() -> Vector2:
 	return isotile_to_world(world_to_isotile(_map.get_global_mouse_position()))
+
+
+func set_timer(timer_name : String):
+	_timers[timer_name] = OS.get_system_time_msecs()
+
+
+func get_time(timer_name : String, message = ""):
+	if not _timers.has(timer_name):
+		return
+	if message.empty():
+		message = timer_name + " took: "
+	print(message, OS.get_system_time_msecs() - _timers[timer_name])

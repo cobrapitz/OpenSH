@@ -13,10 +13,35 @@ _global_script_classes=[ {
 "class": "Building",
 "language": "GDScript",
 "path": "res://buildings/Building.gd"
+}, {
+"base": "Resource",
+"class": "Chunk",
+"language": "GDScript",
+"path": "res://custom_tile_map/Chunk.gd"
+}, {
+"base": "YSort",
+"class": "CustomTileMap",
+"language": "GDScript",
+"path": "res://custom_tile_map/CustomTileMap.gd"
+}, {
+"base": "Node2D",
+"class": "IsometricTileMap",
+"language": "GDScript",
+"path": "res://custom_tile_map/IsometricTileMapManager.gd"
 } ]
 _global_script_class_icons={
-"Building": ""
+"Building": "",
+"Chunk": "",
+"CustomTileMap": "",
+"IsometricTileMap": ""
 }
+
+[addons]
+
+quick_scenes/selected_scene=-1
+quick_scenes/quick_run_shortcut=Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":true,"scancode":16777252,"unicode":0,"echo":false,"script":null)
+
+quick_scenes/scene_list=PoolStringArray( "res://mapeditor/MapEditor.tscn" )
 
 [application]
 
@@ -29,17 +54,21 @@ config/icon="res://icon.png"
 Global="*res://autoload/Global.gd"
 EventSystem="*res://autoload/EventSystem.gd"
 Stats="*res://autoload/Stats.gd"
+TileMapUtils="*res://autoload/TileMapUtils.gd"
 
 [debug]
 
+settings/stdout/print_fps=true
 gdscript/warnings/enable=false
 
 [display]
 
-window/size/test_width=1024
-window/size/test_height=600
 window/vsync/use_vsync=false
 window/stretch/mode="2d"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "QuickSceneRunner" )
 
 [input]
 
@@ -86,7 +115,7 @@ left_ctrl={
 
 [memory]
 
-limits/message_queue/max_size_kb=4096
+limits/message_queue/max_size_kb=7000
 
 [rendering]
 
@@ -94,5 +123,5 @@ quality/driver/driver_name="GLES2"
 quality/intended_usage/framebuffer_allocation=0
 quality/intended_usage/framebuffer_allocation.mobile=1
 threads/thread_model=2
-batching/parameters/batch_buffer_size=40960
+limits/buffers/immediate_buffer_size_kb=4096
 environment/default_environment="res://default_env.tres"

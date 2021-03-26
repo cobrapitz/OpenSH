@@ -55,7 +55,7 @@ func _on_building_type_pressed(type : String):
 
 
 func _on_building_pressed(pressed_idx, preview_texture):
-	EventSystem.trigger_event(EventSystem.Events.selected_building, [pressed_idx, preview_texture])
+	EventSystem.emit_signal("on_building_selected", pressed_idx, preview_texture)
 
 
 func _on_overview_book_pressed():

@@ -7,8 +7,8 @@ var _zoom_margin = 0.1
 var _zoom_position = Vector2.ZERO
 var _zoom_factor = 1.0
 
-const zoom_min = 0.2
-const zoom_max = 3.0
+const zoom_min = 0.1
+const zoom_max = 50.0
 
 var _speed = 17.0
 
@@ -19,9 +19,10 @@ func _ready():
 
 func _process(delta: float) -> void:
 	var target = _get_move_input() * _speed * zoom
-	
 	position.x = lerp(position.x, position.x + target.x, _speed * delta)
 	position.y = lerp(position.y, position.y + target.y, _speed * delta)
+	
+	return
 	
 	if !is_zero_approx(_zoom_factor - 1.0):
 		zoom.x = lerp(zoom.x, zoom.x * _zoom_factor, delta * _zoom_speed)
@@ -46,9 +47,15 @@ func _input(event: InputEvent) -> void:
 		_zoom_factor = 1.0
 	
 	if Input.is_mouse_button_pressed(BUTTON_WHEEL_DOWN):
-		_zoom_factor += 0.1
+		zoom += Vector2(0.2, 0.2)
+		return
+		_zoom_factor += 1.0
 		_zoom_position = get_global_mouse_position()
 	if Input.is_mouse_button_pressed(BUTTON_WHEEL_UP):
-		_zoom_factor -= 0.1
+		zoom -= Vector2(0.2, 0.2)
+		if zoom.x <= 0.2:
+			zoom = Vector2(0.2, 0.2)
+		return
+		_zoom_factor -= 1.0
 		_zoom_position = get_global_mouse_position()
 
