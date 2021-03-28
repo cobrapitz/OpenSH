@@ -14,7 +14,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://buildings/Building.gd"
 }, {
-"base": "Resource",
+"base": "YSort",
 "class": "Chunk",
 "language": "GDScript",
 "path": "res://custom_tile_map/Chunk.gd"
@@ -23,17 +23,11 @@ _global_script_classes=[ {
 "class": "CustomTileMap",
 "language": "GDScript",
 "path": "res://custom_tile_map/CustomTileMap.gd"
-}, {
-"base": "Node2D",
-"class": "IsometricTileMap",
-"language": "GDScript",
-"path": "res://custom_tile_map/IsometricTileMapManager.gd"
 } ]
 _global_script_class_icons={
 "Building": "",
 "Chunk": "",
-"CustomTileMap": "",
-"IsometricTileMap": ""
+"CustomTileMap": ""
 }
 
 [addons]
@@ -46,7 +40,7 @@ quick_scenes/scene_list=PoolStringArray( "res://mapeditor/MapEditor.tscn" )
 [application]
 
 config/name="Rts Stronghold"
-run/main_scene="res://Game.tscn"
+run/main_scene="res://gui/MainMenu.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -55,11 +49,19 @@ Global="*res://autoload/Global.gd"
 EventSystem="*res://autoload/EventSystem.gd"
 Stats="*res://autoload/Stats.gd"
 TileMapUtils="*res://autoload/TileMapUtils.gd"
+DebugOverlay="*res://autoload/DebugOverlay.tscn"
 
 [debug]
 
-settings/stdout/print_fps=true
-gdscript/warnings/enable=false
+settings/stdout/verbose_stdout=true
+settings/gdscript/max_call_stack=3096
+gdscript/warnings/unassigned_variable=false
+gdscript/warnings/unused_variable=false
+gdscript/warnings/unused_argument=false
+gdscript/warnings/unreachable_code=false
+gdscript/warnings/unused_signal=false
+gdscript/warnings/return_value_discarded=false
+gdscript/warnings/deprecated_keyword=false
 
 [display]
 

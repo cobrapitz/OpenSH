@@ -4,6 +4,8 @@ extends Node2D
 export(TileSet) var tileset : TileSet = null
 
 
+onready var chunk_manager = $ChunkManager
+
 const Cell = preload("res://custom_tile_map/Cell.tres")
 
 var chunks = {}
@@ -19,35 +21,29 @@ func _ready():
 	pass
 
 
-func _draw():
-	for idx in chunks.keys():
-		print("drawing ", chunks[idx].cells.size(), " cells.")
-		for cell in chunks[idx].cells:
-			if cell == null:
-				continue
-			draw_texture_rect_region(cell.texture, Rect2(cell.position + cell.offset, cell.size), cell.region_rect)
-			
+func set_cellv(cell_position: Vector2, tile_id: int, offset := Vector2(0, 0)):
+	set_cell(cell_position.x, cell_position.y, tile_id, offset)
 
 
 func set_cell(cell_x: int, cell_y: int, tile_id: int, offset := Vector2(0, 0)):
-	var cell = get_cell(cell_x, cell_y)
+	if cell_x < 0 or cell_y < 0:
+		return
 	
+	var cell
 	if cell == null:
-		print("create tile at: ", cell_x, ", ", cell_y)
-		cell = Cell.duplicate(true)
+		cell = Cell.duplicate()
 		cell.position = TileMapUtils.map_to_world(Vector2(cell_x, cell_y))
-		cell.position.x -= Global.CELL_SIZE.x
+		cell.position.x -= Global.CELL_SIZE.x / 2
 		cell.texture = tileset.tile_get_texture(tile_id)
 		cell.size = Vector2(64, 124)
-		cell.region_rect = Rect2(Vector2(777, 389), Vector2(64, 124))
+		cell.region_rect = Rect2(Vector2(0, 0), Vector2(64, 124))
 		cell.offset = offset
 	
-	var chunk = _get_chunk(cell_x, cell_y)
-	if chunk == null:
-		chunk = _create_chunk(cell_x, cell_y)
 	
-	chunk.cells[TileMapUtils.chunk_cell_to_1D(cell_x, cell_y)] = cell
-	update()
+	var chunk = chunk_manager.set_cellv(Vector2(cell_x, cell_y), cell)
+	
+	#print("from -> ", cell_x, ", ", cell_y, " in chunk: (", chunk_manager.get_chunk_id(Vector2(cell_x, cell_y)), ")")
+	#chunk.cells[TileMapUtils.chunk_cell_to_1D(cell_x, cell_y)] = cell
 
 
 func get_cell(cell_x: int, cell_y: int):
@@ -55,8 +51,9 @@ func get_cell(cell_x: int, cell_y: int):
 	if chunk == null:
 		print("no chunk")
 		return null
+		
 	if not chunk.cells[TileMapUtils.chunk_cell_to_1D(cell_x, cell_y)] == null:
-		print("no cell: ", TileMapUtils.chunk_cell_to_1D(cell_x, cell_y))
+		#print("no cell: ", TileMapUtils.chunk_cell_to_1D(cell_x, cell_y))
 		return null
 	return chunk.cells[TileMapUtils.chunk_cell_to_1D(cell_x, cell_y)]
 
@@ -94,7 +91,6 @@ func _create_chunk(cell_x: int, cell_y: int):
 		return chunk
 	
 	chunk = Chunk.new()
-	chunk.fill_chunk_empty()
 	chunks[chunk_position] = chunk
 	
 	return chunk

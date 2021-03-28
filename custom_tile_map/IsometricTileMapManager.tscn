@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://tilesets/basic_tileset.tres" type="TileSet" id=1]
-[ext_resource path="res://resources/walls/hjm-mossy_wall_low.png" type="Texture" id=2]
 [ext_resource path="res://custom_tile_map/CustomTileMap.gd" type="Script" id=3]
 [ext_resource path="res://custom_tile_map/ChunkManager.tscn" type="PackedScene" id=4]
 [ext_resource path="res://custom_tile_map/AStarMap.gd" type="Script" id=5]
@@ -17,6 +16,9 @@ script = ExtResource( 6 )
 [node name="ChunkManager" parent="." instance=ExtResource( 4 )]
 
 [node name="AStarMap" type="TileMap" parent="."]
+mode = 1
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 64, 32 )
 format = 1
 script = ExtResource( 5 )
 
@@ -39,10 +41,3 @@ visible = false
 
 [node name="Shapes" type="YSort" parent="TileMaps/CustomTileMap"]
 visible = false
-
-[node name="Preview" type="Sprite" parent="."]
-position = Vector2( 217.966, 93.2342 )
-texture = ExtResource( 2 )
-offset = Vector2( 0, 48 )
-region_enabled = true
-region_rect = Rect2( 777, 389, 64, 124 )

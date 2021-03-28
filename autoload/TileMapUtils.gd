@@ -14,8 +14,16 @@ func chunk_world_to_1D(x, y) -> int:
 	return int(p.x + p.y * Global.CHUNK_SIZE.x)
 
 
-func chunk_cell_to_1D(x, y) -> int:
-	return int(x + y * Global.CHUNK_SIZE.x)
+func chunk_cell_to_chunk_pos(cell_x: int, cell_y):
+	cell_x = int(cell_x / Global.CHUNK_SIZE.x)
+	cell_y = int(cell_y / Global.CHUNK_SIZE.y)
+	return Vector2(cell_x, cell_y)
+
+
+func chunk_cell_to_1D(cell_x: int, cell_y: int):
+	cell_x = cell_x % int(Global.CHUNK_SIZE.x)
+	cell_y = cell_y % int(Global.CHUNK_SIZE.y)
+	return int(cell_x + cell_y * Global.CHUNK_SIZE.x)
 
 
 

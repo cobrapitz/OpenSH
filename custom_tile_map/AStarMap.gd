@@ -144,7 +144,7 @@ func _get_astar_cell_id(cell_position: Vector2) -> int:
 func _astar_id_to_cell_position(id : int) -> Vector2:
 	return Vector2(
 		floor(id % int(Global.MAP_SIZE)),
-		floor(id / Global.MAP_SIZE)
+		floor(float(id) / Global.MAP_SIZE)
 	)
 
 

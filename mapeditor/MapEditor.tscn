@@ -1,18 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://mapeditor/MapEditor.gd" type="Script" id=1]
-[ext_resource path="res://custom_tile_map/CustomTileMap.tscn" type="PackedScene" id=2]
 [ext_resource path="res://camera/MainCamera.tscn" type="PackedScene" id=3]
-[ext_resource path="res://resources/walls/hjm-mossy_wall_low.png" type="Texture" id=4]
 [ext_resource path="res://misc/SelectUnitsMarker.tscn" type="PackedScene" id=5]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.2, 0.2, 0.2, 0.243137 )
-
-[sub_resource type="AtlasTexture" id=2]
-flags = 4
-atlas = ExtResource( 4 )
-region = Rect2( 777.314, 389.19, 64.545, 128.783 )
 
 [node name="MapEditor" type="Node"]
 script = ExtResource( 1 )
@@ -148,11 +141,6 @@ size_flags_stretch_ratio = 5.0
 
 [node name="Camera2D" parent="." instance=ExtResource( 3 )]
 position = Vector2( 607.653, 315.742 )
-
-[node name="World" type="Node2D" parent="."]
-
-[node name="CustomTileMap" parent="World" instance=ExtResource( 2 )]
-prefab_texture = SubResource( 2 )
 
 [node name="MapBoundaryIso" type="Polygon2D" parent="."]
 visible = false
