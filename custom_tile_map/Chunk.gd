@@ -16,33 +16,76 @@ func _init():
 
 
 func _draw():
-	var cell
-	for idx in _to_draw:
-		cell = cells[idx]
-		draw_texture_rect_region(cell.texture, Rect2(cell.position + cell.offset, cell.size), cell.region_rect)
-	_to_draw.clear()
+	for cell in cells:
+		if !cell.visible:
+			cell.visible = true
+			draw_texture_rect_region(cell.texture, Rect2(cell.position + cell.offset, cell.size), cell.region_rect)
 
 
 func _on_visibility_changed():
 	if visible:
+		pass
+	else:
 		for idx in range(cells.size()):
-			if cells[idx] != null:
-				_to_draw.append(idx)
+			if cells[idx] == null:
+				continue
+			cells[idx].visible = false
 
 
 func get_cell_idv(cell_position: Vector2):
 	return int(cell_position.x + cell_position.y * Global.CHUNK_SIZE.x)
 
 
+func get_cell_by_position(cell_position: Vector2):
+	return cells[get_cell_idv(cell_position)]
+
+
+func get_cell_idx(idx: int):
+	return cells[idx]
+
+
 func set_cellv(cell_position: Vector2, cell):
 	cells[get_cell_idv(cell_position)] = cell
-	_to_draw.append(get_cell_idv(cell_position))
 
 
+######################################################
+# SAVE/LOAD
+######################################################
+#export(bool) var visible
+#export(Vector2) var position
+#export(Vector2) var size
+#export(Rect2) var region_rect
+#export(Texture) var texture
+#export(Vector2) var offset
+
+func get_save_data():
+	var data = {}
+	
+	var idx = 0
+	for cell in cells:
+		if cell == null:
+			continue
+		data[idx] = {
+			"visible": cell.visible,
+			"position": cell.position,
+			"size": cell.size,
+			"region_rect": cell.region_rect,
+			"texture": cell.texture,
+			"offset": cell.offset,
+		}
+	
+	return data
 
 
+func load_save_data(data: Dictionary):
+	for idx in data.keys():
+		var cell = data[idx]
+		
+		
+		
 
 
+######################################################
 
 func get_single_row(row_i: int):
 	var tiles = []

@@ -29,16 +29,16 @@ func set_cell(cell_x: int, cell_y: int, tile_id: int, offset := Vector2(0, 0)):
 	if cell_x < 0 or cell_y < 0:
 		return
 	
-	var cell
+	var cell = chunk_manager.get_cellv(Vector2(cell_x, cell_y))
 	if cell == null:
 		cell = Cell.duplicate()
+		cell.visible = false
 		cell.position = TileMapUtils.map_to_world(Vector2(cell_x, cell_y))
 		cell.position.x -= Global.CELL_SIZE.x / 2
 		cell.texture = tileset.tile_get_texture(tile_id)
 		cell.size = Vector2(64, 124)
 		cell.region_rect = Rect2(Vector2(0, 0), Vector2(64, 124))
-		cell.offset = offset
-	
+	cell.offset = offset
 	
 	var chunk = chunk_manager.set_cellv(Vector2(cell_x, cell_y), cell)
 	

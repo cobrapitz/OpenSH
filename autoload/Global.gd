@@ -1,6 +1,18 @@
 extends Node
 
 
+var _map := TileMap.new()
+
+var gui
+var world
+var camera
+
+var _timers = {}
+
+
+
+
+
 const groups = {
 	"selectable_units" : "selectable_units",
 	"selected_units" : "selected_units",
@@ -58,8 +70,8 @@ const UnitNames = {
 }
 
 const UnitTemplates = {
-	Units.SPEARMAN : preload("res://units/UnitSpearMan.tscn"),
-	Units.KNIGHT : preload("res://units/UnitKnight.tscn"),
+	Units.SPEARMAN : preload("res://mods/base/units/UnitSpearMan.tscn"),
+	Units.KNIGHT : preload("res://mods/base/units/UnitKnight.tscn"),
 }
 
 
@@ -69,7 +81,7 @@ const CELL_Y = CELL_SIZE.y
 const CELL_X_HALF = CELL_SIZE.x / 2
 const CELL_Y_HALF = CELL_SIZE.y / 2
 
-const CHUNK_SIZE = Vector2(50,50)#Vector2(50, 50)
+const CHUNK_SIZE = Vector2(30,30)#Vector2(50, 50)
 const MAP_SIZE = 3000000000 # arbitrary large number for 1Dimensional array of cells/tiles
 const MAX_CHUNKS_SIZE_WIDTH = 64 #500
 const CACHE_CELLS_SIZE = 5000
@@ -79,14 +91,6 @@ const PIXEL_PER_HEIGHT = 8
 
 const MAX_INT = 9223372036854775807
 const MAX_SQURE_INT = 3000000000 #3037000499
-
-
-var _map := TileMap.new()
-
-var gui
-var world
-
-var _timers = {}
 
 func _ready():
 	add_child(_map)

@@ -14,6 +14,7 @@ var _speed = 17.0
 
 
 func _ready():
+	Global.camera = self
 	pass
 
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://units/Unit.gd" type="Script" id=1]
+[ext_resource path="res://mods/base/units/Unit.gd" type="Script" id=1]
 [ext_resource path="res://resources/units/arab_knight.png" type="Texture" id=2]
 
 [node name="UnitKnight" type="Sprite"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://worlds/World0.tscn" type="PackedScene" id=1]
+[ext_resource path="res://mods/base/modes/World0.tscn" type="PackedScene" id=1]
 [ext_resource path="res://resources/GUI/paper_by_darkwood67_0/paper_by_darkwood67/brown_age_by_darkwood67.jpg" type="Texture" id=2]
 [ext_resource path="res://resources/GUI/320x180_book_scaled.png" type="Texture" id=3]
 [ext_resource path="res://resources/grassland_tiles.png" type="Texture" id=4]

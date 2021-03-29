@@ -261,7 +261,7 @@ func _init_map():
 		
 		idx += 1
 	
-	print(used)
+	print("used: ", used)
 	
 	var i = 0
 	for cell in ground_tilemap.get_used_cells():
@@ -349,9 +349,9 @@ func _init_neighbours():
 
 func _add_astar_vicinity_cells(center_id : int):
 	var center_position = _astar_id_to_cell_position(center_id)
-	print(center_position)
+	print("center_position: ", center_position)
 	
-	print(get_astar_cell(center_position))
+	print("astar cell: ", get_astar_cell(center_position))
 	
 	if get_astar_cell(center_position) != -1:
 		return

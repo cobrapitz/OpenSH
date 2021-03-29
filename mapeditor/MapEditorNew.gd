@@ -33,7 +33,7 @@ func _unhandled_input(event):
 		var radius = 1
 		for y in range(radius):
 			for x in range(radius):
-				map_manager.set_cellv(Vector2(mp.x + x, mp.y + y), selected_tile, Vector2(0, -randf()*100))
+				map_manager.set_cellv(Vector2(mp.x + x, mp.y + y), selected_tile, Vector2(0, -100))
 		return
 
 
@@ -41,6 +41,24 @@ func _process(delta: float) -> void:
 	#print(_chunks.size() * Global.CHUNK_SIZE * Global.CHUNK_SIZE)
 	var mp = get_global_mouse_position()
 	preview.global_position = TileMapUtils.map_to_world(TileMapUtils.world_to_map(Vector2(mp.x, mp.y)))
+
+
+##################################################################
+# Save/Load
+##################################################################
+
+func save_to_file(file_path: String):
+	var file = File.new()
+	
+	file.open(file, File.WRITE)
+	
+	file.store_string("...")
+	
+	file.close()
+
+
+func load_from_file(file_path: String):
+	print(name, " loading data: ", file_path)
 
 
 

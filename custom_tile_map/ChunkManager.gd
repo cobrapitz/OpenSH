@@ -25,7 +25,6 @@ func _ready():
 func _draw():
 	var drawnChunks = 0
 	
-	
 	for idx in to_draw_ids:
 		chunks[idx].hide()
 	
@@ -72,7 +71,7 @@ func get_chunk(cell_position: Vector2):
 	return chunks[get_chunk_id(cell_position)]
 
 
-func set_cellv(cell_position, cell):
+func set_cellv(cell_position: Vector2, cell):
 	var id = get_chunk_id(cell_position)
 	
 	cell_position.x = int(cell_position.x) % int(Global.CHUNK_SIZE.x)
@@ -80,6 +79,14 @@ func set_cellv(cell_position, cell):
 	chunks[id].set_cellv(cell_position, cell)
 	update()
 
+
+func get_cellv(cell_position: Vector2):
+	var chunk_id = get_chunk_id(cell_position)
+	
+	cell_position.x = int(cell_position.x) % int(Global.CHUNK_SIZE.x)
+	cell_position.y = int(cell_position.y) % int(Global.CHUNK_SIZE.y)
+	
+	return chunks[chunk_id].get_cell_by_position(cell_position)
 
 
 ##############################################
