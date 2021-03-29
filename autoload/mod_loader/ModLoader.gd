@@ -18,8 +18,8 @@ func _ready():
 	print("Path to mod folder: " + mods_path)
 	var file = File.new()
 	
-	file.open("cell_data.json", _File.READ)
+	#file.open("cell_data.json", _File.READ)
 	
 	#cells_data = JSON.parse(file.get_as_text()).result
 	
-	file.close()
+	#file.close()
