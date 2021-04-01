@@ -50,8 +50,9 @@ EventSystem="*res://autoload/EventSystem.gd"
 Stats="*res://autoload/Stats.gd"
 TileMapUtils="*res://autoload/TileMapUtils.gd"
 DebugOverlay="*res://autoload/DebugOverlay.tscn"
-Cells="*res://autoload/Cells.gd"
+CellManager="*res://autoload/CellManager.gd"
 ModLoader="*res://autoload/mod_loader/ModLoader.gd"
+TilesetManager="*res://autoload/TilesetManager.tscn"
 
 [debug]
 
