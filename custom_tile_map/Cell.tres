@@ -5,7 +5,9 @@
 [resource]
 script = ExtResource( 1 )
 visible = false
-position = Vector2( 0, 0 )
 size = Vector2( 0, 0 )
-region_rect = Rect2( 0, 0, 0, 0 )
+position = Vector2( 0, 0 )
 offset = Vector2( 0, 0 )
+polygon = [  ]
+texture_region_rect = Rect2( 0, 0, 0, 0 )
+texture_name = ""
