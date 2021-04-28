@@ -21,6 +21,12 @@ func _ready():
 	pass
 
 
+func get_save_data():
+	var data = {}
+	data["chunks"] = chunk_manager.get_save_data()
+	return data
+
+
 func set_cellv(cell_position: Vector2, tile_id: int, offset := Vector2(0, 0)):
 	set_cell(cell_position.x, cell_position.y, tile_id, offset)
 

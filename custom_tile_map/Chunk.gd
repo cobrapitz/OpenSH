@@ -62,19 +62,17 @@ func set_cellv(cell_position: Vector2, cell):
 func get_save_data():
 	var data = {}
 	
-	var idx = 0
 	for cell in cells:
 		if cell == null:
 			continue
-		data[idx] = {
+		data[TileMapUtils.world_to_map(cell.position)] = {
 			"visible": cell.visible,
 			"position": cell.position,
 			"size": cell.size,
-			"region_rect": cell.region_rect,
-			"texture": cell.texture,
+			"region_rect": cell.texture_region_rect,
+			"texture": cell.texture_name,
 			"offset": cell.offset,
 		}
-	
 	return data
 
 

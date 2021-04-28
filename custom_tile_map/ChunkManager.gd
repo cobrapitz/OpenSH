@@ -15,6 +15,7 @@ func _ready():
 	chunks.resize(Global.MAX_CHUNKS_SIZE_WIDTH * Global.MAX_CHUNKS_SIZE_WIDTH)
 	for i in range(chunks.size()):
 		var chunk = Chunk.new()
+		chunk.chunk_position = chunk_id_to_chunk_pos(i)
 		add_child(chunk)
 		chunk.visible = false
 		chunks[i] = chunk
@@ -38,6 +39,14 @@ func _draw():
 	#print("drawing ", drawnChunks, " chunks.")
 
 
+func get_save_data():
+	var data = {}
+	for chunk in chunks:
+		if chunk is Chunk:
+			data[chunk.chunk_position] = chunk.get_save_data()
+	return data
+
+
 func get_surrounding_chunks(chunk_pos):
 	var chunk_ids = []
 	for x in [-1, 0, 1]:
@@ -48,18 +57,22 @@ func get_surrounding_chunks(chunk_pos):
 				continue
 			chunk_ids.append(chunk_pos_to_chunk_id(Vector2(cx, cy)))
 	
-	
 	return chunk_ids
 
 
 func create_chunkv(chunk_position: Vector2):
 	var chunk = Chunk.new()
-	chunks[get_chunk_id(chunk_position)]
+	chunk.chunk_position = chunk_position
+	chunks[get_chunk_id(chunk_position)] = chunk
+	add_child(chunk)
 	return chunk
 
 
 func create_chunk(x: int, y: int):
 	var chunk = Chunk.new()
+	chunk.chunk_position = Vector2(x, y)
+	chunks[get_chunk_id(Vector2(x, y))] = chunk
+	add_child(chunk)
 	return chunk
 
 
@@ -110,6 +123,13 @@ func get_chunk_id(cell_position: Vector2):
 
 func chunk_pos_to_chunk_id(chunk_pos: Vector2):
 	return int(chunk_pos.x + chunk_pos.y * Global.MAX_CHUNKS_SIZE_WIDTH)
+
+
+func chunk_id_to_chunk_pos(chunk_id: int) -> Vector2:
+	var pos = Vector2()
+	pos.x = (chunk_id % Global.MAX_CHUNKS_SIZE_WIDTH)
+	pos.y = (chunk_id / Global.MAX_CHUNKS_SIZE_WIDTH)
+	return pos
 
 
 func get_chunk_position(cell_position: Vector2):

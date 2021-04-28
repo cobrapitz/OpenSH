@@ -24,6 +24,8 @@ func _ready():
 	#create_example_map(Global.CHUNK_SIZE)
 	#create_example_map(Vector2(Global.CHUNK_SIZE.x * 3, Global.CHUNK_SIZE.y * 3))
 	create_example_map(Vector2(Global.CHUNK_SIZE.x * 5, Global.CHUNK_SIZE.y * 5))
+	
+	save_to_file("map_editor_test_save.txt")
 
 
 func _unhandled_input(event):
@@ -48,13 +50,17 @@ func _process(delta: float) -> void:
 ##################################################################
 
 func save_to_file(file_path: String):
+	print("#".repeat(30))
+	print("saving file: ", file_path)
 	var file = File.new()
 	
-	file.open(file, File.WRITE)
+	file.open(file_path, File.WRITE)
 	
-	file.store_string("...")
+	file.store_string(JSON.print(map_manager.get_save_data()))
 	
 	file.close()
+	print("saved file: ", file_path)
+	
 
 
 func load_from_file(file_path: String):
