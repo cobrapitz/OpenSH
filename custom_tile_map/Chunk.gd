@@ -65,13 +65,13 @@ func get_save_data():
 	for cell in cells:
 		if cell == null:
 			continue
-		data[TileMapUtils.world_to_map(cell.position)] = {
+		data[var2str(TileMapUtils.world_to_map(cell.position))] = {
 			"visible": cell.visible,
-			"position": cell.position,
-			"size": cell.size,
-			"region_rect": cell.texture_region_rect,
-			"texture": cell.texture_name,
-			"offset": cell.offset,
+			"position": var2str(cell.position),
+			"size": var2str(cell.size),
+			"region_rect": var2str(cell.texture_region_rect),
+			"tile_name": cell.tile_name,
+			"offset": var2str(cell.offset),
 		}
 	return data
 

@@ -31,5 +31,6 @@ func load_cells(mod_name: String, tiles_path: String):
 	content = content.result
 	
 	for key in content.keys():
-		cells[mod_name+key] = content[key]
-		cells[mod_name+key].texture = mod_name + cells[mod_name+key].texture
+		cells[mod_name+key] = {}
+		cells[mod_name+key].region_rect = content[key].region_rect
+		cells[mod_name+key].tileset = mod_name + content[key].texture

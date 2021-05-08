@@ -10,4 +10,4 @@ position = Vector2( 0, 0 )
 offset = Vector2( 0, 0 )
 polygon = [  ]
 texture_region_rect = Rect2( 0, 0, 0, 0 )
-texture_name = ""
+tile_name = ""

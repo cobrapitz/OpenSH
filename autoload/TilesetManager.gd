@@ -38,5 +38,8 @@ func load_tileset(mod_name: String, tileset_path: String):
 	content = content.result
 	
 	for key in content.keys():
-		tilesets[mod_name+key] = content[key]
+		tilesets[mod_name+key] = {
+			"path": content[key],
+			"texture": load(content[key])
+		}
 	

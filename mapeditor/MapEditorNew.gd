@@ -26,6 +26,22 @@ func _ready():
 	create_example_map(Vector2(Global.CHUNK_SIZE.x * 5, Global.CHUNK_SIZE.y * 5))
 	
 	save_to_file("map_editor_test_save.txt")
+	
+	print("#".repeat(30))
+	
+	print("Cells:")
+	for cell in CellManager.cells:
+		print(cell, " - ", CellManager.cells[cell])
+	
+	print("-".repeat(15))
+	
+	print("Tilesets:")
+	for tileset in TilesetManager.tilesets:
+		print(tileset, " - ", TilesetManager.tilesets[tileset])
+	
+	print("#".repeat(30))
+	
+	load_from_file("map_editor_test_save.txt")
 
 
 func _unhandled_input(event):
@@ -60,12 +76,24 @@ func save_to_file(file_path: String):
 	
 	file.close()
 	print("saved file: ", file_path)
-	
 
 
 func load_from_file(file_path: String):
 	print(name, " loading data: ", file_path)
-
+	
+	var file = File.new()
+	
+	file.open(file_path, File.READ)
+	
+	var content = JSON.parse(file.get_as_text()).result
+	
+	file.close()
+	
+	for chunk in content.chunks:
+		for cell in content.chunks[chunk]:
+			var pos = str2var(cell)
+			var data = content.chunks[chunk][cell]
+			map_manager.set_cell_data(pos.x, pos.y, data.tile_name)
 
 
 ##################################################################
@@ -83,7 +111,7 @@ func create_example_map(new_mapsize : Vector2):
 	
 	for x in range(new_mapsize.x):
 		for y in range(new_mapsize.y):
-			map_manager.set_cell((x), (y), selected_tile)
+			map_manager.set_cell_data(x, y, "base_grass")
 	
 	Global.get_time(name, "creating map took: ")
 

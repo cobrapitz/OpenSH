@@ -13,7 +13,7 @@ export(Array) var polygon
 export(Rect2) var texture_region_rect
 
 # for save/load
-export(String) var texture_name
+export(String) var tile_name
 
 
 

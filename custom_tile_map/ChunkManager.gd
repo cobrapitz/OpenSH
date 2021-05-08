@@ -43,7 +43,7 @@ func get_save_data():
 	var data = {}
 	for chunk in chunks:
 		if chunk is Chunk:
-			data[chunk.chunk_position] = chunk.get_save_data()
+			data[var2str(chunk.chunk_position)] = chunk.get_save_data()
 	return data
 
 
