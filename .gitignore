@@ -1,4 +1,5 @@
 # OpenSH ignores
+map_editor_test_save.txt
 resources/
 
 # Godot-specific ignores
@@ -11,3 +12,7 @@ export_presets.cfg
 .mono/
 data_*/
 exports/
+
+# Godot Addons
+addons/Godoxel/*
+addons/godot-yaml/*

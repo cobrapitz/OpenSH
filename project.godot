@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Reference",
+"class": "BrushPrefabs",
+"language": "GDScript",
+"path": "res://addons/Godoxel/BrushPrefabs.gd"
+}, {
 "base": "Sprite",
 "class": "Building",
 "language": "GDScript",
@@ -23,17 +28,114 @@ _global_script_classes=[ {
 "class": "CustomTileMap",
 "language": "GDScript",
 "path": "res://custom_tile_map/CustomTileMap.gd"
+}, {
+"base": "Node",
+"class": "GEAction",
+"language": "GDScript",
+"path": "res://addons/Godoxel/actions/Action.gd"
+}, {
+"base": "GEAction",
+"class": "GEBrighten",
+"language": "GDScript",
+"path": "res://addons/Godoxel/actions/Brighten.gd"
+}, {
+"base": "GEAction",
+"class": "GEBrush",
+"language": "GDScript",
+"path": "res://addons/Godoxel/actions/Brush.gd"
+}, {
+"base": "GEAction",
+"class": "GEBucket",
+"language": "GDScript",
+"path": "res://addons/Godoxel/actions/Bucket.gd"
+}, {
+"base": "Control",
+"class": "GECanvas",
+"language": "GDScript",
+"path": "res://addons/Godoxel/Canvas.gd"
+}, {
+"base": "GEAction",
+"class": "GECut",
+"language": "GDScript",
+"path": "res://addons/Godoxel/actions/Cut.gd"
+}, {
+"base": "GEAction",
+"class": "GEDarken",
+"language": "GDScript",
+"path": "res://addons/Godoxel/actions/Darken.gd"
+}, {
+"base": "Control",
+"class": "GEDraggableWindow",
+"language": "GDScript",
+"path": "res://addons/Godoxel/dialogs/DraggableWindow.gd"
+}, {
+"base": "Reference",
+"class": "GELayer",
+"language": "GDScript",
+"path": "res://addons/Godoxel/Layer.gd"
+}, {
+"base": "GEAction",
+"class": "GELine",
+"language": "GDScript",
+"path": "res://addons/Godoxel/actions/Line.gd"
+}, {
+"base": "GEAction",
+"class": "GEMultiLine",
+"language": "GDScript",
+"path": "res://addons/Godoxel/actions/MultiLine.gd"
+}, {
+"base": "GEAction",
+"class": "GEPasteCut",
+"language": "GDScript",
+"path": "res://addons/Godoxel/actions/PasteCut.gd"
+}, {
+"base": "GEAction",
+"class": "GEPencil",
+"language": "GDScript",
+"path": "res://addons/Godoxel/actions/Pencil.gd"
+}, {
+"base": "GEAction",
+"class": "GERainbow",
+"language": "GDScript",
+"path": "res://addons/Godoxel/actions/Rainbow.gd"
+}, {
+"base": "GEAction",
+"class": "GERect",
+"language": "GDScript",
+"path": "res://addons/Godoxel/actions/Rect.gd"
+}, {
+"base": "Node",
+"class": "GEUtils",
+"language": "GDScript",
+"path": "res://addons/Godoxel/Util.gd"
 } ]
 _global_script_class_icons={
+"BrushPrefabs": "",
 "Building": "",
 "Chunk": "",
-"CustomTileMap": ""
+"CustomTileMap": "",
+"GEAction": "",
+"GEBrighten": "",
+"GEBrush": "",
+"GEBucket": "",
+"GECanvas": "",
+"GECut": "",
+"GEDarken": "",
+"GEDraggableWindow": "",
+"GELayer": "",
+"GELine": "",
+"GEMultiLine": "",
+"GEPasteCut": "",
+"GEPencil": "",
+"GERainbow": "",
+"GERect": "",
+"GEUtils": ""
 }
 
 [addons]
 
 quick_scenes/selected_scene=-1
-quick_scenes/quick_run_shortcut=Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":true,"scancode":16777252,"unicode":0,"echo":false,"script":null)
+quick_scenes/quick_run_shortcut=Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":true,"scancode":16777252,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
 
 quick_scenes/scene_list=PoolStringArray( "res://mapeditor/MapEditor.tscn" )
 
@@ -53,6 +155,7 @@ DebugOverlay="*res://autoload/DebugOverlay.tscn"
 CellManager="*res://autoload/CellManager.gd"
 ModLoader="*res://autoload/mod_loader/ModLoader.gd"
 TilesetManager="*res://autoload/TilesetManager.tscn"
+Yaml="*res://addons/godot-yaml/YAML.tscn"
 
 [debug]
 
@@ -67,32 +170,36 @@ gdscript/warnings/deprecated_keyword=false
 
 [display]
 
+window/size/width=1280
+window/size/height=720
+window/vsync/use_vsync=false
 window/stretch/mode="2d"
+window/stretch/aspect="keep_width"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "QuickSceneRunner" )
+enabled=PoolStringArray( "res://addons/Godoxel/plugin.cfg", "res://addons/QuickSceneRunner/plugin.cfg" )
 
 [input]
 
 key_up={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":87,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":87,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 key_down={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":83,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":83,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 key_left={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":65,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":65,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 key_right={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":68,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":68,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 mouse_left={
@@ -112,7 +219,7 @@ mouse_middle={
 }
 left_ctrl={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777238,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777238,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 

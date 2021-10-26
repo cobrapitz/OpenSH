@@ -24,6 +24,10 @@ func _ready():
 
 
 func _draw():
+#	for chunk in chunks:
+#		chunk.show()
+#		print("here")
+#	return
 	var drawnChunks = 0
 	
 	for idx in to_draw_ids:
@@ -49,8 +53,16 @@ func get_save_data():
 
 func get_surrounding_chunks(chunk_pos):
 	var chunk_ids = []
-	for x in [-1, 0, 1]:
-		for y in [-1, 0, 1]:
+	
+	var w = []
+	var h = []
+	var total = 9
+	for i in range(total):
+		w.append(i - int(total/2))
+		h.append(i - int(total/2))
+	
+	for x in w:
+		for y in h:
 			var cx = chunk_pos.x + x
 			var cy = chunk_pos.y + y
 			if cx < 0 or cy < 0:
