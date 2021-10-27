@@ -29,8 +29,8 @@ onready var map_manager = $MapManager
 
 onready var brush_size_box = find_node("BrushSize")
 
-var selected_tile = 18
 var brush_size = 1
+var selected_tile = "base_grass"
 
 
 func _ready():
@@ -189,11 +189,11 @@ func get_current_chunk_mouse():
 
 
 func _on_Button_pressed():
-	selected_tile = 19
+	selected_tile = "base_grass"
 
 
 func _on_Button2_pressed():
-	selected_tile = 18
+	selected_tile = "base_stone_wall"
 
 
 func _on_BrushSize_text_changed(new_text):
