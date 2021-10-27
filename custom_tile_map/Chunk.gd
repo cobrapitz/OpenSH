@@ -17,10 +17,12 @@ func _init():
 
 func _draw():
 	for cell in cells:
-		if cell == null or cell.visible:
+		if cell == null:
 			continue
 		cell.visible = true
-		draw_texture_rect_region(cell.texture, Rect2(cell.position + cell.offset, cell.size), cell.texture_region_rect)
+		draw_texture_rect_region(
+			cell.texture, Rect2(cell.position + cell.offset, cell.size),
+			cell.texture_region_rect)
 
 
 func _on_visibility_changed():

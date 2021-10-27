@@ -81,9 +81,9 @@ const CELL_Y = CELL_SIZE.y
 const CELL_X_HALF = CELL_SIZE.x / 2
 const CELL_Y_HALF = CELL_SIZE.y / 2
 
-const CHUNK_SIZE = Vector2(50,50)#Vector2(50, 50)
+const CHUNK_SIZE = Vector2(40, 40)#Vector2(50, 50)
 const MAP_SIZE = 3000000000 # arbitrary large number for 1Dimensional array of cells/tiles
-const MAX_CHUNKS_SIZE_WIDTH = 64 #500
+const MAX_CHUNKS_SIZE_WIDTH = 128 #500
 const CACHE_CELLS_SIZE = 5000
 
 const MAX_CELL_HEIGHT = 124

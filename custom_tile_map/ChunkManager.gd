@@ -7,6 +7,9 @@ var chunks = []
 var to_draw_ids = []
 
 
+var to_draw_chunks = []
+
+
 func _ready():
 	Global.set_timer(name)
 	
@@ -26,21 +29,20 @@ func _ready():
 func _draw():
 #	for chunk in chunks:
 #		chunk.show()
-#		print("here")
 #	return
-	var drawnChunks = 0
-	
+	var mp = get_chunk_position_world(get_global_mouse_position())
+	var draw_ids = get_surrounding_chunks(mp, 5)
+	for idx in draw_ids:
+		if idx in to_draw_ids:
+			to_draw_ids.erase(idx)
+			if not chunks[idx].visible:
+				chunks[idx].show()
+		elif not chunks[idx].visible:
+			chunks[idx].show()
+			
 	for idx in to_draw_ids:
 		chunks[idx].hide()
-	
-	to_draw_ids = get_surrounding_chunks(get_chunk_position_world(get_global_mouse_position()))
-	
-	for idx in to_draw_ids:
-		drawnChunks += 1
-		chunks[idx].show()
-	
-	#print("Drawing Map")
-	#print("drawing ", drawnChunks, " chunks.")
+	to_draw_ids = draw_ids
 
 
 func get_save_data():
@@ -51,23 +53,21 @@ func get_save_data():
 	return data
 
 
-func get_surrounding_chunks(chunk_pos):
+func get_surrounding_chunks(chunk_pos, radius):
 	var chunk_ids = []
 	
 	var w = []
 	var h = []
-	var total = 9
-	for i in range(total):
-		w.append(i - int(total/2))
-		h.append(i - int(total/2))
+	for i in range(radius):
+		w.append(i - int(radius/2))
+		h.append(i - int(radius/2))
 	
 	for x in w:
 		for y in h:
-			var cx = chunk_pos.x + x
-			var cy = chunk_pos.y + y
-			if cx < 0 or cy < 0:
-				continue
+			var cx = chunk_pos.x + x + y
+			var cy = chunk_pos.y + y - x
 			chunk_ids.append(chunk_pos_to_chunk_id(Vector2(cx, cy)))
+			chunk_ids.append(chunk_pos_to_chunk_id(Vector2(cx + 1, cy)))
 	
 	return chunk_ids
 
@@ -102,7 +102,7 @@ func set_cellv(cell_position: Vector2, cell):
 	cell_position.x = int(cell_position.x) % int(Global.CHUNK_SIZE.x)
 	cell_position.y = int(cell_position.y) % int(Global.CHUNK_SIZE.y)
 	chunks[id].set_cellv(cell_position, cell)
-	update()
+	return id
 
 
 func get_cellv(cell_position: Vector2):

@@ -29,8 +29,8 @@ onready var map_manager = $MapManager
 
 onready var brush_size_box = find_node("BrushSize")
 
-var selected_tile = 18
-var brush_size = 1
+var selected_tile = "base_grass"
+var brush_size = 20
 
 
 func _ready():
@@ -44,6 +44,7 @@ func _ready():
 	DebugOverlay.track_func(self, "get_current_cell_mouse", "Mouse Position: ")
 	DebugOverlay.track_func(self, "get_current_chunk_cell_mouse", "Chunk Cell Position: ")
 	DebugOverlay.track_func(self, "get_current_chunk_mouse", "Chunk: ")
+	DebugOverlay.track_func(self, "_get_draw_calls", "Draw Calls: ")
 	#DebugOverlay.track_func(self, "", "Zoom: ")
 	
 	###############
@@ -54,7 +55,7 @@ func _ready():
 	#create_example_map(Global.CHUNK_SIZE)
 	#create_example_map(Vector2(Global.CHUNK_SIZE.x * 3, Global.CHUNK_SIZE.y * 3))
 	
-	brush_draw_rect(100, 100)
+	create_example_map(Vector2(100, 100))
 	
 	return
 	
@@ -79,20 +80,37 @@ func _ready():
 	load_from_file("map_editor_test_save.txt")
 
 
-func brush_draw_rect(width, height):
-	var offset = Vector2(0, width)
+var _set_cells = []
+func brush_draw_rect(offset, width, height):
+	_set_cells.clear()
+	if width < 1 or height < 1:
+		return
+	if width == 1 and height == 1:
+		map_manager.batch_set_cell([[offset.x, offset.y, selected_tile]])
+		return
+		
 	for y in range(height):
 		for x in range(width):
-			if x % 20 == 0:
-				continue
-			map_manager.set_cell_data(offset.x + x + y, offset.y + -x + y, "base_grass")
-			map_manager.set_cell_data(offset.x + x + y + 1, offset.y + -x + y, "base_grass")
+			_set_cells.append([offset.x + x + y, offset.y +-x + y, selected_tile])
+			_set_cells.append([offset.x  + x + y + 1, offset.y +-x + y, selected_tile])
+	map_manager.batch_set_cell(_set_cells)
 
 
+var last_mp
+var mp_drawn
 func _unhandled_input(event):
 	if Input.is_action_pressed("mouse_left"):
 		var mp = map_manager.get_global_mouse_position()
 		mp = Global.world_to_isotile(mp)
+		if last_mp != mp:
+			mp_drawn = false
+			last_mp = mp
+		if mp_drawn:
+			return
+		mp_drawn = true
+		
+		brush_draw_rect(mp, brush_size, brush_size)
+		return
 		var radius = brush_size
 		for yi in range(radius):
 			var y = yi - radius/2
@@ -156,10 +174,28 @@ func set_cell_world(world_x: float, world_y: float, cell_id: float, offset: Vect
 func create_example_map(new_mapsize : Vector2):
 	Global.set_timer(name)
 	
-	for x in range(new_mapsize.x):
-		for y in range(new_mapsize.y):
-			
-			map_manager.set_cell_data(x, y, "base_grass")
+	var width = new_mapsize.x
+	var height = new_mapsize.y
+	
+	var base_offset = Vector2(0, width)
+	_set_cells.clear()
+	
+	for y in range(height):
+		for x in range(width):
+#		if cell_x % int(Global.CHUNK_SIZE.x) == 0 or cell_y % int(Global.CHUNK_SIZE.y) == 0:
+#			tile_name = "base_stone_wall"
+			if x % 20 == 0 or y % 20 == 0:
+				continue
+				_set_cells.append([base_offset.x + x + y, base_offset.y + -x + y, "base_stone_wall"])
+				_set_cells.append([base_offset.x + x + y + 1, base_offset.y +-x + y, "base_stone_wall"])
+			else:
+				_set_cells.append([base_offset.x + x + y, base_offset.y + -x + y, "base_grass"])
+				_set_cells.append([base_offset.x + x + y + 1, base_offset.y +-x + y, "base_grass"])
+	map_manager.batch_set_cell(_set_cells)
+	
+#	for x in range(new_mapsize.x):
+#		for y in range(new_mapsize.y):
+#			map_manager.set_cell_data(x, y, "base_grass")
 	
 	Global.get_time(name, "creating map took: ")
 
@@ -189,11 +225,11 @@ func get_current_chunk_mouse():
 
 
 func _on_Button_pressed():
-	selected_tile = 19
+	selected_tile = "base_grass"
 
 
 func _on_Button2_pressed():
-	selected_tile = 18
+	selected_tile = "base_stone_wall"
 
 
 func _on_BrushSize_text_changed(new_text):
@@ -202,10 +238,14 @@ func _on_BrushSize_text_changed(new_text):
 	brush_size_box.caret_position = str(brush_size).length()
 
 
-
 func _on_BrushRect_pressed():
 	pass # Replace with function body.
 
 
 func _on_BrushSquare_pressed():
 	pass # Replace with function body.
+
+
+func _get_draw_calls():
+	var draw_calls = str(Performance.get_monitor(Performance.RENDER_2D_DRAW_CALLS_IN_FRAME))
+	return draw_calls
