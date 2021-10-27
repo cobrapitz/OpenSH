@@ -54,7 +54,7 @@ func _ready():
 	#create_example_map(Global.CHUNK_SIZE)
 	#create_example_map(Vector2(Global.CHUNK_SIZE.x * 3, Global.CHUNK_SIZE.y * 3))
 	
-	brush_draw_rect(400, 400)
+	brush_draw_rect(100, 100)
 	
 	return
 	

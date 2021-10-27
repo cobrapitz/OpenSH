@@ -55,22 +55,22 @@ func _input(event: InputEvent) -> void:
 		_zoom_factor = 1.0
 	
 	if Input.is_mouse_button_pressed(BUTTON_WHEEL_DOWN):
-		#zoom += Vector2(1.0, 1.0)
-		zoom *= 2.0
+		zoom += Vector2(1.0, 1.0)
+#		zoom *= 2.0
 		return
 		_zoom_factor += 1.0
 		_zoom_position = get_global_mouse_position()
 	if Input.is_mouse_button_pressed(BUTTON_WHEEL_UP):
 		
-		if zoom.x / 2.0 <= base_zoom.x:
-			zoom = base_zoom
-		else:
-			zoom /= 2.0
-		
-#		if zoom.x - 1.0 <= 1.0:
-#			zoom = Vector2(1.0, 1.0)
+#		if zoom.x / 2.0 <= base_zoom.x:
+#			zoom = base_zoom
 #		else:
-#			zoom -= Vector2(1.0, 1.0)
+#			zoom /= 2.0
+		
+		if zoom.x - 1.0 <= 1.0:
+			zoom = Vector2(1.0, 1.0)
+		else:
+			zoom -= Vector2(1.0, 1.0)
 		return
 		_zoom_factor -= 1.0
 		_zoom_position = get_global_mouse_position()

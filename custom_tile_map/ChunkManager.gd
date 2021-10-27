@@ -19,7 +19,7 @@ func _ready():
 		add_child(chunk)
 		chunk.visible = false
 		chunks[i] = chunk
-
+	
 	Global.get_time(name)
 
 
