@@ -155,7 +155,8 @@ func get_tile_by_collision(world_position : Vector2):
 		var shape : Shape2D = shapes[i].shape
 		$MouseCollision.global_position = world_position
 		
-		var col = shape.collide(pols[i].transform, $MouseCollision/CollisionShape2D.shape, $MouseCollision.transform)
+		var col = shape.collide(pols[i].transform, 
+				$MouseCollision/CollisionShape2D.shape, $MouseCollision.transform)
 		
 		if col:
 			selected_shapes.append(i)
@@ -182,7 +183,8 @@ func select_tile() -> int:
 		var shape : Shape2D = shapes[i].shape
 		$MouseCollision.global_position = mp
 		
-		var col = shape.collide(pols[i].transform, $MouseCollision/CollisionShape2D.shape, $MouseCollision.transform)
+		var col = shape.collide(pols[i].transform, 
+				$MouseCollision/CollisionShape2D.shape, $MouseCollision.transform)
 		
 		if col:
 			#print(i)ds

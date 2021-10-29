@@ -22,6 +22,10 @@ func get_tileset(tileset_name: String):
 	return tilesets[tileset_name]
 
 
+func get_tileset_texture(tileset_name: String):
+	return tilesets[tileset_name].texture
+
+
 func load_tileset(mod_name: String, tileset_path: String):
 	var file = File.new()
 	

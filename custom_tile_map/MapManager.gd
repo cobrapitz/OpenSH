@@ -6,7 +6,7 @@ export(TileSet) var tileset : TileSet = null
 
 onready var chunk_manager = $ChunkManager
 
-const Cell = preload("res://custom_tile_map/Cell.tres")
+const Cell : Resource = preload("res://custom_tile_map/Cell.tres")
 
 var chunks = {}
 
@@ -23,8 +23,19 @@ func _ready():
 
 func get_save_data():
 	var data = {}
-	data["chunks"] = chunk_manager.get_save_data()
+	data["chunk_data"] = chunk_manager.get_save_data()
 	return data
+
+
+func load_save_data(data):
+	# TODO add chunk size and other infos here aswell
+	chunk_manager.load_save_data(data["chunk_data"])
+
+
+func clear_map():
+	for chunk in chunk_manager.chunks:
+		chunk_manager.remove_child(chunk)
+		chunk.queue_free()
 
 
 func batch_set_cell(cells_data: Array):
@@ -34,11 +45,13 @@ func batch_set_cell(cells_data: Array):
 		var cell_y = int(cell_data[1])
 		var tile_name = cell_data[2]
 		
-		var offset = Vector2(0, -randi() % Global.MAX_CELL_HEIGHT) #Vector2.ZERO
+		var offset = Vector2.ZERO #Vector2(0, -randi() % Global.MAX_CELL_HEIGHT)
 		if cell_data.size() > 3:
 			offset = cell_data[3]
 		
-		if cell_x < 0 or cell_y < 0:
+		if cell_x < 0 or cell_y < 0 or \
+				cell_x >= Global.MAX_CHUNKS_SIZE_WIDTH * Global.MAX_CHUNKS_SIZE_WIDTH or \
+				cell_y >= Global.MAX_CHUNKS_SIZE_WIDTH * Global.MAX_CHUNKS_SIZE_WIDTH:
 			continue
 		
 		# update/create cell
@@ -46,7 +59,8 @@ func batch_set_cell(cells_data: Array):
 		var cell = chunk_manager.get_cellv(cell_position)
 		if cell == null:
 			cell = _create_cell(cell_x, cell_y, tile_name, offset)
-		elif cell.tile_name != tile_name:
+#		elif cell.tile_name != tile_name:
+		else:
 			_change_cell(cell, tile_name)
 		cell.offset = offset
 	
@@ -60,39 +74,33 @@ func batch_set_cell(cells_data: Array):
 
 
 func _change_cell(cell, tile_name: String):
-	var cell_data = CellManager.cells[tile_name]
-	cell.texture = TilesetManager.tilesets[cell_data.tileset].texture
+	var cell_data = CellManager.get_cell_data(tile_name)
+	cell.texture = TilesetManager.get_tileset_texture(cell_data.tileset)
 	cell.tile_name = tile_name
-	cell.size = Vector2(64, 124)
+	cell.size = Vector2(cell_data.region_rect[2], cell_data.region_rect[3])
 	#cell.texture_region_rect = Rect2(Vector2(0, 0), Vector2(64, 124))
 	cell.texture_region_rect = Rect2(
 		cell_data.region_rect[0], cell_data.region_rect[1],
 		cell_data.region_rect[2], cell_data.region_rect[3])
 	
 
-
 func _create_cell(cell_x: int, cell_y: int, tile_name: String, offset: Vector2 = Vector2.ZERO):
 	var cell = Cell.duplicate()
 	created_cells += 1
-	cell = Cell.duplicate()
 	cell.visible = false
 	cell.position = TileMapUtils.map_to_world(Vector2(cell_x, cell_y))
 	cell.position.x -= Global.CELL_SIZE.x / 2
 	#cell.texture = tileset.tile_get_texture(tile_name)
 	
-	var cell_data = CellManager.cells[tile_name]
-	
-	cell.texture = TilesetManager.tilesets[cell_data.tileset].texture
+	var cell_data = CellManager.get_cell_data(tile_name)
+	cell.texture = TilesetManager.get_tileset_texture(cell_data.tileset)
 	cell.tile_name = tile_name
 	
-	cell.size = Vector2(64, 124)
+	cell.size = Vector2(cell_data.region_rect[2], cell_data.region_rect[3])
 	#cell.texture_region_rect = Rect2(Vector2(0, 0), Vector2(64, 124))
 	cell.texture_region_rect = Rect2(
 		cell_data.region_rect[0], cell_data.region_rect[1],
 		cell_data.region_rect[2], cell_data.region_rect[3])
-	
-	if created_cells % 250 == 0:
-		print("created cells: ", created_cells)
 	return cell
 
 
@@ -137,11 +145,6 @@ func get_cell(cell_x: int, cell_y: int):
 		#print("no cell: ", TileMapUtils.chunk_cell_to_1D(cell_x, cell_y))
 		return null
 	return chunk.cells[TileMapUtils.chunk_cell_to_1D(cell_x, cell_y)]
-
-
-func _get_chunk_cell(cell_x: int, cell_y: int):
-	
-	return null
 
 
 func _get_chunk(cell_x: int, cell_y: int):

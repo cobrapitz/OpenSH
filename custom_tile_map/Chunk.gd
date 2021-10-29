@@ -1,6 +1,8 @@
 extends YSort
 class_name Chunk
 
+const Cell : Resource = preload("res://custom_tile_map/Cell.tres")
+
 
 var chunk_position: Vector2
 var chunk_id: int
@@ -51,15 +53,16 @@ func set_cellv(cell_position: Vector2, cell):
 	cells[get_cell_idv(cell_position)] = cell
 
 
+func get_cellv(cell_position: Vector2):
+	cell_position.x = int(cell_position.x) % int(Global.CHUNK_SIZE.x)
+	cell_position.y = int(cell_position.y) % int(Global.CHUNK_SIZE.y)
+	return cell_position
+
+
+
 ######################################################
 # SAVE/LOAD
 ######################################################
-#export(bool) var visible
-#export(Vector2) var position
-#export(Vector2) var size
-#export(Rect2) var region_rect
-#export(Texture) var texture
-#export(Vector2) var offset
 
 func get_save_data():
 	var data = {}
@@ -67,23 +70,52 @@ func get_save_data():
 	for cell in cells:
 		if cell == null:
 			continue
-		data[var2str(TileMapUtils.world_to_map(cell.position))] = {
-			"visible": cell.visible,
+		data[var2str(get_cellv(TileMapUtils.world_to_map(cell.position)))] = {
+			#"visible": cell.visible,
 			"position": var2str(cell.position),
-			"size": var2str(cell.size),
-			"region_rect": var2str(cell.texture_region_rect),
+			#"size": var2str(cell.size), # probably don't need
+			#"region_rect": var2str(cell.texture_region_rect), # probably don't need
 			"tile_name": cell.tile_name,
 			"offset": var2str(cell.offset),
 		}
+	
 	return data
 
 
 func load_save_data(data: Dictionary):
-	for idx in data.keys():
-		var cell = data[idx]
+	cells.resize(int(Global.CHUNK_SIZE.x * Global.CHUNK_SIZE.y))
+	
+	for cell_map_position in data.keys():
+		var cell_data = data[cell_map_position]
 		
+		var cell_pos = str2var(cell_data.position)
+		cell_pos = TileMapUtils.world_to_map(cell_pos)
+		var cell_offset = str2var(cell_data.offset)
+		var cell_chunk_pos = str2var(cell_map_position)
 		
+		var cell = _create_cell(
+				cell_pos.x, cell_pos.y, 
+				cell_data.tile_name, cell_offset)
 		
+		set_cellv(cell_chunk_pos, cell)
+	
+
+
+func _create_cell(cell_x: int, cell_y: int, tile_name: String, offset: Vector2 = Vector2.ZERO):
+	var cell = Cell.duplicate()
+	cell.visible = false
+	cell.position = TileMapUtils.map_to_world(Vector2(cell_x, cell_y))
+	cell.position.x -= Global.CELL_SIZE.x / 2
+	
+	var cell_data = CellManager.cells[tile_name]
+	cell.texture = TilesetManager.tilesets[cell_data.tileset].texture
+	cell.tile_name = tile_name
+	cell.size = Vector2(cell_data.region_rect[2], cell_data.region_rect[3])#Vector2(64, 124)
+	cell.texture_region_rect = Rect2(
+		cell_data.region_rect[0], cell_data.region_rect[1],
+		cell_data.region_rect[2], cell_data.region_rect[3])
+	return cell
+
 
 
 ######################################################

@@ -1,5 +1,5 @@
 # OpenSH ignores
-map_editor_test_save.txt
+/map_editor_test_save.txt
 resources/
 
 # Godot-specific ignores

@@ -87,5 +87,4 @@ texture = SubResource( 2 )
 
 [node name="TestUnit" type="Sprite" parent="."]
 position = Vector2( 123.823, 770.809 )
-scale = Vector2( 0.76589, 0.76589 )
 texture = ExtResource( 2 )

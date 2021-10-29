@@ -27,30 +27,59 @@ func _ready():
 
 
 func _draw():
-#	for chunk in chunks:
-#		chunk.show()
-#	return
+	for chunk in chunks:
+		chunk.show()
+	return
 	var mp = get_chunk_position_world(get_global_mouse_position())
 	var draw_ids = get_surrounding_chunks(mp, 5)
 	for idx in draw_ids:
+		if idx >= chunks.size():
+			continue
 		if idx in to_draw_ids:
 			to_draw_ids.erase(idx)
 			if not chunks[idx].visible:
 				chunks[idx].show()
 		elif not chunks[idx].visible:
 			chunks[idx].show()
-			
 	for idx in to_draw_ids:
+		if idx >= chunks.size():
+			continue
 		chunks[idx].hide()
 	to_draw_ids = draw_ids
 
 
 func get_save_data():
 	var data = {}
+	
+	data["chunks_width"] = Global.MAX_CHUNKS_SIZE_WIDTH
+	 
+	data["chunks"] = {}
 	for chunk in chunks:
-		if chunk is Chunk:
-			data[var2str(chunk.chunk_position)] = chunk.get_save_data()
+		data["chunks"][var2str(chunk.chunk_position)] = chunk.get_save_data()
 	return data
+
+
+func load_save_data(data):
+	Global.set_timer(name)
+	
+	var max_chunk_size_width = data["chunks_width"]
+	chunks.resize(max_chunk_size_width * max_chunk_size_width)
+	
+	for chunk_position in data["chunks"]:
+		var chunk_data = data["chunks"][chunk_position]
+		
+		var chunk = Chunk.new()
+		chunk.chunk_position = str2var(chunk_position)
+		add_child(chunk)
+		chunk.visible = false
+		var chunk_idx = chunk_pos_to_chunk_id(chunk.chunk_position)
+		chunks[chunk_idx] = chunk
+		
+		chunk.load_save_data(chunk_data)
+	
+	Global.get_time(name)
+	
+	update()
 
 
 func get_surrounding_chunks(chunk_pos, radius):

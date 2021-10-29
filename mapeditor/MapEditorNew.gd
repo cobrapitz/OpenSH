@@ -29,7 +29,7 @@ onready var map_manager = $MapManager
 
 onready var brush_size_box = find_node("BrushSize")
 
-var selected_tile = "base_grass"
+var selected_tile = "base_sh_grass"
 var brush_size = 20
 
 
@@ -55,7 +55,7 @@ func _ready():
 	#create_example_map(Global.CHUNK_SIZE)
 	#create_example_map(Vector2(Global.CHUNK_SIZE.x * 3, Global.CHUNK_SIZE.y * 3))
 	
-	create_example_map(Vector2(100, 100))
+	#create_example_map(Vector2(4, 4))
 	
 	return
 	
@@ -154,11 +154,13 @@ func load_from_file(file_path: String):
 	
 	file.close()
 	
-	for chunk in content.chunks:
-		for cell in content.chunks[chunk]:
-			var pos = str2var(cell)
-			var data = content.chunks[chunk][cell]
-			map_manager.set_cell_data(pos.x, pos.y, data.tile_name)
+	map_manager.load_save_data(content)
+	
+#	for chunk in content.chunks:
+#		for cell in content.chunks[chunk]:
+#			var pos = str2var(cell)
+#			var data = content.chunks[chunk][cell]
+#			map_manager.set_cell_data(pos.x, pos.y, data.tile_name)
 
 
 ##################################################################
@@ -200,6 +202,9 @@ func create_example_map(new_mapsize : Vector2):
 	Global.get_time(name, "creating map took: ")
 
 
+func clear_map():
+	map_manager.clear_map()
+
 
 
 ##################################################################
@@ -229,7 +234,12 @@ func _on_Button_pressed():
 
 
 func _on_Button2_pressed():
-	selected_tile = "base_stone_wall"
+	selected_tile = "base_sh_sand"
+	#selected_tile = "base_stone_wall"
+
+
+func _on_Button3_pressed():
+	selected_tile = "base_sh_grass"
 
 
 func _on_BrushSize_text_changed(new_text):
@@ -249,3 +259,17 @@ func _on_BrushSquare_pressed():
 func _get_draw_calls():
 	var draw_calls = str(Performance.get_monitor(Performance.RENDER_2D_DRAW_CALLS_IN_FRAME))
 	return draw_calls
+
+
+func _on_Save_pressed():
+	Global.set_timer(name)
+	save_to_file("map_editor_test_save.txt")
+	Global.get_time(name, "Saving Map took: ")
+
+
+func _on_Load_pressed():
+	load_from_file("map_editor_test_save.txt")
+
+
+func _on_ClearMap_pressed():
+	clear_map()

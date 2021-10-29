@@ -75,15 +75,21 @@ const UnitTemplates = {
 }
 
 
-const CELL_SIZE := Vector2(64, 32)
+const CELL_SIZE := Vector2(30, 16)#Vector2(64, 32)
 const CELL_X = CELL_SIZE.x
 const CELL_Y = CELL_SIZE.y
 const CELL_X_HALF = CELL_SIZE.x / 2
 const CELL_Y_HALF = CELL_SIZE.y / 2
 
-const CHUNK_SIZE = Vector2(40, 40)#Vector2(50, 50)
+# Map editor different chunks size as ingame since editing causes chunks to redraw
+# so we shrink the chunk size for the map editor
+const MAP_EDITOR_CHUNK_SIZE = Vector2(20, 20)
+
+var CHUNK_SIZE = MAP_EDITOR_CHUNK_SIZE#Vector2(50, 50)#Vector2(50, 50)
 const MAP_SIZE = 3000000000 # arbitrary large number for 1Dimensional array of cells/tiles
-const MAX_CHUNKS_SIZE_WIDTH = 128 #500
+
+# chunks is 1D Array for faster access, max chunks -> max_width * max_width
+const MAX_CHUNKS_SIZE_WIDTH = 20 #500
 const CACHE_CELLS_SIZE = 5000
 
 const MAX_CELL_HEIGHT = 124
@@ -92,9 +98,12 @@ const PIXEL_PER_HEIGHT = 8
 const MAX_INT = 9223372036854775807
 const MAX_SQURE_INT = 3000000000 #3037000499
 
+
+
 func _ready():
+	randomize()
 	add_child(_map)
-	_map.cell_size = Vector2(64, 32)
+	_map.cell_size = CELL_SIZE
 	_map.mode = TileMap.MODE_ISOMETRIC
 
 
@@ -110,6 +119,11 @@ func get_mouse_center_isometric() -> Vector2:
 	return isotile_to_world(world_to_isotile(_map.get_global_mouse_position()))
 
 
+
+#########################################################
+# Time Measurement
+#########################################################
+
 func set_timer(timer_name : String):
 	_timers[timer_name] = OS.get_system_time_msecs()
 
@@ -120,3 +134,28 @@ func get_time(timer_name : String, message = ""):
 	if message.empty():
 		message = timer_name + " took: "
 	print(message, OS.get_system_time_msecs() - _timers[timer_name])
+
+
+#########################################################
+# Usages
+#########################################################
+
+const USAGES := {
+	"MapEditor": 0,
+	"Ingame": 1,
+}
+
+var usage = USAGES.MapEditor
+
+func get_usage():
+	return USAGES.keys()[usage]
+
+
+func set_usage(usage):
+	if not usage in USAGES.values():
+		print("Usage not found!")
+		return
+	self.usage = usage
+	print("set usage to ", get_usage())
+
+
