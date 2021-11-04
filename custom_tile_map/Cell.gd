@@ -16,8 +16,9 @@ export(Rect2) var texture_region_rect
 export(Texture) var chevron # part below a tile (needed for tiles that can have height)
 export(Rect2) var chevron_region_rect
 
-
 export(Array) var polygon
 
-
+# used for 
+export(Vector2) var tile_origin
+export(int) var tile_type
  

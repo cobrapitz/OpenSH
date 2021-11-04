@@ -7,6 +7,8 @@ Textures will be assigned by the mod loader.
 """
 
 
+const TILE_SIZES = 4
+
 const SMALL = 0
 const MEDIUM = 1
 const BIG = 2

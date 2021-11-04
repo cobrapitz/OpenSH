@@ -16,9 +16,13 @@ var shapes = []
 var pols = []
 
 
+const OPTIMZE_AREA_SIZE = 12
+var optimize_area = PoolIntArray()
+
 
 func _ready():
-	pass
+	optimize_area.resize(OPTIMZE_AREA_SIZE * OPTIMZE_AREA_SIZE)
+	reset_optimize_container()
 
 
 func get_save_data():
@@ -60,7 +64,7 @@ func batch_set_cell_size(offset, width, height, tile_name):
 						cell_x >= Global.MAX_CHUNKS_SIZE_WIDTH * Global.MAX_CHUNKS_SIZE_WIDTH or \
 						cell_y >= Global.MAX_CHUNKS_SIZE_WIDTH * Global.MAX_CHUNKS_SIZE_WIDTH:
 					continue
-					
+				
 				# update/create cell
 				var cell_position = Vector2(cell_x, cell_y)
 				var cell = chunk_manager.get_cellv(cell_position)
@@ -68,14 +72,17 @@ func batch_set_cell_size(offset, width, height, tile_name):
 					cell = _create_cell(cell_x, cell_y, tile_name, cell_offset)
 				else:
 					_change_cell(cell, tile_name)
+				
+				if cell.tile_type != -1:
+					reset_tile_group(cell)
+				
 				cell.tile_offset = Vector2(0, 0)
 				cell.offset = cell_offset
 				var chunk_id = chunk_manager.set_cellv(cell_position, cell)
-				#cell.visible = false
 				if not chunk_id in chunks_to_update:
 					chunks_to_update.append(chunk_id)
 	
-	randomize_area(offset + Vector2(int(width/2), int(-height / 2)), width)
+	randomize_area(offset + Vector2(int(width/2), int(-height / 2)), OPTIMZE_AREA_SIZE)
 	
 	for chunk_id in chunks_to_update:
 		chunk_manager.chunks[chunk_id].update()
@@ -124,73 +131,133 @@ func batch_set_cell(cells_data: Array):
 	chunk_manager.update()
 
 
-func randomize_area(top_position, size):
+func prepare_randomize_area(top_position, size: int):
+	reset_optimize_container()
+	
+	var cell_position
+	for x in range(size):
+		for y in range(size):
+			var value = optimize_area[x + y * OPTIMZE_AREA_SIZE]
+			if value == -1:
+				cell_position = Vector2(top_position.x + x, top_position.y + y)
+				
+				# possible values 0, 1, 2, 3
+				value = Global.get_fixed_value_for_position(cell_position.x, cell_position.y) % CellManager.TILE_SIZES
+				
+				# check if area is the same biome
+				#if not area_same_tile(cell_position, value + 1):
+				#	continue
+				
+				var temp = 0
+				var occupied = false
+				for ix in range(value + 1):
+					for iy in range(value + 1):
+						if (x + ix) + (iy + y) * OPTIMZE_AREA_SIZE >= optimize_area.size():
+							occupied = true
+							break
+						if optimize_area[(x + ix) + (iy + y) * OPTIMZE_AREA_SIZE] != -1:
+							occupied = true
+							break
+					if occupied:
+						break
+				if occupied:
+					continue
+				
+				# set cells 1x1,2x2,3x3,4x4 // +1 because of start at 0
+				for ix in range(value + 1):
+					for iy in range(value + 1):
+						optimize_area.set(ix + x + (iy + y) * OPTIMZE_AREA_SIZE, value)
+
+
+func reset_optimize_container():
+	for i in range(OPTIMZE_AREA_SIZE * OPTIMZE_AREA_SIZE):
+		optimize_area.set(i, -1)
+
+
+func debug_print_randomize_area():
+	var debug_text = ""
+	for i in range(OPTIMZE_AREA_SIZE):
+		for _i in range(OPTIMZE_AREA_SIZE):
+			debug_text += str(optimize_area[_i + i * OPTIMZE_AREA_SIZE] + 1) + " "
+		debug_text += "\n"
+	print(debug_text)
+
+
+func retrieve_randomize_area_tile_type(cell_position, erase_ids: bool):
+	var tile_type = optimize_area[cell_position.x + cell_position.y * OPTIMZE_AREA_SIZE]
+	if tile_type == -1:
+		return -1
+	debug_print_randomize_area()
+	for x in range(tile_type + 1):
+		for y in range(tile_type + 1):
+			optimize_area.set((cell_position.x + x)  + (cell_position.y + y) * OPTIMZE_AREA_SIZE, -1)
+	debug_print_randomize_area()
+	return tile_type
+
+
+func reset_tile_group(cell):
+	for x in range(cell.tile_type + 1):
+		for y in range(cell.tile_type + 1):
+			var c = chunk_manager.get_cellv(Vector2(cell.tile_origin.x + x, cell.tile_origin.y + y))
+			_change_cell(c, cell.tile_name)
+
+
+
+###############################################################################
+# Set area
+###############################################################################
+
+func randomize_area(top_position, size: int):
+	# set area to 1
+	prepare_randomize_area(top_position, size)
+#	debug_print_randomize_area()
+	
 	var cell
 	var tile_name
 	var rand_val = Global.get_fixed_value_for_position(top_position.x, top_position.y)
+	var pos_val
+	var cell_position
 	
 	for x in range(size):
 		for y in range(size):
-			rand_val = Global.get_fixed_value_for_position(top_position.x, top_position.y)
-			cell = chunk_manager.get_cellv(top_position + Vector2(x, y))
+			cell_position = top_position + Vector2(x, y)
+			cell = chunk_manager.get_cellv(cell_position)
 			if cell == null:
 				continue
+			
 			tile_name = cell.tile_name
-			if int(Global.get_pseudo_random() % 500) <= 5 - rand_val % 4:
-				cell.visible = true
-				cell.tile_name = tile_name
-				
-				var tile_type = rand_val % 4 #CellManager.LARGE
-				var cell_size = CellManager.get_cell_size(tile_name, tile_type)
-				var cell_texture = TilesetManager.get_tileset_texture(CellManager.get_cell_texture_name(tile_name, tile_type))
-				var region_rect = CellManager.get_cell_region(tile_name, Vector2.ZERO, tile_type)
-				var cell_pos = cell.position
-				
-				cell.size = cell_size
-				cell.texture = cell_texture
-				cell.texture_region_rect = Rect2(
-					region_rect[0], region_rect[1],
-					region_rect[2], region_rect[3])
-				
-				match tile_type:
-					0:
-						cell.tile_offset = Vector2(0, 0)
-					1:
-						cell.tile_offset = Vector2(-16, -12)
-					2:
-						cell.tile_offset = Vector2(-32, -18)
-					3:
-						cell.tile_offset = Vector2(-48, -23)
-					
-				
-				for ix in range(tile_type+1):
-					for iy in range(tile_type+1):
-						if not (ix == 0 and iy == 0):
-							cell = chunk_manager.get_cellv(top_position + Vector2(ix, iy) + Vector2(x, y))
-							if cell == null:
-								continue
-								
-							match tile_type:
-								0:
-									cell.tile_offset = Vector2(0, 0)
-								1:
-									cell.tile_offset = Vector2(-16, -12)
-								2:
-									cell.tile_offset = Vector2(-32, -18)
-								3:
-									cell.tile_offset = Vector2(-48, -23)
-							
-							cell.tile_offset -= (cell.position - cell_pos)
-							
-							cell.size = cell_size
-							cell.texture = cell_texture
-							cell.texture_region_rect = Rect2(
-								region_rect[0], region_rect[1],
-								region_rect[2], region_rect[3])
-							cell.visible = true
+			var tile_type = retrieve_randomize_area_tile_type(Vector2(x, y), true) #pos_val % CellManager.TILE_SIZES
+			if tile_type == -1:
 				continue
-#			else:
-#				cell.visible = false
+			
+			var cell_size = CellManager.get_cell_size(tile_name, tile_type)
+			var cell_texture = TilesetManager.get_tileset_texture(CellManager.get_cell_texture_name(tile_name, tile_type))
+			var region_rect = CellManager.get_cell_region(tile_name, Vector2.ZERO, tile_type)
+			var cell_pos = cell.position
+			cell.size = cell_size
+			cell.visible = true
+			cell.texture = cell_texture
+			cell.texture_region_rect = Rect2(
+				region_rect[0], region_rect[1],
+				region_rect[2], region_rect[3])
+			match tile_type:
+				0:
+					cell.tile_offset = Vector2(0, 0)
+				1:
+					cell.tile_offset = Vector2(-16, -12)
+				2:
+					cell.tile_offset = Vector2(-32, -18)
+				3:
+					cell.tile_offset = Vector2(-48, -23)
+				
+			for ix in range(tile_type+1):
+				for iy in range(tile_type+1):
+					if not (ix == 0 and iy == 0):
+						cell = chunk_manager.get_cellv(cell_position + Vector2(ix, iy))
+						if cell == null:
+							continue
+						cell.visible = false
+						cell.tile_origin = cell_position
 
 
 func area_same_tile(cell_position, size):
@@ -227,6 +294,7 @@ func _create_cell(cell_x: int, cell_y: int, tile_name: String, offset: Vector2 =
 	cell.visible = true
 	cell.position = TileMapUtils.map_to_world(Vector2(cell_x, cell_y))
 	cell.position.x -= Global.CELL_SIZE.x / 2
+	cell.tile_type = -1
 	
 	if offset.y == 0:
 		var cell_texture = CellManager.get_cell_texture_name(tile_name)
