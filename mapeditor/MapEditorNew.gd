@@ -26,11 +26,12 @@ onready var preview = $Preview
 
 onready var astar_tilemap = $AStarMap
 onready var map_manager = $MapManager
+onready var tileset_selection_buttons = find_node("TilesetsSelectionButtons")
 
 onready var brush_size_box = find_node("BrushSize")
 
-var selected_tile = "base_sh_grass"
-var brush_size = 20
+var selected_tile = ""
+var brush_size = 12
 
 
 func _ready():
@@ -52,10 +53,15 @@ func _ready():
 	###############
 	brush_size_box.text = str(brush_size)
 	
+	for cell in CellManager.cells:
+		if selected_tile == "":
+			selected_tile = cell
+		create_tileset_button(cell, cell)
+	
 	#create_example_map(Global.CHUNK_SIZE)
 	#create_example_map(Vector2(Global.CHUNK_SIZE.x * 3, Global.CHUNK_SIZE.y * 3))
 	
-	#create_example_map(Vector2(4, 4))
+	#create_example_map(Vector2(120, 120))
 	
 	return
 	
@@ -80,6 +86,14 @@ func _ready():
 	load_from_file("map_editor_test_save.txt")
 
 
+func create_tileset_button(tilset, button_text):
+	var button = Button.new()
+	button.text = button_text
+	tileset_selection_buttons.add_child(button)
+	button.connect("pressed", self, "_on_tilset_pressed", [tilset])
+	return button
+
+
 var _set_cells = []
 func brush_draw_rect(offset, width, height):
 	_set_cells.clear()
@@ -88,11 +102,14 @@ func brush_draw_rect(offset, width, height):
 	if width == 1 and height == 1:
 		map_manager.batch_set_cell([[offset.x, offset.y, selected_tile]])
 		return
-		
+	
+	map_manager.batch_set_cell_size(offset, width, height, selected_tile)
+	return
+	
 	for y in range(height):
 		for x in range(width):
 			_set_cells.append([offset.x + x + y, offset.y +-x + y, selected_tile])
-			_set_cells.append([offset.x  + x + y + 1, offset.y +-x + y, selected_tile])
+			_set_cells.append([offset.x + x + y + 1, offset.y +-x + y, selected_tile])
 	map_manager.batch_set_cell(_set_cells)
 
 
@@ -101,6 +118,8 @@ var mp_drawn
 func _unhandled_input(event):
 	if Input.is_action_pressed("mouse_left"):
 		var mp = map_manager.get_global_mouse_position()
+		mp.x -= Global.CELL_SIZE.x * brush_size / 2
+		mp.y -= Global.CELL_SIZE.y * brush_size / 2
 		mp = Global.world_to_isotile(mp)
 		if last_mp != mp:
 			mp_drawn = false
@@ -119,11 +138,16 @@ func _unhandled_input(event):
 				map_manager.set_cellv(Vector2(mp.x + x, mp.y + y), selected_tile, Vector2(0, -100))
 		return
 
-
+var tile_p
 func _process(delta: float) -> void:
 	#print(_chunks.size() * Global.CHUNK_SIZE * Global.CHUNK_SIZE)
 	var mp = map_manager.get_global_mouse_position()
 	preview.global_position = TileMapUtils.map_to_world(TileMapUtils.world_to_map(Vector2(mp.x, mp.y)))
+	
+#	var m = TileMapUtils.world_to_map(Vector2(mp.x, mp.y))
+#	tile_p = int(m.x) + int(m.y) * Global.MAP_SIZE#(int(m.x) % 4 + int(m.y) % 4) % 4
+#	tile_p = int(tile_p + int(m.y)) % 4
+#	find_node("DebugTextTile").text = str(tile_p + 1) 
 
 
 ##################################################################
@@ -186,13 +210,15 @@ func create_example_map(new_mapsize : Vector2):
 		for x in range(width):
 #		if cell_x % int(Global.CHUNK_SIZE.x) == 0 or cell_y % int(Global.CHUNK_SIZE.y) == 0:
 #			tile_name = "base_stone_wall"
+			
+			
 			if x % 20 == 0 or y % 20 == 0:
 				continue
-				_set_cells.append([base_offset.x + x + y, base_offset.y + -x + y, "base_stone_wall"])
-				_set_cells.append([base_offset.x + x + y + 1, base_offset.y +-x + y, "base_stone_wall"])
+				_set_cells.append([base_offset.x + x + y, base_offset.y + -x + y, selected_tile])
+				_set_cells.append([base_offset.x + x + y + 1, base_offset.y +-x + y, selected_tile])
 			else:
-				_set_cells.append([base_offset.x + x + y, base_offset.y + -x + y, "base_grass"])
-				_set_cells.append([base_offset.x + x + y + 1, base_offset.y +-x + y, "base_grass"])
+				_set_cells.append([base_offset.x + x + y, base_offset.y + -x + y, selected_tile])
+				_set_cells.append([base_offset.x + x + y + 1, base_offset.y +-x + y, selected_tile])
 	map_manager.batch_set_cell(_set_cells)
 	
 #	for x in range(new_mapsize.x):
@@ -229,17 +255,8 @@ func get_current_chunk_mouse():
 	return TileMapUtils.chunk_cell_to_chunk_pos(mp_cell.x, mp_cell.y)
 
 
-func _on_Button_pressed():
-	selected_tile = "base_grass"
-
-
-func _on_Button2_pressed():
-	selected_tile = "base_sh_sand"
-	#selected_tile = "base_stone_wall"
-
-
-func _on_Button3_pressed():
-	selected_tile = "base_sh_grass"
+func _on_tilset_pressed(tileset):
+	selected_tile = tileset
 
 
 func _on_BrushSize_text_changed(new_text):

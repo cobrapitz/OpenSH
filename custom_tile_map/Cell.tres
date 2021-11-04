@@ -4,10 +4,12 @@
 
 [resource]
 script = ExtResource( 1 )
+tile_name = ""
 visible = false
 size = Vector2( 0, 0 )
 position = Vector2( 0, 0 )
 offset = Vector2( 0, 0 )
-polygon = [  ]
+tile_offset = Vector2( 0, 0 )
 texture_region_rect = Rect2( 0, 0, 0, 0 )
-tile_name = ""
+chevron_region_rect = Rect2( 0, 0, 0, 0 )
+polygon = [  ]

@@ -42,8 +42,8 @@ func load_mod(mod_name: String, mods_base_path: String):
 		print("loading tileset from: ", mods_base_path + "/" + mod_name + "/resources/tilesets/" + tileset_name)
 		TilesetManager.load_tileset(mod_name + "_", mods_base_path + "/" + mod_name + "/resources/tilesets/" + tileset_name)
 	
-	for tileset in TilesetManager.tilesets:
-		print("result of loading tilesets: ", tileset, " -> ", TilesetManager.tilesets[tileset])
+#	for tileset in TilesetManager.tilesets:
+#		print("result of loading tilesets: ", tileset, " -> ", TilesetManager.tilesets[tileset])
 	print("Finished loading tilesets.")
 	print("#".repeat(35))
 	
@@ -58,8 +58,8 @@ func load_mod(mod_name: String, mods_base_path: String):
 		print("loading tileset from: ", mods_base_path + "/" + mod_name + "/resources/tiles/" + tile_name)
 		CellManager.load_cells(mod_name + "_", mods_base_path + "/" + mod_name + "/resources/tiles/" + tile_name)
 
-	for cell in CellManager.cells:
-		print("result of loading tiles: ", cell, " -> ", CellManager.cells[cell])
+#	for cell in CellManager.cells:
+#		print("result of loading tiles: ", cell, " -> ", CellManager.cells[cell])
 	print("Finished loading tiles.")
 	print("#".repeat(35))
 

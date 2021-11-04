@@ -19,12 +19,25 @@ func _init():
 
 func _draw():
 	for cell in cells:
-		if cell == null:
+		if cell == null: #or not cell.visible:
 			continue
-		cell.visible = true
-		draw_texture_rect_region(
-			cell.texture, Rect2(cell.position + cell.offset, cell.size),
-			cell.texture_region_rect)
+		#cell.visible = true
+		if cell.visible:
+			var x = TileMapUtils.world_to_map(cell.position).x
+			var y = TileMapUtils.world_to_map(cell.position).y
+			var val = Global.get_fixed_value_for_position(x, y) % 12
+			val /= 12.0
+			draw_texture_rect_region(
+				cell.texture, Rect2(cell.position + cell.offset + cell.tile_offset, cell.size),
+				cell.texture_region_rect)
+		else:
+			draw_texture_rect_region(
+				cell.texture, Rect2(cell.position + cell.offset + cell.tile_offset, cell.size),
+				cell.texture_region_rect, Color(1.0, 0.0, 0.0, 0.2))
+		if cell.chevron:
+			draw_texture_rect_region(
+				cell.chevron, Rect2(cell.position + cell.offset, cell.size),
+				cell.texture_region_rect)
 
 
 func _on_visibility_changed():

@@ -44,6 +44,6 @@ func load_tileset(mod_name: String, tileset_path: String):
 	for key in content.keys():
 		tilesets[mod_name+key] = {
 			"path": content[key],
-			"texture": load(content[key])
+			"texture": load(ProjectSettings.globalize_path("res://mods/") + content[key])
 		}
 	

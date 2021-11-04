@@ -230,6 +230,7 @@ limits/message_queue/max_size_kb=7000
 [network]
 
 limits/debugger_stdout/max_chars_per_second=8048
+limits/debugger_stdout/max_messages_per_frame=50
 
 [rendering]
 
