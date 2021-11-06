@@ -582,7 +582,7 @@ func can_building_be_placed_on_cells(cells : Array) -> bool:
 
 func get_tile_height(cell_position : Vector2):
 	var tile_height = Global.MAX_CELL_HEIGHT - \
-			ground_tilemap.get_cell_autotile_coord(cell_position.x, cell_position.y).x * Global.PIXEL_PER_HEIGHT
+			ground_tilemap.get_cell_autotile_coord(cell_position.x, cell_position.y).x
 	tile_height -= 36
 	return tile_height
 

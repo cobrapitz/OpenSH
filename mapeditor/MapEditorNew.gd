@@ -31,14 +31,13 @@ onready var tileset_selection_buttons = find_node("TilesetsSelectionButtons")
 onready var brush_size_box = find_node("BrushSize")
 
 var selected_tile = ""
-var brush_size = 12
+var brush_size = 4
+
+var last_mp
+var mp_drawn
 
 
 func _ready():
-	#create_example_map(Vector2(50, 50))
-	#_update_used_rect(cell)
-	#_update_pathfinding()
-	#_init_map()
 	preview.modulate.a = 0.5
 	
 	DebugOverlay.track_func(Engine, "get_frames_per_second", "FPS: ")
@@ -46,44 +45,17 @@ func _ready():
 	DebugOverlay.track_func(self, "get_current_chunk_cell_mouse", "Chunk Cell Position: ")
 	DebugOverlay.track_func(self, "get_current_chunk_mouse", "Chunk: ")
 	DebugOverlay.track_func(self, "_get_draw_calls", "Draw Calls: ")
-	#DebugOverlay.track_func(self, "", "Zoom: ")
 	
-	###############
-	# init
-	###############
 	brush_size_box.text = str(brush_size)
-	
-	for cell in CellManager.cells:
+	for cell in CellManager.cells_data:
 		if selected_tile == "":
 			selected_tile = cell
 		create_tileset_button(cell, cell)
 	
-	#create_example_map(Global.CHUNK_SIZE)
 	#create_example_map(Vector2(Global.CHUNK_SIZE.x * 3, Global.CHUNK_SIZE.y * 3))
-	
 	#create_example_map(Vector2(120, 120))
-	
-	return
-	
-	create_example_map(Vector2(Global.CHUNK_SIZE.x * 10, Global.CHUNK_SIZE.y * 10))
-	
-	save_to_file("map_editor_test_save.txt")
-	
-	print("#".repeat(30))
-	
-	print("Cells:")
-	for cell in CellManager.cells:
-		print(cell, " - ", CellManager.cells[cell])
-	
-	print("-".repeat(15))
-	
-	print("Tilesets:")
-	for tileset in TilesetManager.tilesets:
-		print(tileset, " - ", TilesetManager.tilesets[tileset])
-	
-	print("#".repeat(30))
-	
-	load_from_file("map_editor_test_save.txt")
+	#save_to_file("map_editor_test_save.txt")
+	#load_from_file("map_editor_test_save.txt")
 
 
 func create_tileset_button(tilset, button_text):
@@ -100,7 +72,8 @@ func brush_draw_rect(offset, width, height):
 	if width < 1 or height < 1:
 		return
 	if width == 1 and height == 1:
-		map_manager.batch_set_cell([[offset.x, offset.y, selected_tile]])
+		#map_manager.batch_set_cell([[offset.x, offset.y, selected_tile]])
+		map_manager.batch_set_cell_size(offset, width, height, selected_tile)
 		return
 	
 	map_manager.batch_set_cell_size(offset, width, height, selected_tile)
@@ -112,12 +85,15 @@ func brush_draw_rect(offset, width, height):
 			_set_cells.append([offset.x + x + y + 1, offset.y +-x + y, selected_tile])
 	map_manager.batch_set_cell(_set_cells)
 
-
-var last_mp
-var mp_drawn
 func _unhandled_input(event):
+	pass
+
+
+func _process(delta: float) -> void:
+	var mp = map_manager.get_global_mouse_position()
+	preview.global_position = TileMapUtils.map_to_world(TileMapUtils.world_to_map(Vector2(mp.x, mp.y)))
+	
 	if Input.is_action_pressed("mouse_left"):
-		var mp = map_manager.get_global_mouse_position()
 		mp.x -= Global.CELL_SIZE.x * brush_size / 2
 		mp.y -= Global.CELL_SIZE.y * brush_size / 2
 		mp = Global.world_to_isotile(mp)
@@ -129,25 +105,7 @@ func _unhandled_input(event):
 		mp_drawn = true
 		
 		brush_draw_rect(mp, brush_size, brush_size)
-		return
-		var radius = brush_size
-		for yi in range(radius):
-			var y = yi - radius/2
-			for xi in range(radius):
-				var x = xi - radius/2
-				map_manager.set_cellv(Vector2(mp.x + x, mp.y + y), selected_tile, Vector2(0, -100))
-		return
 
-var tile_p
-func _process(delta: float) -> void:
-	#print(_chunks.size() * Global.CHUNK_SIZE * Global.CHUNK_SIZE)
-	var mp = map_manager.get_global_mouse_position()
-	preview.global_position = TileMapUtils.map_to_world(TileMapUtils.world_to_map(Vector2(mp.x, mp.y)))
-	
-#	var m = TileMapUtils.world_to_map(Vector2(mp.x, mp.y))
-#	tile_p = int(m.x) + int(m.y) * Global.MAP_SIZE#(int(m.x) % 4 + int(m.y) % 4) % 4
-#	tile_p = int(tile_p + int(m.y)) % 4
-#	find_node("DebugTextTile").text = str(tile_p + 1) 
 
 
 ##################################################################
@@ -184,13 +142,12 @@ func load_from_file(file_path: String):
 #		for cell in content.chunks[chunk]:
 #			var pos = str2var(cell)
 #			var data = content.chunks[chunk][cell]
-#			map_manager.set_cell_data(pos.x, pos.y, data.tile_name)
+
 
 
 ##################################################################
 # Cell placement
 ##################################################################
-
 
 func set_cell_world(world_x: float, world_y: float, cell_id: float, offset: Vector2 = Vector2()):
 	var cell_position = TileMapUtils.world_to_map(Vector2(world_x, world_y))
@@ -220,10 +177,6 @@ func create_example_map(new_mapsize : Vector2):
 				_set_cells.append([base_offset.x + x + y, base_offset.y + -x + y, selected_tile])
 				_set_cells.append([base_offset.x + x + y + 1, base_offset.y +-x + y, selected_tile])
 	map_manager.batch_set_cell(_set_cells)
-	
-#	for x in range(new_mapsize.x):
-#		for y in range(new_mapsize.y):
-#			map_manager.set_cell_data(x, y, "base_grass")
 	
 	Global.get_time(name, "creating map took: ")
 

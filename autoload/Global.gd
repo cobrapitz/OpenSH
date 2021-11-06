@@ -86,17 +86,16 @@ const CELL_Y_HALF = CELL_SIZE.y / 2
 
 # Map editor different chunks size as ingame since editing causes chunks to redraw
 # so we shrink the chunk size for the map editor
-const MAP_EDITOR_CHUNK_SIZE = Vector2(20, 20)
+const MAP_EDITOR_CHUNK_SIZE = Vector2(25, 25)
 
 var CHUNK_SIZE = MAP_EDITOR_CHUNK_SIZE#Vector2(50, 50)#Vector2(50, 50)
 const MAP_SIZE = int(MAX_SQURE_INT * 0.1) # arbitrary large number for 1Dimensional array of cells/tiles
 
 # chunks is 1D Array for faster access, max chunks -> max_width * max_width
-const MAX_CHUNKS_SIZE_WIDTH = 40 #500
+const MAX_CHUNKS_SIZE_WIDTH = 25 #500
 const CACHE_CELLS_SIZE = 5000
 
 const MAX_CELL_HEIGHT = 124
-const PIXEL_PER_HEIGHT = 8
 
 
 # 200 x (randi() % 2147483646)
