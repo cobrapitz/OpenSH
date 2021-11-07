@@ -108,17 +108,18 @@ func get_chunk(cell_position: Vector2):
 
 func set_cellv(cell_position: Vector2, cell):
 	var chunk_id = get_chunk_id(cell_position)
+	var chunk : Chunk = chunks[chunk_id]
 	
 	cell_position.x = int(cell_position.x) % int(Global.CHUNK_SIZE.x)
 	cell_position.y = int(cell_position.y) % int(Global.CHUNK_SIZE.y)
 	if chunk_id >= chunks.size():
 		return -1
 	
-	if not chunks[chunk_id].filled:
-		chunks[chunk_id].fill()
-		chunks[chunk_id].update()
+	if not chunk.filled:
+		chunk.fill()
+		chunk.update()
 	
-	chunks[chunk_id].set_cellv(cell_position, cell)
+	chunk.set_cellv(cell_position, cell)
 	
 	if not chunk_id in redraw_chunks:
 		redraw_chunks.append(chunk_id)
@@ -128,6 +129,10 @@ func set_cellv(cell_position: Vector2, cell):
 
 func get_cellv(cell_position: Vector2):
 	var chunk_id = get_chunk_id(cell_position)
+	
+	if not chunks[chunk_id].filled:
+		chunks[chunk_id].fill()
+		chunks[chunk_id].update()
 	
 	cell_position.x = int(cell_position.x) % int(Global.CHUNK_SIZE.x)
 	cell_position.y = int(cell_position.y) % int(Global.CHUNK_SIZE.y)

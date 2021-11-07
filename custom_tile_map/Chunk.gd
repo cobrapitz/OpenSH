@@ -44,8 +44,8 @@ func fill():
 	for x in range(Global.CHUNK_SIZE.x):
 		for y in range(Global.CHUNK_SIZE.y):
 			cells[x + y * Global.CHUNK_SIZE.x] = CellManager._create_cell(
-				(x + (chunk_position.x * Global.CHUNK_SIZE.x)), 
-				(y + (chunk_position.y * Global.CHUNK_SIZE.y)) ,
+				(x + (chunk_position.x * Global.CHUNK_SIZE.x)),
+				(y + (chunk_position.y * Global.CHUNK_SIZE.y)),
 				CellManager.cells_data.keys()[0]
 			)
 			cell_references[x + y * Global.CHUNK_SIZE.x] = cells[x + y * Global.CHUNK_SIZE.x]
@@ -70,10 +70,14 @@ func print_cells():
 
 
 const tile_type_colors =[
-	Color.green,
-	Color(0.0, 1.0, 0.0, 0.2),#Color.violet,
-	Color(0.0, 0.0, 1.0, 0.2),#Color.yellow,
-	Color(1.0, 0.0, 0.0, 0.2),#Color.red,
+	Color(0.0, 1.0, 0.0, 0.2),
+#	Color(1.0, 1.0, 0.0, 0.2),
+#	Color(0.0, 0.0, 1.0, 0.2),
+#	Color(1.0, 0.0, 0.0, 0.2),
+#	Color.green,
+	Color.violet,
+	Color.yellow,
+	Color.red,
 ]
 func _draw():
 	#_sort_cells()
@@ -81,11 +85,22 @@ func _draw():
 		if cell == null: #or not cell.visible:
 			continue
 		if cell.visible:
-			#if cell.tile_name == "base_sh_grass_tileset":
-			#	continue
 			draw_texture_rect_region(
 				cell.texture, Rect2(cell.position + cell.offset + cell.tile_offset, cell.size),
-				cell.texture_region_rect)#, tile_type_colors[cell.tile_type])
+				cell.texture_region_rect
+				#, tile_type_colors[cell.tile_type]
+				)
+		elif DebugOverlay.show_hidden_tiles:
+			draw_texture_rect_region(
+					cell.texture, Rect2(cell.position + cell.offset + cell.tile_offset, cell.size),
+					cell.texture_region_rect, Color.slateblue)
+			
+			#if cell.tile_name == "base_sh_grass_tileset":
+			#	continue
+		
+#		if cell.tile_type > 0:
+#			print("here")
+#
 			#var x = TileMapUtils.world_to_map(cell.position).x
 			#var y = TileMapUtils.world_to_map(cell.position).y
 			#var val = Global.get_fixed_value_for_position(x, y) % 12
@@ -123,6 +138,7 @@ func get_cell_idx(idx: int):
 
 
 func set_cellv(cell_position: Vector2, cell):
+	print('set cell: ', cell_position)
 	cells[get_cell_idv(cell_position)] = cell
 
 
@@ -186,19 +202,3 @@ func get_cell_ref(cell_x: int, cell_y: int):
 	return cell_references[cell_x + cell_y * Global.CHUNK_SIZE.x]
 
 
-
-######################################################
-
-func get_single_row(row_i: int):
-	var tiles = []
-	
-	var x = row_i
-	var y = row_i
-	for i in range(Global.CHUNK_SIZE.x):
-		if i % 2 == 0:
-			x += 1
-		else:
-			y -= 1
-		tiles.append(Vector2(x, y))
-		
-	return tiles

@@ -27,6 +27,7 @@ onready var preview = $Preview
 onready var astar_tilemap = $AStarMap
 onready var map_manager = $MapManager
 onready var tileset_selection_buttons = find_node("TilesetsSelectionButtons")
+onready var gui_panel = find_node("GUIPanel")
 
 onready var brush_size_box = find_node("BrushSize")
 
@@ -94,6 +95,9 @@ func _process(delta: float) -> void:
 	preview.global_position = TileMapUtils.map_to_world(TileMapUtils.world_to_map(Vector2(mp.x, mp.y)))
 	
 	if Input.is_action_pressed("mouse_left"):
+		if gui_panel.get_rect().has_point(gui_panel.get_global_mouse_position()):
+			return
+		
 		mp.x -= Global.CELL_SIZE.x * brush_size / 2
 		mp.y -= Global.CELL_SIZE.y * brush_size / 2
 		mp = Global.world_to_isotile(mp)

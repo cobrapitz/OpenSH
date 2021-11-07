@@ -94,8 +94,10 @@ func _change_cell(cell, tile_name: String, offset:= Vector2.ZERO, tile_type = Ce
 	cell.texture = TilesetManager.get_tileset_texture(cell_texture)
 	cell.tile_name = tile_name
 	cell.visible = true
+	cell.offset = offset
 	cell.tile_type = tile_type
 	cell.size = CellManager.get_cell_size(tile_name, tile_type)
+	cell.tile_offset = CellManager.get_cell_offset(tile_type)
 	var region_rect = CellManager.get_cell_region(tile_name, offset, tile_type)
 	cell.texture_region_rect = Rect2(
 		region_rect[0], region_rect[1],
@@ -112,6 +114,21 @@ func _create_cell(cell_x: int, cell_y: int, tile_name: String,
 	_change_cell(cell, tile_name, offset, tile_type)
 	
 	return cell
+
+
+func get_cell_offset(tile_type: int) -> Vector2:
+	match tile_type:
+		0:
+			return Vector2(0, 0)
+		1:
+			return Vector2(-16, -9)
+		2:
+			return Vector2(-33, -17)
+		3:
+			return Vector2(-48, -23)
+	
+	assert(false, "NO offset for type")
+	return Vector2.ZERO
 
 
 func get_cell_data(cell_id):
