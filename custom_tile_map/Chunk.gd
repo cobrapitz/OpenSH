@@ -138,7 +138,6 @@ func get_cell_idx(idx: int):
 
 
 func set_cellv(cell_position: Vector2, cell):
-	print('set cell: ', cell_position)
 	cells[get_cell_idv(cell_position)] = cell
 
 

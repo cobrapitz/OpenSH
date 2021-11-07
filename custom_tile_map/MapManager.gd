@@ -44,6 +44,7 @@ func batch_set_cell_size(offset, width, height, tile_name):
 			#set_cell(cell_x, cell_y, "base_sh_swamp_tileset", Vector2.ZERO, 
 			#0)
 			#Global.get_fixed_value_for_position(cell_x, cell_y) % 4)
+	
 	# fill with 2x2,3x3,4x4
 	for y in range(height):
 		for x in range(width):
@@ -61,10 +62,8 @@ func batch_set_cell_size(offset, width, height, tile_name):
 		for x in range(width * 2):
 			var cell_x = offset.x + x
 			var cell_y = offset.y + y - height
-			
 			var cell_ref = chunk_manager.get_cell_refv(Vector2(cell_x, cell_y))
 			var c = chunk_manager.get_cellv(Vector2(cell_x, cell_y))
-			
 			if c == null:
 				continue
 			
