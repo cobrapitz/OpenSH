@@ -32,7 +32,7 @@ onready var gui_panel = find_node("GUIPanel")
 onready var brush_size_box = find_node("BrushSize")
 
 var selected_tile = ""
-var brush_size = 4
+var brush_size = 12
 
 var last_mp
 var mp_drawn

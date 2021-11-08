@@ -110,6 +110,7 @@ func _create_cell(cell_x: int, cell_y: int, tile_name: String,
 	
 	cell.position = TileMapUtils.map_to_world(Vector2(cell_x, cell_y))
 	cell.position.x -= Global.CELL_SIZE.x / 2
+	cell.cell_position = Vector2(cell_x, cell_y)
 	
 	_change_cell(cell, tile_name, offset, tile_type)
 	

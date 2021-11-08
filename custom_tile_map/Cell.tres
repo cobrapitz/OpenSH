@@ -13,5 +13,4 @@ tile_offset = Vector2( 0, 0 )
 texture_region_rect = Rect2( 0, 0, 0, 0 )
 chevron_region_rect = Rect2( 0, 0, 0, 0 )
 polygon = [  ]
-tile_origin = Vector2( 0, 0 )
 tile_type = 0

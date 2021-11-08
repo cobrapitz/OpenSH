@@ -19,6 +19,9 @@ export(Rect2) var chevron_region_rect
 export(Array) var polygon
 
 # used for 
-export(Vector2) var tile_origin
 export(int) var tile_type
+
+var cell_position
+var cell_ref
  
+

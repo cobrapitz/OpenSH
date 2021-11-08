@@ -22,6 +22,9 @@ var optimize_area = PoolIntArray()
 func _ready():
 	optimize_area.resize(OPTIMZE_AREA_SIZE * OPTIMZE_AREA_SIZE)
 	#reset_optimize_container()
+	
+	for i in range(20):
+		set_cell(randi() % 100, randi() % 100, "base_debug_numbers_tileset", Vector2.ZERO, CellManager.LARGE)
 
 
 func clear_map():
@@ -29,54 +32,109 @@ func clear_map():
 
 
 func batch_set_cell_size(offset, width, height, tile_name):
-	var chunks_to_update = []
-	var max_x = 0
-	var max_y = 0
-	var min_x = offset.x
-	var min_y = offset.y
+	"""
+	1. set biome in brush-area (square shape)
+	2. break all cells in area, that holds the square inside up
+	   to 1x1 without changing biome (<> shape)
+	3. combine areas to 4x4,3x3,2x2 (<> shape)
+	4. fill rest with 1x1 (<> shape)
+	"""
 	
-	for y in range(height * 2):
-		for x in range(width * 2):
-			var cell_x = offset.x + x
-			var cell_y = offset.y + y - height
-			chunk_manager.reset_cell_refv(Vector2(cell_x, cell_y))
-			var cell = chunk_manager.get_cellv(Vector2(cell_x, cell_y))
-			#set_cell(cell_x, cell_y, "base_sh_swamp_tileset", Vector2.ZERO, 
-			#0)
-			#Global.get_fixed_value_for_position(cell_x, cell_y) % 4)
-	
-	# fill with 2x2,3x3,4x4
+	# 1. Set biome
 	for y in range(height):
 		for x in range(width):
 			for i in [0, 1]:
 				var cell_x = offset.x + x + y + i
 				var cell_y = offset.y +-x + y
-				var tile_type = Global.get_fixed_value_for_position(cell_x, cell_y)
-				var cell_ref = chunk_manager.get_cell_refv(Vector2(cell_x, cell_y))
-				
-				tile_type = tile_type % CellManager.TILE_SIZES
-				set_cell(cell_x, cell_y, tile_name, Vector2.ZERO, tile_type)
-	# fill left empty with 1x1
-	var filled = 0
+				var cell = chunk_manager.get_cellv(Vector2(cell_x, cell_y))
+				cell.tile_name = tile_name
+				set_cell_biomev(Vector2(cell_x, cell_y), cell.tile_name)
+	
+	# 2. break all cells in area 4x4,3x3,2x2, without changing biome
 	for y in range(height * 2):
 		for x in range(width * 2):
 			var cell_x = offset.x + x
 			var cell_y = offset.y + y - height
-			var cell_ref = chunk_manager.get_cell_refv(Vector2(cell_x, cell_y))
-			var c = chunk_manager.get_cellv(Vector2(cell_x, cell_y))
-			if c == null:
-				continue
+			var cell = chunk_manager.get_cellv(Vector2(cell_x, cell_y))
 			
-			if cell_ref == null:
-				filled += 1
-				set_cell(cell_x, cell_y, tile_name, Vector2.ZERO, 0)
-	print("Filled ", filled, "x 1x1 tiles")
+			# if the cell ref and cell are not the same (and not null)
+			# that means that the tile is hidden, because it's overlapped by
+			# a 2x2,3x3,4x4 tile
+			# note: cell_ref is always the tile on the top 
+			if cell.cell_ref != null:
+				var tile_it = cell.cell_ref.tile_type + 1
+				for ix in range(tile_it):
+					for iy in range(tile_it):
+						var cell_p = Vector2(
+							cell.cell_ref.cell_position.x + ix,
+							cell.cell_ref.cell_position.y + iy
+						)
+						var other_cell = chunk_manager.get_cellv(cell_p)
+						if other_cell == cell:
+							#print("continue: ", ix, ", ", iy, " -> ", cell_p)
+							continue
+						#print(ix, ", ", iy, " -> ", cell_p)
+						other_cell.cell_ref = null
+						set_cell(cell_p.x, cell_p.y, other_cell.tile_name, other_cell.offset, CellManager.SMALL)
+				
+				cell.cell_ref = null
+				set_cell(cell.cell_position.x, cell.cell_position.y, cell.tile_name, cell.offset, CellManager.SMALL)
+			# if the cell is a bigger than 1x1 then replace it with 1x1 tiles
+			elif cell.tile_type > CellManager.SMALL:
+				for ix in range(cell.tile_type + 1):
+					for iy in range(cell.tile_type + 1):
+						var other_cell = chunk_manager.get_cellv(Vector2(cell_x + ix, cell_y + iy))
+						other_cell.cell_ref = null
+						set_cell(cell_x + ix, cell_y + iy, cell.tile_name, Vector2.ZERO, CellManager.SMALL)
+			else:
+				cell.cell_ref = null
+				set_cell(cell_x, cell_y, cell.tile_name, Vector2.ZERO, CellManager.SMALL)
+	
+	
+	# 3. combine areas with same biome to 2x2,3x3,4x4 areas
+	for y in range(height * 2):
+		for x in range(width * 2):
+			var cell_x = offset.x + x
+			var cell_y = offset.y + y - height
+			var cell = chunk_manager.get_cellv(Vector2(cell_x, cell_y))
+			
+			# get random tile shape 1x1, 2x2, 3x3, 4x4
+			var tile_type = Global.get_fixed_value_for_position(cell_x, cell_y)
+			tile_type = tile_type % CellManager.TILE_SIZES
+			
+			var is_same = true
+			var current_biome = cell.tile_name
+			# check if tile type fits
+			for ix in range(tile_type + 1):
+				for iy in range(tile_type + 1):
+					var other_cell = chunk_manager.get_cellv(Vector2(cell_x + ix, cell_y + iy))
+					if other_cell.tile_name != current_biome:
+						is_same = false
+						break
+					if other_cell.cell_ref != null:
+						is_same = false
+						break
+				if not is_same:
+					break
+			
+			if not is_same:
+				continue
+			set_cell(cell_x, cell_y, cell.tile_name, Vector2.ZERO, tile_type)
+	
+	# 4. last step: fill left empty with 1x1
+	# not sure if this step is needed
 
 
 
 ###############################################################################
 # Set/Get cells
 ###############################################################################
+
+func set_cell_biomev(cell_position: Vector2, tile_name: String):
+	var cell = chunk_manager.get_cellv(cell_position)
+	CellManager._change_cell(cell, tile_name, cell.offset, cell.tile_type)
+	chunk_manager.set_cellv(cell_position, cell)
+
 
 func set_cellv(cell_position: Vector2, tile_name: String, offset := Vector2(0, 0), tile_type = CellManager.SMALL):
 	set_cell(int(cell_position.x), int(cell_position.y), tile_name, offset, tile_type)
@@ -90,28 +148,27 @@ func set_cell(cell_x: int, cell_y: int, tile_name: String, offset := Vector2(0, 
 	var cell_position = Vector2(cell_x, cell_y)
 	var cell = chunk_manager.get_cellv(cell_position)
 	
-	for x in range(tile_type + 1):
-		for y in range(tile_type + 1):
-			var cell_ref = chunk_manager.get_cell_refv(cell_position + Vector2(x, y))
-			if cell_ref != null:
-				return
-	
+#	for x in range(tile_type + 1):
+#		for y in range(tile_type + 1):
+#			var tcell = chunk_manager.get_cellv(cell_position + Vector2(x, y))
+#			if tcell.cell_ref != null:
+#				return
 	
 	if cell == null:
 		cell = CellManager._create_cell(cell_x, cell_y, tile_name, offset, tile_type)
 	else:
 		CellManager._change_cell(cell, tile_name, offset, tile_type)
 	
+	cell.cell_ref = null
 	# to update the chunks
 	chunk_manager.set_cellv(cell_position, cell)
 	
-	for x in range(tile_type + 1):
-		for y in range(tile_type + 1):
-			var other_cell = chunk_manager.get_cellv(cell_position + Vector2(x, y))
-			if other_cell == null:
-				continue
-			other_cell.visible = false
-			chunk_manager.set_cell_refv(cell_position + Vector2(x, y), cell)
+	if tile_type > 0:
+		for x in range(tile_type + 1):
+			for y in range(tile_type + 1):
+				var other_cell = chunk_manager.get_cellv(cell_position + Vector2(x, y))
+				other_cell.visible = false
+				other_cell.cell_ref = cell
 			
 	cell.visible = true
 
