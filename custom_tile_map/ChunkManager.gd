@@ -4,12 +4,12 @@ extends Node2D
 var shown_chunks = []
 var chunks = []
 
-var to_draw_ids = []
+#var to_draw_ids = []
 
 var redraw_chunks = []
 
 
-func _ready():
+func _ready():	
 	Global.set_timer(name)
 	
 	# prepare for insertion of chunks, only width is important bc of 1Dim array
@@ -31,6 +31,7 @@ func _process(delta: float):
 
 
 func _update_chunks():
+	return
 	for chunk_id in redraw_chunks:
 		chunks[chunk_id].update()
 	#update()
@@ -41,26 +42,130 @@ func _draw_chunk(idx: int):
 	pass
 
 
+var draw_custom = false
+var draw_offset
+var draw_width
+var draw_height
+func update_range(offset, width, height):
+	draw_offset = offset
+	draw_width = width
+	draw_height = height
+	draw_custom = true
+	update()
+
+
 func _draw():
-	for chunk in chunks:
-		chunk.show()
+#
+#	for y in range(Global.MAX_CHUNKS_SIZE_WIDTH):
+#		for i in [0, 1]:
+#			for x in range(Global.MAX_CHUNKS_SIZE_WIDTH):
+#				var chunk = chunks[x + y * Global.MAX_CHUNKS_SIZE_WIDTH]
+#				chunk.show()
+#	return
+#	for chunk in chunks:
+#		chunk.show()
+#	return
+	Global.set_timer(name)
+	if draw_custom:
+		for y in range(draw_height * 6):
+			for i in [0, 1]:
+				for x in range(draw_width * 6):
+					var cell_x = draw_offset.x + x + y + i - draw_height * 3
+					var cell_y = draw_offset.y +-x + y
+					var cell = get_cellv(Vector2(cell_x, cell_y))
+					if cell == null: #or not cell.visible:
+						continue
+					if cell.visible:
+						if cell.chevron and cell.tile_type < 1 and cell.offset.y < 0:
+							var c = Color(
+									1 - 0.6 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 
+									1 - 0.1 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 
+									1 - 0.6 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 1)
+							draw_texture_rect_region(
+								cell.chevron, Rect2(cell.position + cell.offset + Vector2(0, cell.size.y), 
+								CellManager.get_chevron_size(cell.tile_name)),
+								cell.chevron_region_rect#, c
+								)
+				for x in range(draw_width * 6):
+					var cell_x = draw_offset.x + x + y + i - draw_height * 3
+					var cell_y = draw_offset.y +-x + y
+					
+					var cell = get_cellv(Vector2(cell_x, cell_y))
+					if cell == null: #or not cell.visible:
+						continue
+					if cell.visible:
+						var c = Color(
+								1 - 0.6 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 
+								1 - 0.1 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 
+								1 - 0.6 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 1)
+						draw_texture_rect_region(
+							cell.texture, Rect2(cell.position + cell.offset + cell.tile_offset, cell.size),
+							cell.texture_region_rect#, c
+							#, tile_type_colors[cell.tile_type]
+							)
+		
+	Global.get_time(name)
 	return
-	var mp = get_chunk_position_world(get_global_mouse_position())
-	var draw_ids = get_surrounding_chunks(mp, 5)
-	for idx in draw_ids:
-		if idx >= chunks.size():
-			continue
-		if idx in to_draw_ids:
-			to_draw_ids.erase(idx)
-			if not chunks[idx].visible:
-				chunks[idx].show()
-		elif not chunks[idx].visible:
-			chunks[idx].show()
-	for idx in to_draw_ids:
-		if idx >= chunks.size():
-			continue
-		chunks[idx].hide()
-	to_draw_ids = draw_ids
+	Global.set_timer(name)
+	var offset = Vector2(0, 200)
+	for y in range(Global.CHUNK_SIZE.y * 2):
+		for i in [0, 1]:
+			for x in range(Global.CHUNK_SIZE.x * 2):
+				var cell_x = offset.x + x + y + i
+				var cell_y = offset.y +-x + y
+				
+				var cell = get_cellv(Vector2(cell_x, cell_y))
+				if cell == null: #or not cell.visible:
+					continue
+				if cell.visible:
+					if cell.chevron and cell.tile_type < 1 and cell.offset.y < 0:
+						var c = Color(
+								1 - 0.6 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 
+								1 - 0.1 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 
+								1 - 0.6 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 1)
+						draw_texture_rect_region(
+							cell.chevron, Rect2(cell.position + cell.offset + Vector2(0, cell.size.y), 
+							CellManager.get_chevron_size(cell.tile_name)),
+							cell.chevron_region_rect#, c
+							)
+			for x in range(Global.CHUNK_SIZE.x * 2):
+				var cell_x = offset.x + x + y + i
+				var cell_y = offset.y +-x + y
+				
+				var cell = get_cellv(Vector2(cell_x, cell_y))
+				if cell == null: #or not cell.visible:
+					continue
+				if cell.visible:
+					var c = Color(
+							1 - 0.6 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 
+							1 - 0.1 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 
+							1 - 0.6 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 1)
+					draw_texture_rect_region(
+						cell.texture, Rect2(cell.position + cell.offset + cell.tile_offset, cell.size),
+						cell.texture_region_rect#, c
+						#, tile_type_colors[cell.tile_type]
+						)
+				
+				
+	Global.get_time(name)
+	
+#	return
+#	var mp = get_chunk_position_world(get_global_mouse_position())
+#	var draw_ids = get_surrounding_chunks(mp, 5)
+#	for idx in draw_ids:
+#		if idx >= chunks.size():
+#			continue
+#		if idx in to_draw_ids:
+#			to_draw_ids.erase(idx)
+#			if not chunks[idx].visible:
+#				chunks[idx].show()
+#		elif not chunks[idx].visible:
+#			chunks[idx].show()
+#	for idx in to_draw_ids:
+#		if idx >= chunks.size():
+#			continue
+#		chunks[idx].hide()
+#	to_draw_ids = draw_ids
 
 
 func get_surrounding_chunks(chunk_pos, radius):
@@ -98,12 +203,12 @@ func create_chunk(x: int, y: int):
 	return chunk
 
 
-func get_chunk_worldv(world_pos: Vector2):
-	return chunks[get_chunk_id_world(world_pos)]
+#func get_chunk_worldv(world_pos: Vector2):
+#	return chunks[get_chunk_id_world(world_pos)]
 
 
-func get_chunk(cell_position: Vector2):
-	return chunks[get_chunk_id(cell_position)]
+#func get_chunk(cell_position: Vector2):
+#	return chunks[get_chunk_id(cell_position)]
 
 
 func set_cellv(cell_position: Vector2, cell):
@@ -140,40 +245,14 @@ func get_cellv(cell_position: Vector2):
 	return chunks[chunk_id].get_cell_by_position(cell_position)
 
 
-func set_cell_refv(cell_position: Vector2, cell):
-	var chunk_id = get_chunk_id(cell_position)
-	
-	chunks[chunk_id].set_cell_ref(
-			int(cell_position.x) % int(Global.CHUNK_SIZE.x), 
-			int(cell_position.y) % int(Global.CHUNK_SIZE.y),
-			cell)
-
-
-func get_cell_refv(cell_position: Vector2):
-	var chunk_id = get_chunk_id(cell_position)
-	
-	return chunks[chunk_id].get_cell_ref(
-		int(cell_position.x) % int(Global.CHUNK_SIZE.x),
-		int(cell_position.y) % int(Global.CHUNK_SIZE.y)
-	)
-
-
-func reset_cell_refv(cell_position: Vector2):
-	var chunk_id = get_chunk_id(cell_position)
-	
-	chunks[chunk_id].reset_cell_ref(
-			int(cell_position.x) % int(Global.CHUNK_SIZE.x), 
-			int(cell_position.y) % int(Global.CHUNK_SIZE.y))
-
-
 
 ##############################################
 # Chunk helper to get chunk id and chunk position
 ##############################################
 
-func get_chunk_id_world(pos: Vector2):
-	var cell = TileMapUtils.world_to_map(pos)
-	return get_chunk_id(cell)
+#func get_chunk_id_world(pos: Vector2):
+#	var cell = TileMapUtils.world_to_map(pos)
+#	return get_chunk_id(cell)
 
 
 func get_chunk_position_world(pos: Vector2):

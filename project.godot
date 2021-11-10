@@ -126,7 +126,9 @@ limits/debugger_stdout/max_messages_per_frame=50
 
 [rendering]
 
+quality/driver/driver_name="GLES2"
 quality/intended_usage/framebuffer_allocation=0
 quality/intended_usage/framebuffer_allocation.mobile=1
+batching/parameters/item_reordering_lookahead=15
 limits/buffers/immediate_buffer_size_kb=4096
 environment/default_environment="res://default_env.tres"

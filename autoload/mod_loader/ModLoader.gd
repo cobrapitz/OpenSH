@@ -62,6 +62,23 @@ func load_mod(mod_name: String, mods_base_path: String):
 #		print("result of loading tiles: ", cell, " -> ", CellManager.cells_data[cell])
 	print("Finished loading tiles.")
 	print("#".repeat(35))
+	
+	#------------------------------------------------------------------
+	
+	#------------------------------- chevrons loader -----------------------------------
+	
+	print("Loading chevrons...")
+
+	var chevron_paths = get_file_paths(mods_base_path + "/" + mod_name + "/resources/chevrons")
+	for chevron_name in chevron_paths:
+		print("loading chevrons from: ", mods_base_path + "/" + mod_name + "/resources/chevrons/" + chevron_name)
+		CellManager.load_cells(mod_name + "_", mods_base_path + "/" + mod_name + "/resources/chevrons/" + chevron_name)
+
+#	for cell in CellManager.cells_data:
+#		print("result of loading tiles: ", cell, " -> ", CellManager.cells_data[cell])
+	print("Finished chevrons tiles.")
+	print("#".repeat(35))
+	
 
 
 func get_directory_paths(base_folder):

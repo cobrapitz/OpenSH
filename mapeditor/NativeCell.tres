@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://native/bin/NativeCell.gdns" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+visible = false
+tile_name = ""
+tile_type = -1
+size = Vector2( 0, 0 )
+position = Vector2( 0, 0 )
+cell_position = Vector2( 0, 0 )
+offset = Vector2( 0, 0 )
+tile_offset = Vector2( 0, 0 )
+texture_region_rect = Rect2( 0, 0, 0, 0 )
+chevron_region_rect = Rect2( 0, 0, 0, 0 )
+polygons = [  ]

@@ -11,10 +11,6 @@ var cells := []
 var _to_draw := []
 var _drawn := []
 
-# each cell belongs to a cell or itself (use for map
-# where 4x4 cells overlap 15 other tiles)
-var cell_references = []
-
 var filled = false
 
 
@@ -29,18 +25,17 @@ class ChunkCellsSorter:
 		return false
 
 func _init():
+	#sort_enabled = false
 	connect("visibility_changed", self, "_on_visibility_changed")
 
 
 func fill_empty():
 	cells.resize(int(Global.CHUNK_SIZE.x * Global.CHUNK_SIZE.y))
-	cell_references.resize(int(Global.CHUNK_SIZE.x * Global.CHUNK_SIZE.y))
 
 
 func fill():
 	filled = true
 	cells.resize(int(Global.CHUNK_SIZE.x * Global.CHUNK_SIZE.y))
-	cell_references.resize(int(Global.CHUNK_SIZE.x * Global.CHUNK_SIZE.y))
 	for x in range(Global.CHUNK_SIZE.x):
 		for y in range(Global.CHUNK_SIZE.y):
 			cells[x + y * Global.CHUNK_SIZE.x] = CellManager._create_cell(
@@ -48,7 +43,6 @@ func fill():
 				(y + (chunk_position.y * Global.CHUNK_SIZE.y)),
 				CellManager.cells_data.keys()[0]
 			)
-			cell_references[x + y * Global.CHUNK_SIZE.x] = cells[x + y * Global.CHUNK_SIZE.x]
 
 
 func _sort_cells():
@@ -80,11 +74,48 @@ const tile_type_colors =[
 	Color.red,
 ]
 func _draw():
-	#_sort_cells()
+#	for y in range(Global.CHUNK_SIZE.y):
+#		for i in [0, 1]:
+#			for x in range(Global.CHUNK_SIZE.x):
+#				var cell_x = x + y + i
+#				var cell_y = -x + y
+#
+#				if cell_x + cell_y * Global.CHUNK_SIZE.x >= cells.size():
+#					continue
+#				var cell = cells[cell_x + cell_y * Global.CHUNK_SIZE.x] 
+#				if cell == null:
+#					continue
+#				var c = Color(
+#						1 - 0.6 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 
+#						1 - 0.1 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 
+#						1 - 0.6 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 1)
+#				if cell.chevron and cell.tile_type < 1 and cell.offset.y < 0:
+#					draw_texture_rect_region(
+#						cell.chevron, Rect2(cell.position + cell.offset + Vector2(0, cell.size.y), 
+#						CellManager.get_chevron_size(cell.tile_name)),
+#						cell.chevron_region_rect, c
+#					)
+#				draw_texture_rect_region(
+#					cell.texture, Rect2(cell.position + cell.offset + cell.tile_offset, cell.size),
+#					cell.texture_region_rect
+#					#, tile_type_colors[cell.tile_type]
+#				)
+#
+	return
 	for cell in cells:
 		if cell == null: #or not cell.visible:
 			continue
 		if cell.visible:
+			var c = Color(
+					1 - 0.6 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 
+					1 - 0.1 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 
+					1 - 0.6 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 1)
+			if cell.chevron and cell.tile_type < 1 and cell.offset.y < 0:
+				draw_texture_rect_region(
+					cell.chevron, Rect2(cell.position + cell.offset + Vector2(0, cell.size.y), 
+					CellManager.get_chevron_size(cell.tile_name)),
+					cell.chevron_region_rect, c
+					)
 			draw_texture_rect_region(
 				cell.texture, Rect2(cell.position + cell.offset + cell.tile_offset, cell.size),
 				cell.texture_region_rect
@@ -94,7 +125,7 @@ func _draw():
 			draw_texture_rect_region(
 					cell.texture, Rect2(cell.position + cell.offset + cell.tile_offset, cell.size),
 					cell.texture_region_rect, Color.slateblue)
-			
+		
 			#if cell.tile_name == "base_sh_grass_tileset":
 			#	continue
 		
@@ -131,10 +162,6 @@ func get_cell_idv(cell_position: Vector2):
 
 func get_cell_by_position(cell_position: Vector2):
 	return cells[get_cell_idv(cell_position)]
-
-
-func get_cell_idx(idx: int):
-	return cells[idx]
 
 
 func set_cellv(cell_position: Vector2, cell):
@@ -187,17 +214,4 @@ func load_save_data(data: Dictionary):
 				cell_data.tile_name, cell_offset)
 		
 		set_cellv(cell_chunk_pos, cell)
-
-
-func reset_cell_ref(cell_x: int, cell_y: int):
-	cell_references[cell_x + cell_y * Global.CHUNK_SIZE.x] = null
-
-
-func set_cell_ref(cell_x: int, cell_y: int, cell):
-	cell_references[cell_x + cell_y * Global.CHUNK_SIZE.x] = cell
-
-
-func get_cell_ref(cell_x: int, cell_y: int):
-	return cell_references[cell_x + cell_y * Global.CHUNK_SIZE.x]
-
 

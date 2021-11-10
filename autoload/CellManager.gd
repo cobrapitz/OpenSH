@@ -9,6 +9,7 @@ Textures will be assigned by the mod loader.
 
 
 const Cell : Resource = preload("res://custom_tile_map/Cell.tres")
+const NativeCell = preload("res://mapeditor/NativeCell.tres")
 
 const TILE_SIZES = 4
 
@@ -102,14 +103,23 @@ func _change_cell(cell, tile_name: String, offset:= Vector2.ZERO, tile_type = Ce
 	cell.texture_region_rect = Rect2(
 		region_rect[0], region_rect[1],
 		region_rect[2], region_rect[3])
+	
+	var chevron_texture = CellManager.get_cell_chevron_texture_name(tile_name, tile_type)
+	cell.chevron = TilesetManager.get_tileset_texture(chevron_texture)
+	var chevron_rect = get_chevron_region(chevron_texture, offset, tile_type)
+	cell.chevron_region_rect = Rect2(
+		chevron_rect[0], chevron_rect[1],
+		chevron_rect[2], chevron_rect[3])
 
 
 func _create_cell(cell_x: int, cell_y: int, tile_name: String, 
 		offset: Vector2 = Vector2.ZERO, tile_type = CellManager.SMALL):
-	var cell = Cell.duplicate()
+	var cell = NativeCell.duplicate() #Cell.duplicate()
 	
-	cell.position = TileMapUtils.map_to_world(Vector2(cell_x, cell_y))
+	var pos = TileMapUtils.map_to_world(Vector2(cell_x, cell_y))
+	cell.position = pos
 	cell.position.x -= Global.CELL_SIZE.x / 2
+	
 	cell.cell_position = Vector2(cell_x, cell_y)
 	
 	_change_cell(cell, tile_name, offset, tile_type)
@@ -168,8 +178,29 @@ func get_cell_region(cell_id, offset = Vector2.ZERO, cell_type = SMALL):
 			print("Invalid Resource type: ", cells_data[cell_id].type)
 
 
+func get_chevron_region(chevron_id, offset = Vector2.ZERO, cell_type = SMALL):
+	return [0, 0, 30, 160]
+	match cells_data[chevron_id]:
+		"":
+			return [0, 0, 30, 16]
+		_:
+			print("Invalid Resource type: ", cells_data[chevron_id].type)
+
+
+func get_chevron_size(cell_id):
+	return Vector2(
+		cells_data[cells_data[cell_id].chevrons].cell_width, 
+		cells_data[cells_data[cell_id].chevrons].cell_height
+	)
+
+
 func get_cell_texture_name(cell_id, cell_type = SMALL):
 	return cells_data[cell_id].ground_texture_data.values()[cell_type].texture
+
+
+func get_cell_chevron_texture_name(cell_id, cell_type = SMALL):
+	var chevrons_name = cells_data[cell_id].chevrons
+	return cells_data[chevrons_name].texture
 
 
 func get_ground_tile_region(cell_id, cell_type = SMALL):
@@ -203,6 +234,31 @@ func load_cells(mod_name: String, cells_path: String):
 	
 	for key in content.keys():
 		match content[key].type:
+			"chevron":
+				var data = content[key]
+				cells_data[mod_name+key] = {
+					"mod_name": mod_name,
+					"type": data.type,
+					"variant": data.variant,
+					"cell_height": data.cell_height,
+					"cell_width": data.cell_width,
+					"texture": mod_name + data.texture,
+					"regions": []
+				}
+				var width = data.cell_height
+				var height = data.cell_width
+				
+				var start_x = data.texture_regions.start[0]
+				var start_y = data.texture_regions.start[1]
+				var end_x = data.texture_regions.end[0]
+				var end_y =  data.texture_regions.end[1]
+				
+				for x in range(start_x, end_x):
+					for y in range(start_y, end_y):
+						cells_data[mod_name+key].regions.append(
+							[x * width, y * height, width, height]
+						)
+				
 			"tree":
 				pass
 			"tile":
