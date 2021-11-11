@@ -13,6 +13,23 @@ export_presets.cfg
 data_*/
 exports/
 
-# Godot Addons
+# Godot Addons  
 addons/Godoxel/*
 addons/godot-yaml/*
+
+
+# VSCode & VS
+.vscode/*
+native/src/.vs/
+
+########################## C++ (https://github.com/github/gitignore/blob/master/C%2B%2B.gitignore)
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Executables
+*.exe
+*.out
+*.app
