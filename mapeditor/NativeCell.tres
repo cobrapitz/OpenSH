@@ -1,6 +1,6 @@
 [gd_resource type="Resource" load_steps=2 format=2]
 
-[ext_resource path="res://native/bin/NativeCell.gdns" type="Script" id=1]
+[ext_resource path="res://native/bin/Cell.gdns" type="Script" id=1]
 
 [resource]
 script = ExtResource( 1 )

@@ -25,7 +25,7 @@ Some info:
 onready var preview = $Preview
 
 onready var astar_tilemap = $AStarMap
-onready var map_manager = $MapManager
+onready var map_manager = get_child(0)
 onready var tileset_selection_buttons = find_node("TilesetsSelectionButtons")
 onready var gui_panel = find_node("GUIPanel")
 

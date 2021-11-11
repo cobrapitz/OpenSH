@@ -1,5 +1,4 @@
 extends YSort
-class_name Chunk
 
 const Cell = preload("res://custom_tile_map/Cell.tres")
 

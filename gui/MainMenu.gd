@@ -6,7 +6,7 @@ func _ready():
 
 
 func _on_MapEditor_pressed():
-	get_tree().change_scene_to(preload("res://mapeditor/MapEditor.tscn"))
+	get_tree().change_scene_to(preload("res://mapeditor/MapEditorNative.tscn"))
 
 
 func _on_Start_pressed():

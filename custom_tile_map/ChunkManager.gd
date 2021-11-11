@@ -16,7 +16,7 @@ func _ready():
 	# of chunks see get_chunk_id
 	#chunks.resize(Global.MAX_CHUNKS_SIZE_WIDTH * Global.MAX_CHUNKS_SIZE_WIDTH)
 	for i in range(Global.MAX_CHUNKS_SIZE_WIDTH * Global.MAX_CHUNKS_SIZE_WIDTH):
-		var chunk = Chunk.new()
+		var chunk = preload("res://custom_tile_map/Chunk.gd").new()
 		chunk.chunk_position = chunk_id_to_chunk_pos(i)
 		add_child(chunk)
 		chunks.append(chunk)
@@ -188,7 +188,7 @@ func get_surrounding_chunks(chunk_pos, radius):
 
 
 func create_chunkv(chunk_position: Vector2):
-	var chunk = Chunk.new()
+	var chunk = preload("res://custom_tile_map/Chunk.gd").new()
 	chunk.chunk_position = chunk_position
 	chunks[get_chunk_id(chunk_position)] = chunk
 	add_child(chunk)
@@ -196,7 +196,7 @@ func create_chunkv(chunk_position: Vector2):
 
 
 func create_chunk(x: int, y: int):
-	var chunk = Chunk.new()
+	var chunk = preload("res://custom_tile_map/Chunk.gd").new()
 	chunk.chunk_position = Vector2(x, y)
 	chunks[get_chunk_id(Vector2(x, y))] = chunk
 	add_child(chunk)
@@ -213,7 +213,7 @@ func create_chunk(x: int, y: int):
 
 func set_cellv(cell_position: Vector2, cell):
 	var chunk_id = get_chunk_id(cell_position)
-	var chunk : Chunk = chunks[chunk_id]
+	var chunk = chunks[chunk_id]
 	
 	cell_position.x = int(cell_position.x) % int(Global.CHUNK_SIZE.x)
 	cell_position.y = int(cell_position.y) % int(Global.CHUNK_SIZE.y)
@@ -316,7 +316,7 @@ func load_save_data(data):
 	for chunk_position in data["chunks"]:
 		var chunk_data = data["chunks"][chunk_position]
 		
-		var chunk = Chunk.new()
+		var chunk = preload("res://custom_tile_map/Chunk.gd").new()
 		chunk.chunk_position = str2var(chunk_position)
 		add_child(chunk)
 		chunk.visible = false

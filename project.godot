@@ -13,15 +13,9 @@ _global_script_classes=[ {
 "class": "Building",
 "language": "GDScript",
 "path": "res://buildings/Building.gd"
-}, {
-"base": "YSort",
-"class": "Chunk",
-"language": "GDScript",
-"path": "res://custom_tile_map/Chunk.gd"
 } ]
 _global_script_class_icons={
-"Building": "",
-"Chunk": ""
+"Building": ""
 }
 
 [addons]

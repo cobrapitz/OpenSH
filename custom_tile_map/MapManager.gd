@@ -25,7 +25,7 @@ func _ready():
 
 
 func create_chunk(chunk_position):
-	var chunk = Chunk.new()
+	var chunk = preload("res://custom_tile_map/Chunk.gd").new()
 	add_child(chunk)
 	chunks.append(chunk)
 	chunk.fill_empty()
@@ -216,7 +216,7 @@ func set_cell(cell_x: int, cell_y: int, tile_name: String, offset := Vector2(0, 
 	# to update the chunks
 	var chunk_index = chunk_manager.set_cellv(cell_position, cell)
 	
-	print("chunk_index (normal): ", chunk_index)
+	#print("chunk_index (normal): ", chunk_index)
 	
 	if tile_type > 0:
 		for x in range(tile_type + 1):
