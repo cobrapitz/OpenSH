@@ -3,6 +3,10 @@
 #include "cell.h"
 #include "chunk_manager.h"
 #include "cell_manager.h"
+#include "tile_map_utils.h"
+#include "mod_loader.h"
+#include "tileset.h"
+#include "helper.h"
 
 extern "C" void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options *o) {
     godot::Godot::gdnative_init(o);
@@ -20,5 +24,9 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle) {
     godot::register_class<godot::Cell>();
     godot::register_class<godot::MapManager>();
     godot::register_class<godot::CellManager>();
+    godot::register_class<godot::sh::TileMapUtils>();
+    godot::register_class<godot::CellManager>();
+    // godot::register_class<godot::sh::Tileset>();
+    godot::register_class<godot::sh::Helper>();
 }
 

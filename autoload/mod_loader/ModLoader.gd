@@ -40,10 +40,10 @@ func load_mod(mod_name: String, mods_base_path: String):
 	var tileset_paths = get_file_paths(mods_base_path + "/" + mod_name + "/resources/tilesets")
 	for tileset_name in tileset_paths:
 		print("loading tileset from: ", mods_base_path + "/" + mod_name + "/resources/tilesets/" + tileset_name)
-		TilesetManager.load_tileset(mod_name + "_", mods_base_path + "/" + mod_name + "/resources/tilesets/" + tileset_name)
+		TilesetManagergd.load_tileset(mod_name + "_", mods_base_path + "/" + mod_name + "/resources/tilesets/" + tileset_name)
 	
-#	for tileset in TilesetManager.tilesets:
-#		print("result of loading tilesets: ", tileset, " -> ", TilesetManager.tilesets[tileset])
+#	for tileset in TilesetManagergd.tilesets:
+#		print("result of loading tilesets: ", tileset, " -> ", TilesetManagergd.tilesets[tileset])
 	print("Finished loading tilesets.")
 	print("#".repeat(35))
 	
@@ -55,11 +55,11 @@ func load_mod(mod_name: String, mods_base_path: String):
 
 	var tile_paths = get_file_paths(mods_base_path + "/" + mod_name + "/resources/tiles")
 	for tile_name in tile_paths:
-		print("loading tileset from: ", mods_base_path + "/" + mod_name + "/resources/tiles/" + tile_name)
-		CellManager.load_cells(mod_name + "_", mods_base_path + "/" + mod_name + "/resources/tiles/" + tile_name)
+		print("loading tiles from: ", mods_base_path + "/" + mod_name + "/resources/tiles/" + tile_name)
+		CellManagergd.load_cells(mod_name + "_", mods_base_path + "/" + mod_name + "/resources/tiles/" + tile_name)
 
-#	for cell in CellManager.cells_data:
-#		print("result of loading tiles: ", cell, " -> ", CellManager.cells_data[cell])
+#	for cell in CellManagergd.cells_data:
+#		print("result of loading tiles: ", cell, " -> ", CellManagergd.cells_data[cell])
 	print("Finished loading tiles.")
 	print("#".repeat(35))
 	
@@ -72,10 +72,10 @@ func load_mod(mod_name: String, mods_base_path: String):
 	var chevron_paths = get_file_paths(mods_base_path + "/" + mod_name + "/resources/chevrons")
 	for chevron_name in chevron_paths:
 		print("loading chevrons from: ", mods_base_path + "/" + mod_name + "/resources/chevrons/" + chevron_name)
-		CellManager.load_cells(mod_name + "_", mods_base_path + "/" + mod_name + "/resources/chevrons/" + chevron_name)
+		CellManagergd.load_cells(mod_name + "_", mods_base_path + "/" + mod_name + "/resources/chevrons/" + chevron_name)
 
-#	for cell in CellManager.cells_data:
-#		print("result of loading tiles: ", cell, " -> ", CellManager.cells_data[cell])
+#	for cell in CellManagergd.cells_data:
+#		print("result of loading tiles: ", cell, " -> ", CellManagergd.cells_data[cell])
 	print("Finished chevrons tiles.")
 	print("#".repeat(35))
 	

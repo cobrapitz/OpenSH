@@ -20,92 +20,22 @@ const LARGE = 3
 
 var cells_data := {}
 
-
-class CellData:
-	var position: Vector2
-	var visible: bool
-	var size: Vector2
-	var tile_type: int
-	var offset: Vector2
-	
-	var texture_rect: Rect2
-	var chevron_rect: Rect2
-	
-	var tile_name: String
-	var texture#_id#: String
-	var chevron_id: String
-
-enum {
-	XPos, YPos,
-	Visible,
-	TileType,
-	Off,
-	SizeX, SizeY,
-	TRectX, TRectY, TRectW, TRectH,
-	TOffX, TOffY,
-
-	ChevRectX, ChevRectY, ChevRectW, ChevRectH,
-
-	TextureId,
-	ChevronId,
-	TileId,
-}
-
-
-
-
-func create_cell(cell_x: int, cell_y: int, tile_name: String, offset: Vector2 = Vector2.ZERO):
-	var region_rect = CellManager.get_cell_region(tile_name, offset)
-	
-	var cell = [
-		cell_x, cell_y,
-		true,
-		-1,
-		Vector2.ZERO,
-		get_cell_width(tile_name), get_cell_height(tile_name),
-		region_rect[0], region_rect[1], region_rect[2], region_rect[3],
-		0, 0,
-		region_rect[0], region_rect[1], region_rect[2], region_rect[3],
-		0, 0,
-		CellManager.get_cell_texture_name(tile_name),
-		CellManager.get_cell_texture_name(tile_name),
-		tile_name,
-	]
-	#created_cells += 1
-#	cell.tile_name = tile_name
-#	cell.visible = true
-#	cell.position = TileMapUtils.map_to_world(Vector2(cell_x, cell_y))
-#	cell.position.x -= Global.CELL_SIZE.x / 2
-#	cell.tile_type = -1
-#
-#	if offset.y == 0:
-#		var cell_texture = CellManager.get_cell_texture_name(tile_name)
-#		cell.texture = TilesetManager.get_tileset_texture(cell_texture)
-#		cell.size = CellManager.get_cell_size(tile_name)
-#		cell.texture_rect = Rect2(
-#			region_rect[0], region_rect[1],
-#			region_rect[2], region_rect[3])
-#	else:
-#		print("no height implemented!")
-	return cell
-
-	
-func _change_cell(cell, tile_name: String, offset:= Vector2.ZERO, tile_type = CellManager.SMALL):
-	var cell_texture = CellManager.get_cell_texture_name(tile_name, tile_type)
-	cell.texture = TilesetManager.get_tileset_texture(cell_texture)
+func _change_cell(cell, tile_name: String, offset:= Vector2.ZERO, tile_type = CellManagergd.SMALL):
+	var cell_texture = CellManagergd.get_cell_texture_name(tile_name, tile_type)
+	cell.texture = TilesetManagergd.get_tileset_texture(cell_texture)
 	cell.tile_name = tile_name
 	cell.visible = true
 	cell.offset = offset
 	cell.tile_type = tile_type
-	cell.size = CellManager.get_cell_size(tile_name, tile_type)
-	cell.tile_offset = CellManager.get_cell_offset(tile_type)
-	var region_rect = CellManager.get_cell_region(tile_name, offset, tile_type)
+	cell.size = CellManagergd.get_cell_size(tile_name, tile_type)
+	cell.tile_offset = CellManagergd.get_cell_offset(tile_type)
+	var region_rect = CellManagergd.get_cell_region(tile_name, offset, tile_type)
 	cell.texture_region_rect = Rect2(
 		region_rect[0], region_rect[1],
 		region_rect[2], region_rect[3])
 	
-	var chevron_texture = CellManager.get_cell_chevron_texture_name(tile_name, tile_type)
-	cell.chevron = TilesetManager.get_tileset_texture(chevron_texture)
+	var chevron_texture = CellManagergd.get_cell_chevron_texture_name(tile_name, tile_type)
+	cell.chevron = TilesetManagergd.get_tileset_texture(chevron_texture)
 	var chevron_rect = get_chevron_region(chevron_texture, offset, tile_type)
 	cell.chevron_region_rect = Rect2(
 		chevron_rect[0], chevron_rect[1],
@@ -113,10 +43,10 @@ func _change_cell(cell, tile_name: String, offset:= Vector2.ZERO, tile_type = Ce
 
 
 func _create_cell(cell_x: int, cell_y: int, tile_name: String, 
-		offset: Vector2 = Vector2.ZERO, tile_type = CellManager.SMALL):
+		offset: Vector2 = Vector2.ZERO, tile_type = CellManagergd.SMALL):
 	var cell = NativeCell.duplicate() #Cell.duplicate()
 	
-	var pos = TileMapUtils.map_to_world(Vector2(cell_x, cell_y))
+	var pos = TileMapUtilsgd.map_to_world(Vector2(cell_x, cell_y))
 	cell.position = pos
 	cell.position.x -= Global.CELL_SIZE.x / 2
 	
@@ -225,7 +155,7 @@ func load_cells(mod_name: String, cells_path: String):
 		return
 	
 	var content = JSON.parse(file.get_as_text())
-	
+	file.close()
 	if content.error != OK:
 		printerr("Couldn't read cell path file: ", cells_path)
 		return
@@ -315,28 +245,4 @@ func load_cells(mod_name: String, cells_path: String):
 								[x * width, y * height, width, height]
 							)
 				
-#				for region_key in range(data.ground_texture_data.texture_regions):
-#					cells_data[mod_name+key].ground_texture_data.texture = \
-#							mod_name + cells_data[mod_name+key].ground_texture_data.regions
-#
-#					cells_data[mod_name+key].chevrons_data.texture = \
-#							mod_name + cells_data[mod_name+key].chevrons_data.texture
-				
-#				for region_rect in content[key].regions:
-#					cells_data[mod_name+key].append({
-#						"region_rect": region_rect,
-#						"texture": mod_name + content[key].texture,
-#						"chevron_texture": mod_name + content[key].chevron_texture,
-#					})
-#		continue
-#		if "regions" in content[key]:
-#			cells_data[mod_name+key] = []
-#			for region_rect in content[key].regions:
-#				cells_data[mod_name+key].append({
-#					"region_rect": region_rect,
-#					"texture": mod_name + content[key].texture
-#				})
-#		else:
-#			cells_data[mod_name+key] = {}
-#			cells_data[mod_name+key].region_rect = content[key].region_rect
-#			cells_data[mod_name+key].texture = mod_name + content[key].texture
+

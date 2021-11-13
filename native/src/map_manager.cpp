@@ -66,8 +66,8 @@ void MapManager::batch_change_cell_height_delta(Vector2 offset, int width, int h
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             for (int i = 0; i < 2; i++) {
-                int cell_x = offset.x + x + y + i;
-                int cell_y = offset.y - x + y;
+                int cell_x = int(offset.x + x + y + i);
+                int cell_y = int(offset.y - x + y);
                 //Godot::print(String("height cell: ") + String::num(cell_x) + ", ", String::num(cell_y));
                 Ref<Cell> cell = chunk_manager->get_cellv(Vector2{(real_t)cell_x, (real_t)cell_y});
 
@@ -92,23 +92,23 @@ void MapManager::batch_change_cell_height_delta(Vector2 offset, int width, int h
 								continue;
                             }
                             other_cell->cell_ref = nullptr;
-                            set_cell(cell_p.x, cell_p.y, other_cell->tile_name, other_cell->offset - Vector2(0, height_delta), 0); //CellManager.SMALL
+                            set_cell(int(cell_p.x), int(cell_p.y), other_cell->tile_name, other_cell->offset - Vector2(0, (real_t)height_delta), 0); //CellManager.SMALL
                         }
                     }
 					cell->cell_ref = nullptr;
-					set_cell(cell->cell_position.x, cell->cell_position.y, cell->tile_name, cell->offset - Vector2(0, height_delta), 0); //CellManager.SMALL
+					set_cell(int(cell->cell_position.x), int(cell->cell_position.y), cell->tile_name, cell->offset - Vector2(0, (real_t)height_delta), 0); //CellManager.SMALL
 
                 } else if (cell->tile_type > 0) { //CellManager.SMALL
                     for (int iy = 0; iy < cell->tile_type; iy++) {
                         for (int ix = 0; ix < cell->tile_type; ix++) {
 							Ref<Cell> other_cell = chunk_manager->get_cellv(Vector2{(real_t)(cell_x + ix), (real_t)(cell_y + iy)});
 							other_cell->cell_ref = nullptr;
-							set_cell(cell_x + ix, cell_y + iy, cell->tile_name, other_cell->offset - Vector2(0, height_delta), 0); //CellManager.SMALL
+							set_cell(cell_x + ix, cell_y + iy, cell->tile_name, other_cell->offset - Vector2(0, (real_t)height_delta), 0); //CellManager.SMALL
                         }
                     }
                 } else {
                     cell->cell_ref = nullptr;
-					set_cell(cell_x, cell_y, cell->tile_name, cell->offset - Vector2(0, height_delta), 0); // CellManager.SMALL
+					set_cell(cell_x, cell_y, cell->tile_name, cell->offset - Vector2(0, (real_t)height_delta), 0); // CellManager.SMALL
                 }
             }
         }    
@@ -150,7 +150,7 @@ void MapManager::set_cell(int cell_x, int cell_y, String tile_name, Vector2 offs
 	if (tile_type > 0) {
 		for (int x = 0; x < tile_type + 1; x++) {
             for (int y = 0; y < tile_type + 1; y++) {
-				Ref<Cell> other_cell = chunk_manager->get_cellv(cell_position + Vector2(x, y));
+				Ref<Cell> other_cell = chunk_manager->get_cellv(cell_position + Vector2((real_t)x, (real_t)y));
 				other_cell->visible = false;
 				other_cell->cell_ref = cell;
             }

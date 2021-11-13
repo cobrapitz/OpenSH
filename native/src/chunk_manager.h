@@ -4,6 +4,7 @@
 #include <Node2D.hpp>
 
 #include "chunk.h"
+#include "cell_manager.h"
 
 namespace godot {
 
@@ -12,7 +13,7 @@ class ChunkManager : public Node2D {
 
 private:
     Node* global;
-    Node* cell_manager;
+    CellManager* cell_manager;
 
 public:
     Array shown_chunks;

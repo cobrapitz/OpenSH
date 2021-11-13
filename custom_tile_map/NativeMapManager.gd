@@ -12,7 +12,7 @@ func _ready():
 	print("map manager starts setting some tiles...")
 	for x in range(5):
 		for y in range(5):
-			set_cell(x * 20, y * 20, "base_debug_numbers_tileset", Vector2.ZERO, CellManager.LARGE)
+			set_cell(x * 20, y * 20, "base_debug_numbers_tileset", Vector2.ZERO, CellManagergd.LARGE)
 
 
 
@@ -45,20 +45,20 @@ func batch_change_cell_height_delta(offset, width, height, height_delta):
 								continue
 							#print(ix, ", ", iy, " -> ", cell_p)
 							other_cell.cell_ref = null
-							set_cell(cell_p.x, cell_p.y, other_cell.tile_name, other_cell.offset - Vector2(0, height_delta), CellManager.SMALL)
+							set_cell(cell_p.x, cell_p.y, other_cell.tile_name, other_cell.offset - Vector2(0, height_delta), CellManagergd.SMALL)
 					
 					cell.cell_ref = null
-					set_cell(cell.cell_position.x, cell.cell_position.y, cell.tile_name, cell.offset - Vector2(0, height_delta), CellManager.SMALL)
+					set_cell(cell.cell_position.x, cell.cell_position.y, cell.tile_name, cell.offset - Vector2(0, height_delta), CellManagergd.SMALL)
 				# if the cell is a bigger than 1x1 then replace it with 1x1 tiles
-				elif cell.tile_type > CellManager.SMALL:
+				elif cell.tile_type > CellManagergd.SMALL:
 					for ix in range(cell.tile_type + 1):
 						for iy in range(cell.tile_type + 1):
 							var other_cell = chunk_manager.get_cellv(Vector2(cell_x + ix, cell_y + iy))
 							other_cell.cell_ref = null
-							set_cell(cell_x + ix, cell_y + iy, cell.tile_name, other_cell.offset - Vector2(0, height_delta), CellManager.SMALL)
+							set_cell(cell_x + ix, cell_y + iy, cell.tile_name, other_cell.offset - Vector2(0, height_delta), CellManagergd.SMALL)
 				else:
 					cell.cell_ref = null
-					set_cell(cell_x, cell_y, cell.tile_name, cell.offset - Vector2(0, height_delta), CellManager.SMALL)
+					set_cell(cell_x, cell_y, cell.tile_name, cell.offset - Vector2(0, height_delta), CellManagergd.SMALL)
 	#chunk_manager.update_range(offset, width, height)
 	chunk_manager.update()
 
@@ -108,20 +108,20 @@ func batch_set_cell_size(offset, width, height, tile_name):
 							continue
 						#print(ix, ", ", iy, " -> ", cell_p)
 						other_cell.cell_ref = null
-						set_cell(cell_p.x, cell_p.y, other_cell.tile_name, other_cell.offset, CellManager.SMALL)
+						set_cell(cell_p.x, cell_p.y, other_cell.tile_name, other_cell.offset, CellManagergd.SMALL)
 				
 				cell.cell_ref = null
-				set_cell(cell.cell_position.x, cell.cell_position.y, cell.tile_name, cell.offset, CellManager.SMALL)
+				set_cell(cell.cell_position.x, cell.cell_position.y, cell.tile_name, cell.offset, CellManagergd.SMALL)
 			# if the cell is a bigger than 1x1 then replace it with 1x1 tiles
-			elif cell.tile_type > CellManager.SMALL:
+			elif cell.tile_type > CellManagergd.SMALL:
 				for ix in range(cell.tile_type + 1):
 					for iy in range(cell.tile_type + 1):
 						var other_cell = chunk_manager.get_cellv(Vector2(cell_x + ix, cell_y + iy))
 						other_cell.cell_ref = null
-						set_cell(cell_x + ix, cell_y + iy, cell.tile_name, other_cell.offset, CellManager.SMALL)
+						set_cell(cell_x + ix, cell_y + iy, cell.tile_name, other_cell.offset, CellManagergd.SMALL)
 			else:
 				cell.cell_ref = null
-				set_cell(cell_x, cell_y, cell.tile_name, cell.offset, CellManager.SMALL)
+				set_cell(cell_x, cell_y, cell.tile_name, cell.offset, CellManagergd.SMALL)
 	
 	# 3. combine areas with same biome to 2x2,3x3,4x4 areas
 	for y in range(height * 2):
@@ -132,7 +132,7 @@ func batch_set_cell_size(offset, width, height, tile_name):
 			
 			# get random tile shape 1x1, 2x2, 3x3, 4x4
 			var tile_type = Global.get_fixed_value_for_position(cell_x, cell_y)
-			tile_type = tile_type % CellManager.TILE_SIZES
+			tile_type = tile_type % CellManagergd.TILE_SIZES
 			
 			var is_same = true
 			var current_biome = cell.tile_name
@@ -167,15 +167,15 @@ func set_cell_biomev(cell_position: Vector2, tile_name: String):
 	if cell_position.x < 0 or cell_position.y < 0:
 		return
 	var cell = chunk_manager.get_cellv(cell_position)
-	CellManager._change_cell(cell, tile_name, cell.offset, cell.tile_type)
+	CellManagergd._change_cell(cell, tile_name, cell.offset, cell.tile_type)
 	chunk_manager.set_cellv(cell_position, cell)
 
 
-func set_cellv(cell_position: Vector2, tile_name: String, offset := Vector2(0, 0), tile_type = CellManager.SMALL):
+func set_cellv(cell_position: Vector2, tile_name: String, offset := Vector2(0, 0), tile_type = CellManagergd.SMALL):
 	set_cell(int(cell_position.x), int(cell_position.y), tile_name, offset, tile_type)
 
 
-func set_cell(cell_x: int, cell_y: int, tile_name: String, offset := Vector2(0, 0), tile_type = CellManager.SMALL):
+func set_cell(cell_x: int, cell_y: int, tile_name: String, offset := Vector2(0, 0), tile_type = CellManagergd.SMALL):
 	if cell_x < 0 or cell_y < 0:
 		return
 	
@@ -191,9 +191,9 @@ func set_cell(cell_x: int, cell_y: int, tile_name: String, offset := Vector2(0, 
 #				return
 	
 	if cell == null:
-		cell = CellManager._create_cell(cell_x, cell_y, tile_name, offset, tile_type)
+		cell = CellManagergd._create_cell(cell_x, cell_y, tile_name, offset, tile_type)
 	else:
-		CellManager._change_cell(cell, tile_name, offset, tile_type)
+		CellManagergd._change_cell(cell, tile_name, offset, tile_type)
 	
 	cell.cell_ref = null
 	# to update the chunks

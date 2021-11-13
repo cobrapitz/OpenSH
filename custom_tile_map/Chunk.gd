@@ -37,10 +37,10 @@ func fill():
 	cells.resize(int(Global.CHUNK_SIZE.x * Global.CHUNK_SIZE.y))
 	for x in range(Global.CHUNK_SIZE.x):
 		for y in range(Global.CHUNK_SIZE.y):
-			cells[x + y * Global.CHUNK_SIZE.x] = CellManager._create_cell(
+			cells[x + y * Global.CHUNK_SIZE.x] = CellManagergd._create_cell(
 				(x + (chunk_position.x * Global.CHUNK_SIZE.x)),
 				(y + (chunk_position.y * Global.CHUNK_SIZE.y)),
-				CellManager.cells_data.keys()[0]
+				CellManagergd.cells_data.keys()[0]
 			)
 
 
@@ -91,7 +91,7 @@ func _draw():
 #				if cell.chevron and cell.tile_type < 1 and cell.offset.y < 0:
 #					draw_texture_rect_region(
 #						cell.chevron, Rect2(cell.position + cell.offset + Vector2(0, cell.size.y), 
-#						CellManager.get_chevron_size(cell.tile_name)),
+#						CellManagergd.get_chevron_size(cell.tile_name)),
 #						cell.chevron_region_rect, c
 #					)
 #				draw_texture_rect_region(
@@ -112,7 +112,7 @@ func _draw():
 			if cell.chevron and cell.tile_type < 1 and cell.offset.y < 0:
 				draw_texture_rect_region(
 					cell.chevron, Rect2(cell.position + cell.offset + Vector2(0, cell.size.y), 
-					CellManager.get_chevron_size(cell.tile_name)),
+					CellManagergd.get_chevron_size(cell.tile_name)),
 					cell.chevron_region_rect, c
 					)
 			draw_texture_rect_region(
@@ -131,8 +131,8 @@ func _draw():
 #		if cell.tile_type > 0:
 #			print("here")
 #
-			#var x = TileMapUtils.world_to_map(cell.position).x
-			#var y = TileMapUtils.world_to_map(cell.position).y
+			#var x = TileMapUtilsgd.world_to_map(cell.position).x
+			#var y = TileMapUtilsgd.world_to_map(cell.position).y
 			#var val = Global.get_fixed_value_for_position(x, y) % 12
 			#val /= 12.0
 #		else:
@@ -184,7 +184,7 @@ func get_save_data():
 	for cell in cells:
 		if cell == null:
 			continue
-		data[var2str(get_cellv(TileMapUtils.world_to_map(cell.position)))] = {
+		data[var2str(get_cellv(TileMapUtilsgd.world_to_map(cell.position)))] = {
 			#"visible": cell.visible,
 			"position": var2str(cell.position),
 			#"size": var2str(cell.size), # probably don't need
@@ -203,12 +203,12 @@ func load_save_data(data: Dictionary):
 		var cell_data = data[cell_map_position]
 		
 		var cell_pos = str2var(cell_data.position)
-		cell_pos = TileMapUtils.world_to_map(cell_pos)
+		cell_pos = TileMapUtilsgd.world_to_map(cell_pos)
 		var cell_offset = str2var(cell_data.offset)
 		var cell_chunk_pos = str2var(cell_map_position)
 		
 		# TODO add tile type
-		var cell = CellManager._create_cell(
+		var cell = CellManagergd._create_cell(
 				cell_pos.x, cell_pos.y, 
 				cell_data.tile_name, cell_offset)
 		

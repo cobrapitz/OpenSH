@@ -1,7 +1,10 @@
 #include "chunk_manager.h"
 
 #include <string>
+
 #include "common.h"
+#include "tile_map_utils.h"
+#include "helper.h"
 
 using namespace godot;
 
@@ -35,12 +38,12 @@ ChunkManager::~ChunkManager() {
 
 void ChunkManager::_ready() {
     global = get_node("/root/Global");
-    cell_manager = get_node("/root/CellManager");
+    cell_manager = Object::cast_to<CellManager>(get_node("/root/CellManager"));
 
     assertm(global != nullptr, "Couldn't find 'Global'!");
     assertm(cell_manager != nullptr, "Couldn't find 'CellManager'!");
 
-    global->call("set_timer", String("ChunkManager"));
+    sh::Helper::get_singleton()->set_timer("ChunkManager");
 
     int max_chunks_size_width = static_cast<int>(MAX_CHUNKS_SIZE_WIDTH);
     //chunks.resize(max_chunks_size_width * max_chunks_size_width);
@@ -59,25 +62,8 @@ void ChunkManager::_ready() {
     set_draw_range(Vector2(200.0, 200.0), 100, 100);
 
     Godot::print(String("Creating chunks: ") + String::num(chunks.size()));
-    global->call("get_time", String("ChunkManager"));
 
-	// Global.set_timer(name)
-	
-	// # prepare for insertion of chunks, only width is important bc of 1Dim array
-	// # of chunks see get_chunk_id
-	// #chunks.resize(Global.MAX_CHUNKS_SIZE_WIDTH * Global.MAX_CHUNKS_SIZE_WIDTH)
-	// for i in range(Global.MAX_CHUNKS_SIZE_WIDTH * Global.MAX_CHUNKS_SIZE_WIDTH):
-	// 	var chunk = Chunk.new()
-	// 	chunk.chunk_position = chunk_id_to_chunk_pos(i)
-	// 	add_child(chunk)
-	// 	chunks.append(chunk)
-	// 	chunk.fill_empty()
-	
-	// Global.get_time(name)
-
-
-    // float test = static_cast<float>(((Vector2)global->get("CHUNK_SIZE")).x);
-    // String testString = String(std::to_string(test).c_str());
+    sh::Helper::get_singleton()->get_time("ChunkManager");
 }
 
 void ChunkManager::_init() {
@@ -94,7 +80,7 @@ void ChunkManager::_draw() {
     // Godot::print(String("draw_width: ") + String::num(draw_width));
     // Godot::print(String("draw_offset: " + String(draw_offset)));
 
-    global->call("set_timer", String("ChunkManagerDraw"));
+    sh::Helper::get_singleton()->set_timer("ChunkManagerDraw");
 
     for (int y = 0; y < draw_height; y++) {
         for (int i = 0; i < 2; i++) {
@@ -146,7 +132,7 @@ void ChunkManager::_draw() {
             }    
         }
     }
-    global->call("get_time", String("ChunkManagerDraw"));
+    sh::Helper::get_singleton()->get_time("ChunkManagerDraw");
 }
 
 Vector2 ChunkManager::get_chunk_position(Vector2 cell_position) {

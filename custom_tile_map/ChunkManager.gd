@@ -83,7 +83,7 @@ func _draw():
 									1 - 0.6 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 1)
 							draw_texture_rect_region(
 								cell.chevron, Rect2(cell.position + cell.offset + Vector2(0, cell.size.y), 
-								CellManager.get_chevron_size(cell.tile_name)),
+								CellManagergd.get_chevron_size(cell.tile_name)),
 								cell.chevron_region_rect#, c
 								)
 				for x in range(draw_width * 6):
@@ -125,7 +125,7 @@ func _draw():
 								1 - 0.6 * (cell.offset.y) / Global.MAX_CELL_HEIGHT, 1)
 						draw_texture_rect_region(
 							cell.chevron, Rect2(cell.position + cell.offset + Vector2(0, cell.size.y), 
-							CellManager.get_chevron_size(cell.tile_name)),
+							CellManagergd.get_chevron_size(cell.tile_name)),
 							cell.chevron_region_rect#, c
 							)
 			for x in range(Global.CHUNK_SIZE.x * 2):
@@ -251,12 +251,12 @@ func get_cellv(cell_position: Vector2):
 ##############################################
 
 #func get_chunk_id_world(pos: Vector2):
-#	var cell = TileMapUtils.world_to_map(pos)
+#	var cell = TileMapUtilsgd.world_to_map(pos)
 #	return get_chunk_id(cell)
 
 
 func get_chunk_position_world(pos: Vector2):
-	var cell = TileMapUtils.world_to_map(pos)
+	var cell = TileMapUtilsgd.world_to_map(pos)
 	return get_chunk_position(cell)
 
 

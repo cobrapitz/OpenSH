@@ -54,7 +54,7 @@ func _ready():
 	DebugOverlay.track_func(self, "_get_draw_calls", "Draw Calls: ")
 	
 	brush_size_box.text = str(brush_size)
-	for cell in CellManager.cells_data:
+	for cell in CellManagergd.cells_data:
 		if selected_tile == "":
 			selected_tile = cell
 		create_tileset_button(cell, cell)
@@ -111,7 +111,7 @@ func _unhandled_input(event):
 
 func _process(delta: float) -> void:
 	var mp = map_manager.get_global_mouse_position()
-	preview.global_position = TileMapUtils.map_to_world(TileMapUtils.world_to_map(Vector2(mp.x, mp.y)))
+	preview.global_position = TileMapUtilsgd.map_to_world(TileMapUtilsgd.world_to_map(Vector2(mp.x, mp.y)))
 	
 	if Input.is_action_pressed("mouse_left"):
 		if gui_panel.get_rect().has_point(gui_panel.get_global_mouse_position()):
@@ -185,7 +185,7 @@ func load_from_file(file_path: String):
 ##################################################################
 
 func set_cell_world(world_x: float, world_y: float, cell_id: float, offset: Vector2 = Vector2()):
-	var cell_position = TileMapUtils.world_to_map(Vector2(world_x, world_y))
+	var cell_position = TileMapUtilsgd.world_to_map(Vector2(world_x, world_y))
 	map_manager.set_cellv(cell_position, cell_id, offset)
 
 
@@ -228,19 +228,19 @@ func clear_map():
 
 func get_current_cell_mouse():
 	var mp = map_manager.get_global_mouse_position()
-	return TileMapUtils.world_to_map(Vector2(mp.x, mp.y))
+	return TileMapUtilsgd.world_to_map(Vector2(mp.x, mp.y))
 
 
 func get_current_chunk_cell_mouse():
 	var mp = map_manager.get_global_mouse_position()
-	var mp_cell = TileMapUtils.world_to_map(Vector2(mp.x, mp.y))
-	return TileMapUtils.chunk_cell_to_1D(mp_cell.x, mp_cell.y)
+	var mp_cell = TileMapUtilsgd.world_to_map(Vector2(mp.x, mp.y))
+	return TileMapUtilsgd.chunk_cell_to_1D(mp_cell.x, mp_cell.y)
 
 
 func get_current_chunk_mouse():
 	var mp = map_manager.get_global_mouse_position()
-	var mp_cell = TileMapUtils.world_to_map(Vector2(mp.x, mp.y))
-	return TileMapUtils.chunk_cell_to_chunk_pos(mp_cell.x, mp_cell.y)
+	var mp_cell = TileMapUtilsgd.world_to_map(Vector2(mp.x, mp.y))
+	return TileMapUtilsgd.chunk_cell_to_chunk_pos(mp_cell.x, mp_cell.y)
 
 
 func _on_tilset_pressed(tileset):

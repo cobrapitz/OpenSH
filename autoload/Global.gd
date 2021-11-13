@@ -11,8 +11,6 @@ var _timers = {}
 
 
 
-
-
 const groups = {
 	"selectable_units" : "selectable_units",
 	"selected_units" : "selected_units",
@@ -97,7 +95,7 @@ const CACHE_CELLS_SIZE = 5000
 
 const MAX_CELL_HEIGHT = 124
 
-
+var _rand = 0
 # 200 x (randi() % 2147483646)
 var RANDOM_VALUES = PoolIntArray([
 	1165934310, 669612565, 1424820038, 1868795075, 1940855634, 898051367, 1067670816, 1551156550, 1639847550, 106018252, 1951382077, 1077777856, 957775798, 1444661513, 1361700819, 163661895, 1441541754, 843494663, 1886753727, 929708002, 399890570, 1413156978, 1230721421, 978615599, 528192260, 809617626, 
@@ -110,7 +108,16 @@ var RANDOM_VALUES = PoolIntArray([
 	49253952, 654721673, 628033982, 308188907, 678905977, 352479322, 1077180448, 1860281535, 1779664865, 1329677346, 1984330901, 930435987, 1898639207, 1805401418, 1511112908, 766367898, 450881110, 727910420, 1747254276, 1827638003, 1583965836, 1847907042, 942477082, 44696764,
 ])
 
-var _rand = 0
+
+
+
+func _ready():
+	randomize()
+	add_child(_map)
+	_map.cell_size = CELL_SIZE
+	_map.mode = TileMap.MODE_ISOMETRIC
+
+
 func get_pseudo_random():
 	_rand += 1
 	return RANDOM_VALUES[int(_rand) % RANDOM_VALUES.size()]
@@ -119,21 +126,6 @@ func get_pseudo_random():
 func get_fixed_value_for_position(x, y):
 	var rval = x * x * y + 2*y * y *x + RANDOM_VALUES[int(x * x + y * y) % RANDOM_VALUES.size()]
 	return int(rval)
-
-
-func _ready():
-	randomize()
-	add_child(_map)
-	_map.cell_size = CELL_SIZE
-	_map.mode = TileMap.MODE_ISOMETRIC
-	
-	#_region_gen(12, 16, 30, 23)
-
-
-func _region_gen(width, height, size_x, size_y, offset=Vector2.ZERO):
-	for x in range(width):
-		for y in range(height):
-			print("[", x * size_x, ", ", y * size_y, ", ", width, ", ", height ,"],")
 
 
 func world_to_isotile(position: Vector2) -> Vector2:
