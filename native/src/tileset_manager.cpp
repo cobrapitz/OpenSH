@@ -29,16 +29,13 @@ TilesetManager::~TilesetManager() {
     
 }
 
-
 void TilesetManager::_init() {
     
 }
 
 void TilesetManager::_ready() {
-    
 
 }
-
 
 Ref<Texture> TilesetManager::get_tileset_texture(String tileset) {
     return tilesets[tileset].texture;
@@ -57,33 +54,38 @@ void TilesetManager::load_tileset(String mod_name, String tileset_path) {
         return;
     }
 
-    Ref<JSONParseResult> content = JSON::get_singleton()->parse(file->get_as_text());
+    auto content = JSON::get_singleton()->parse(file->get_as_text());
     assertm(content != nullptr, "Couldn't parse tileset JSON!");
-    GODOT_PRINT_ERROR(("Couldn't parse tileset JSON: " + tileset_path).alloc_c_string());
 
     if (content->get_error() != Error::OK) {
         GODOT_PRINT_ERROR(("Couldn't read tileset file: " + tileset_path).alloc_c_string());
         return;
     }
 
-    auto result = (Dictionary)content->get_result();
+    auto result = content->get_result();
 	
-    // assertm(result != nullptr, "Couldn't parse JSON to dictionary!");
-    // GODOT_PRINT_ERROR(("Couldn't parse JSON to dictionary: " + tileset_path).alloc_c_string());
+    if (result.get_type() != Variant::Type::DICTIONARY) {
+        GODOT_PRINT_ERROR(("Read tileset is no Dictionary: " + tileset_path).alloc_c_string());
+        return;
+    }
 
+    auto dict = result.operator godot::Dictionary();
 
-    // for (int i = 0; i < result->keys().size(); i++) { 
-    //     String key = result->keys()[i];
-    //     String value = (*result)[key];
+    for (int i = 0; i < dict.keys().size(); i++) { 
+        String key = dict.keys()[i];
+        String value = dict[key];
 
-    //     tilesets.insert(std::make_pair(
-    //         mod_name + key,
-    //         sh::Tileset{
-    //             ResourceLoader::get_singleton()->load(ProjectSettings::get_singleton()->globalize_path("res://mods/") + value),
-    //             value,
-    //         }
-    //     ));
-    // }
+        //Godot::print("Adding tileset: " + mod_name + key);
+        //Godot::print("from: " + String(ProjectSettings::get_singleton()->globalize_path("res://mods/") + value));
+
+        tilesets.insert(std::make_pair(
+            mod_name + key,
+            sh::Tileset{
+                ResourceLoader::get_singleton()->load(ProjectSettings::get_singleton()->globalize_path("res://mods/") + value),
+                value,
+            }
+        ));
+    }
     file->close();
 }
   

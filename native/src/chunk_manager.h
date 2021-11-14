@@ -36,9 +36,9 @@ public:
 
     void set_draw_range(Vector2 offset, int width, int height);
     
-    int set_cellv(Vector2 cell_position, Ref<Cell> cell);
+    int set_cellv(Vector2 cell_position, sh::Cell* cell);
 
-    Ref<Cell> get_cellv(Vector2 cell_position);
+    sh::Cell* get_cellv(Vector2 cell_position);
     Vector2 get_chunk_position(Vector2 cell_position);
     int get_chunk_id(Vector2 cell_position);
 

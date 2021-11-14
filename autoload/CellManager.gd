@@ -44,7 +44,7 @@ func _change_cell(cell, tile_name: String, offset:= Vector2.ZERO, tile_type = Ce
 
 func _create_cell(cell_x: int, cell_y: int, tile_name: String, 
 		offset: Vector2 = Vector2.ZERO, tile_type = CellManagergd.SMALL):
-	var cell = NativeCell.duplicate() #Cell.duplicate()
+	var cell = Cell.duplicate()
 	
 	var pos = TileMapUtilsgd.map_to_world(Vector2(cell_x, cell_y))
 	cell.position = pos

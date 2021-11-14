@@ -78,6 +78,7 @@ func load_mod(mod_name: String, mods_base_path: String):
 #		print("result of loading tiles: ", cell, " -> ", CellManagergd.cells_data[cell])
 	print("Finished chevrons tiles.")
 	print("#".repeat(35))
+	print("FROM GDSCRIPT!")
 	
 
 

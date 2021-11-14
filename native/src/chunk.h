@@ -4,7 +4,10 @@
 #include <Godot.hpp>
 #include <YSort.hpp>
 
+#include <vector>
+
 #include "cell.h"
+#include "cell_manager.h"
 
 namespace godot {
 
@@ -13,12 +16,12 @@ class Chunk : public YSort {
 
 private:
     Node* global;
-    Node* cell_manager;
+    CellManager* cell_manager;
 
 public:
     Array _to_draw;
     Array _drawn;
-    Array cells;
+    std::vector<sh::Cell*> cells;
     Vector2 chunk_position;
 
     bool filled;
@@ -38,8 +41,8 @@ public:
     void fill();
     void fill_empty();
 
-    void set_cellv(Vector2 cell_position, Ref<Cell> cell);
-    Ref<Cell> get_cell_by_position(Vector2 cell_position);
+    void set_cellv(Vector2 cell_position, sh::Cell* cell);
+    sh::Cell* get_cell_by_position(Vector2 cell_position);
     int get_cell_idv(Vector2 cell_position);
 
 };

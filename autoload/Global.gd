@@ -110,12 +110,13 @@ var RANDOM_VALUES = PoolIntArray([
 
 
 
-
 func _ready():
 	randomize()
 	add_child(_map)
 	_map.cell_size = CELL_SIZE
 	_map.mode = TileMap.MODE_ISOMETRIC
+	
+
 
 
 func get_pseudo_random():

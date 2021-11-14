@@ -14,13 +14,10 @@ using namespace godot;
 void ModLoader::_register_methods() {
     register_method("_init", &ModLoader::_init);
     register_method("_ready", &ModLoader::_ready);
-    register_method("_process", &ModLoader::_process);
-    register_method("_draw", &ModLoader::_draw);
-    
 }
 
 ModLoader::ModLoader() {
-    _owner = godot::api->godot_global_get_singleton((char *) "ModLoader");
+   
 }
 
 ModLoader::~ModLoader() {
@@ -33,6 +30,7 @@ void ModLoader::_init() {
 }
 
 void ModLoader::_ready() {
+    Godot::print("Beginning Native Modloader.");
     String mods_base_path;
     
     if (OS::get_singleton()->has_feature("standalone")) {
@@ -55,17 +53,7 @@ void ModLoader::_ready() {
     }
 }
 
-void ModLoader::_process(float delta) {
-    
-}
-
-void ModLoader::_draw() {
-    
-}
-
-
 void ModLoader::load_mod(String mod_name, String mods_base_path) {
-
 	Godot::print(String("################################################"));
 	Godot::print("Loading tilesets...");
 
@@ -74,14 +62,12 @@ void ModLoader::load_mod(String mod_name, String mods_base_path) {
 
     auto& tileset_paths = get_file_paths(mods_base_path + "/" + mod_name + "/resources/tilesets");
 	for (auto&& tileset_name : tileset_paths) {
-		Godot::print("loading tileset from: ", mods_base_path + "/" + mod_name + "/resources/tilesets/" + tileset_name);
+		Godot::print("loading tileset from: " + mods_base_path + "/" + mod_name + "/resources/tilesets/" + tileset_name);
 		tileset_manager->load_tileset(mod_name + "_", mods_base_path + "/" + mod_name + "/resources/tilesets/" + tileset_name);
     }
 
 	Godot::print("Finished loading tilesets.");
 	Godot::print("################################################");
-    
-    
 
     Godot::print("Loading tiles...");
     
@@ -91,7 +77,7 @@ void ModLoader::load_mod(String mod_name, String mods_base_path) {
     auto tile_paths = get_file_paths(mods_base_path + "/" + mod_name + "/resources/tiles");
     
 	for (auto&& tile_name : tile_paths) {
-		Godot::print("loading tiles from: ", mods_base_path + "/" + mod_name + "/resources/tiles/" + tile_name);
+		Godot::print("loading tiles from: " + String(mods_base_path + "/" + mod_name + "/resources/tiles/" + tile_name));
         cell_manager->load_cells(mod_name + "_", mods_base_path + "/" + mod_name + "/resources/tiles/" + tile_name);
     } 
 
@@ -105,16 +91,19 @@ void ModLoader::load_mod(String mod_name, String mods_base_path) {
 
     auto chevron_paths = get_file_paths(mods_base_path + "/" + mod_name + "/resources/chevrons");
 
+
     for (auto&& chevron_name : chevron_paths) {
-		Godot::print("loading chevrons from: ", mods_base_path + "/" + mod_name + "/resources/chevrons/" + chevron_name);
+		Godot::print("loading chevrons from: " + mods_base_path + "/" + mod_name + "/resources/chevrons/" + chevron_name);
         cell_manager->load_cells(mod_name + "_", mods_base_path + "/" + mod_name + "/resources/chevrons/" + chevron_name);
     } 
 
     Godot::print("Finished chevrons tiles.");
 	Godot::print("################################################");
+
+    Godot::print("Finished Native.");
 }
 
-std::vector<String>& ModLoader::get_directory_paths(String base_folder) {
+std::vector<String> ModLoader::get_directory_paths(String base_folder) {
     std::vector<String> dirs;
     Directory* dir = Directory::_new();
 
@@ -135,7 +124,7 @@ std::vector<String>& ModLoader::get_directory_paths(String base_folder) {
     return dirs;
 }
 
-std::vector<String>& ModLoader::get_file_paths(String base_folder) {
+std::vector<String> ModLoader::get_file_paths(String base_folder) {
     std::vector<String> dirs;
     Directory* dir = Directory::_new();
 

@@ -31,8 +31,6 @@ public:
 
     void _init();
     void _ready();
-    void _process(float delta);
-    void _draw();
 
     Ref<Texture> get_tileset_texture(String tileset);
     const sh::Tileset& get_tileset(String tileset);

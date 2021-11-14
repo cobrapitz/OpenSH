@@ -6,3 +6,4 @@
 resource_name = "ModLoader"
 class_name = "ModLoader"
 library = ExtResource( 1 )
+script_class_name = "ModLoader"

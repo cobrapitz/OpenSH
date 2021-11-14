@@ -67,9 +67,9 @@ void Helper::get_time(const String& timer_name, const String& message) {
     }
 
     if (message.empty()) {
-        Godot::print(timer_name + "took: ", OS::get_singleton()->get_system_time_msecs() - timers[timer_name.alloc_c_string()]);
+        Godot::print(timer_name + " took: " + String::num_int64(OS::get_singleton()->get_system_time_msecs() - timers[timer_name.alloc_c_string()]));
     } else {
-        Godot::print(message, OS::get_singleton()->get_system_time_msecs() - timers[timer_name.alloc_c_string()]);
+        Godot::print(message + String::num_int64(OS::get_singleton()->get_system_time_msecs() - timers[timer_name.alloc_c_string()]));
     }
 
 }

@@ -5,6 +5,7 @@
 #include <Godot.hpp>
 #include <vector>
 #include <map>
+#include <String.hpp>
 
 #include "tileset_manager.h"
 #include "cell.h"
@@ -25,7 +26,7 @@ public:
     static const int MEDIUM = 1;
     static const int BIG = 2;
     static const int LARGE = 3;
-    static const int TILE_SIZES = 4;
+    static const int CELL_SIZES = 4;
 
     struct CellTypeData {
         int cell_width;
@@ -40,9 +41,9 @@ public:
         String variant;
         bool height_enabled;
 
-        String chevron;
+        String chevrons;
         String hills;
-        CellTypeData ground_texture_data[TILE_SIZES];
+        CellTypeData ground_texture_data[CELL_SIZES];
     };
     struct ChevronData {
         String mod_name;
@@ -51,7 +52,7 @@ public:
         int cell_height;
         int cell_width;
         Vector2 cell_size;
-        String texture;
+        String texture_name;
         std::vector<Rect2> regions;
     };
 
@@ -72,8 +73,8 @@ public:
 
     void load_cells(String mode_name, String cells_path);
 
-    void change_cell(Ref<Cell> cell, String tile_name, Vector2 offset = Vector2::ZERO, CellType cell_type = CellManager::SMALL);
-    Ref<Cell> create_cell(int cell_x, int cell_y, String tile_name, Vector2 offset = Vector2::ZERO, CellType cell_type = CellManager::SMALL);
+    void change_cell(sh::Cell* cell, String tile_name, Vector2 offset = Vector2::ZERO, CellType cell_type = CellManager::SMALL);
+    sh::Cell* create_cell(int cell_x, int cell_y, String tile_name, Vector2 offset = Vector2::ZERO, CellType cell_type = CellManager::SMALL);
 
     Vector2 get_cell_offset(CellType cell_type);
     int get_cell_height(CellID cell_id, CellType cell_type = CellManager::SMALL);

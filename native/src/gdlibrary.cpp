@@ -21,10 +21,12 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle) {
 
     godot::register_class<godot::ChunkManager>();
     godot::register_class<godot::Chunk>();
-    godot::register_class<godot::Cell>();
+    // godot::register_class<godot::sh::Cell>();
+    godot::register_class<godot::ModLoader>();
     godot::register_class<godot::MapManager>();
     godot::register_class<godot::CellManager>();
     godot::register_class<godot::sh::TileMapUtils>();
+    godot::register_class<godot::TilesetManager>();    
     godot::register_class<godot::CellManager>();
     // godot::register_class<godot::sh::Tileset>();
     godot::register_class<godot::sh::Helper>();

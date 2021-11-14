@@ -15,18 +15,18 @@ void ChunkManager::_register_methods() {
     register_method("_init", &ChunkManager::_init);
     register_method("_ready", &ChunkManager::_ready);
 
-    register_method("set_draw_range", &ChunkManager::set_draw_range);
-    register_method("get_chunk_position", &ChunkManager::get_chunk_position);
-    register_method("get_chunk_id", &ChunkManager::get_chunk_id);
-    register_method("get_cellv", &ChunkManager::get_cellv);
-    register_method("set_cellv", &ChunkManager::set_cellv);
+    //register_method("set_draw_range", &ChunkManager::set_draw_range);
+    //register_method("get_chunk_position", &ChunkManager::get_chunk_position);
+    //register_method("get_chunk_id", &ChunkManager::get_chunk_id);
+    //register_method("get_cellv", &ChunkManager::get_cellv);
+    //register_method("set_cellv", &ChunkManager::set_cellv);
     
-    register_property<ChunkManager, Array>("chunks", &ChunkManager::chunks, Array());
-    register_property<ChunkManager, Array>("shown_chunks", &ChunkManager::shown_chunks, Array());
+    // register_property<ChunkManager, Array>("chunks", &ChunkManager::chunks, Array());
+    // register_property<ChunkManager, Array>("shown_chunks", &ChunkManager::shown_chunks, Array());
     
-    register_property<ChunkManager, int>("draw_width", &ChunkManager::draw_width, 10);
-    register_property<ChunkManager, int>("draw_height", &ChunkManager::draw_height, 10);
-    register_property<ChunkManager, Vector2>("draw_offset", &ChunkManager::draw_offset, Vector2(10.0, 10.0));
+    // register_property<ChunkManager, int>("draw_width", &ChunkManager::draw_width, 10);
+    // register_property<ChunkManager, int>("draw_height", &ChunkManager::draw_height, 10);
+    // register_property<ChunkManager, Vector2>("draw_offset", &ChunkManager::draw_offset, Vector2(10.0, 10.0));
 }
 
 ChunkManager::ChunkManager() {
@@ -88,7 +88,7 @@ void ChunkManager::_draw() {
                 int cell_x = int(draw_offset.x) + x + y + i;
                 int cell_y = int(draw_offset.y) -x + y;
                 Vector2 cell_position = {real_t(cell_x), real_t(cell_y)};
-                Ref<Cell> cell = get_cellv(cell_position);
+                sh::Cell* cell = get_cellv(cell_position);
                 if (cell == nullptr) {
                     continue;
                 }
@@ -119,7 +119,7 @@ void ChunkManager::_draw() {
                 int cell_x = int(draw_offset.x) + x + y + i;
                 int cell_y = int(draw_offset.y) -x + y;
                 Vector2 cell_position = {real_t(cell_x), real_t(cell_y)};
-                Ref<Cell> cell = get_cellv(cell_position);
+                sh::Cell* cell = get_cellv(cell_position);
                 if (cell == nullptr) {
                     continue;
                 }
@@ -153,12 +153,12 @@ int ChunkManager::get_chunk_id(Vector2 cell_position) {
     return int(chunk_pos.x + chunk_pos.y * MAX_CHUNKS_SIZE_WIDTH);
 }
 
-Ref<Cell> ChunkManager::get_cellv(Vector2 cell_position) {
+sh::Cell* ChunkManager::get_cellv(Vector2 cell_position) {
     int chunk_id = get_chunk_id(cell_position);
 
     if (chunk_id >= int(chunks.size())) {
         Godot::print(String("Not enough chunks for id: ") + String::num(chunk_id));
-		return Ref<Cell>();
+		return nullptr;
     }
 
     Chunk* chunk = chunks[chunk_id];
@@ -179,7 +179,7 @@ Ref<Cell> ChunkManager::get_cellv(Vector2 cell_position) {
     return chunk->get_cell_by_position(cell_in_chunk_position);
 }
 
-int ChunkManager::set_cellv(Vector2 cell_position, Ref<Cell> cell) {
+int ChunkManager::set_cellv(Vector2 cell_position, sh::Cell* cell) {
     int chunk_id = get_chunk_id(cell_position);
     if (chunk_id >= chunks.size()) {
         Godot::print(String("Not enough chunks for id: ") + String::num(chunk_id));

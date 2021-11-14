@@ -3,7 +3,9 @@
 
 #include <Godot.hpp>
 #include <TileMap.hpp>
+#include <Vector2.hpp>
 
+#include "common.h"
 
 namespace godot::sh {
 
@@ -18,7 +20,9 @@ public:
 
     static inline TileMapUtils *get_singleton() {
 		if (!TileMapUtils::_singleton) {
-			TileMapUtils::_singleton = new TileMapUtils;
+			TileMapUtils::_singleton = TileMapUtils::_new();
+            TileMapUtils::_singleton->set_cell_size(CELL_SIZE);
+            TileMapUtils::_singleton->set_mode(TileMap::MODE_ISOMETRIC);
 		}
 		return TileMapUtils::_singleton;
 	}

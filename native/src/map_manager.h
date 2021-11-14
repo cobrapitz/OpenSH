@@ -13,7 +13,7 @@ class MapManager : public YSort {
 
 private:
     Node* global;
-    Node* cell_manager;
+    CellManager* cell_manager;
     ChunkManager* chunk_manager;
 
 public:
