@@ -22,11 +22,11 @@ private:
     TilesetManager* tileset_manager;
 
 public:
-    static const int SMALL = 0;
-    static const int MEDIUM = 1;
-    static const int BIG = 2;
-    static const int LARGE = 3;
-    static const int CELL_SIZES = 4;
+    static const unsigned int SMALL = 0;
+    static const unsigned int MEDIUM = 1;
+    static const unsigned int BIG = 2;
+    static const unsigned int LARGE = 3;
+    static const unsigned int CELL_SIZES = 4;
 
     struct CellTypeData {
         int cell_width;

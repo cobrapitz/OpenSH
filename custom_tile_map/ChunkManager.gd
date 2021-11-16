@@ -105,7 +105,6 @@ func _draw():
 							)
 		
 	Global.get_time(name)
-	return
 	Global.set_timer(name)
 	var offset = Vector2(0, 200)
 	for y in range(Global.CHUNK_SIZE.y * 2):

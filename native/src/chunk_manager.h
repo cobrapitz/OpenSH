@@ -12,7 +12,6 @@ class ChunkManager : public Node2D {
     GODOT_CLASS(ChunkManager, Node2D)
 
 private:
-    Node* global;
     CellManager* cell_manager;
 
 public:
@@ -36,11 +35,11 @@ public:
 
     void set_draw_range(Vector2 offset, int width, int height);
     
-    int set_cellv(Vector2 cell_position, sh::Cell* cell);
+    int set_cell(int cell_x, int cell_y, sh::Cell* cell);
 
-    sh::Cell* get_cellv(Vector2 cell_position);
-    Vector2 get_chunk_position(Vector2 cell_position);
-    int get_chunk_id(Vector2 cell_position);
+    sh::Cell* get_cell(int cell_x, int cell_y);
+    Vector2 get_chunk_position(int cell_x, int cell_y);
+    int get_chunk_id(int cell_x, int cell_y);
 
     Vector2 chunk_id_to_chunk_pos(int chunk_id);
 

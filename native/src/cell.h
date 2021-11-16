@@ -13,7 +13,7 @@ class Cell {
 public:
     bool visible;
     godot::String tile_name;
-    int tile_type;
+    unsigned int tile_type;
 
     godot::Vector2 size;
     godot::Vector2 position;

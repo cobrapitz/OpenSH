@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-using namespace godot;
+using namespace godot; 
 
 void Chunk::_register_methods() {
 
@@ -15,7 +15,7 @@ void Chunk::_register_methods() {
     register_method("fill_empty", &Chunk::fill_empty);
     //register_method("set_cellv", &Chunk::set_cellv);
     //register_method("get_cell_by_position", &Chunk::get_cell_by_position);
-    register_method("get_cell_idv", &Chunk::get_cell_idv);
+    register_method("get_cell_id", &Chunk::get_cell_id);
     
     // register_property("cells", &Chunk::cells, Array());
     register_property("_drawn", &Chunk::_drawn, Array());
@@ -30,7 +30,13 @@ Chunk::Chunk() {
 }
 
 Chunk::~Chunk() {
-    
+    for (int i = 0; i < cells.size(); i++) {
+        if (cells[i] == nullptr) {
+            continue;
+        }
+        delete cells[i];
+        cells[i] = nullptr;
+    }    
 }
 
 
@@ -70,7 +76,7 @@ void Chunk::fill() {
     assert(!cell_manager->cells.empty());
 
     auto it_begin = cell_manager->cells.begin();
-
+    // Godot::print("Fill with " + String(it_begin->first));
     for (int x = 0; x < (int)chunk_size.x; x++) {
         for (int y = 0; y < (int)chunk_size.y; y++) {
             auto cell = cell_manager->create_cell(
@@ -81,9 +87,6 @@ void Chunk::fill() {
             cells[x + y * (int) chunk_size.x] = cell;
         }
     }
-    for (sh::Cell* cell : cells) {
-        assert(cell != nullptr);
-    }
         
     assert(cells.size() == (chunk_size.x * chunk_size.y));
 }
@@ -92,28 +95,22 @@ void Chunk::fill_empty() {
     Vector2 chunk_size = {CHUNK_SIZEX, CHUNK_SIZEY};
     assert(cells.empty());
     cells.resize(int(chunk_size.x * chunk_size.y));
+    filled = false;
 }
 
-void Chunk::set_cellv(Vector2 cell_position, sh::Cell* cell) {
-    if (cell == nullptr) {
-        Godot::print("is null");
-    } else {
-        //Godot::print("cell is not null");
-    }
-    cells[get_cell_idv(cell_position)] = cell;
+void Chunk::set_cell(int cell_x, int cell_y, sh::Cell* cell) {
+    cells[get_cell_id(cell_x, cell_y)] = cell;
 }   
 
-sh::Cell* Chunk::get_cell_by_position(Vector2 cell_position) {
-    int cell_id = get_cell_idv(cell_position);
-    if (cell_id < 0 || cell_id >= cells.size()) {
-        return nullptr;
-    }
+sh::Cell* Chunk::get_cell_by_position(int cell_x, int cell_y) {
+    int cell_id = get_cell_id(cell_x, cell_y);
     assert(cells[cell_id] != nullptr);
+    assert(cell_id >= 0 && cell_id < cells.size());
     return cells[cell_id];
 }
 
-int Chunk::get_cell_idv(Vector2 cell_position) {
-    return int(cell_position.x + cell_position.y * CHUNK_SIZEX);
+int Chunk::get_cell_id(int cell_x, int cell_y) {
+    return int(cell_x + cell_y * CHUNK_SIZEX);
 }
 
 

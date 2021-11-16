@@ -15,6 +15,13 @@
 using namespace godot;
 
 
+const unsigned int SMALL = 0;
+const unsigned int MEDIUM = 1;
+const unsigned int BIG = 2;
+const unsigned int LARGE = 3;
+const unsigned int CELL_SIZES = 4;
+
+
 void CellManager::_register_methods() {
     register_method("_init", &CellManager::_init);
     register_method("_ready", &CellManager::_ready);
@@ -163,8 +170,9 @@ void CellManager::load_cells(String mod_name, String cells_path) {
 	}
 }
 
-void CellManager::change_cell(sh::Cell* cell, String tile_name, Vector2 offset , CellType cell_type) {
+void CellManager::change_cell(sh::Cell* cell, String tile_name, Vector2 offset, CellType cell_type) {
 	cell->tile_name = tile_name;
+	cell->tile_type = cell_type;
 	cell->visible = true;
 	cell->offset = offset;
 	cell->size = get_cell_size(tile_name, cell_type);
@@ -179,11 +187,13 @@ void CellManager::change_cell(sh::Cell* cell, String tile_name, Vector2 offset ,
 	cell->chevron_region_rect = get_chevron_region(chevron_texture_name, offset, cell_type);
 }
 
-sh::Cell* CellManager::create_cell(int cell_x, int cell_y, String tile_name, Vector2 offset , CellType cell_type) {
+sh::Cell* CellManager::create_cell(int cell_x, int cell_y, String tile_name, Vector2 offset, CellType cell_type) {
 	auto cell = new sh::Cell{};
 	cell->position = sh::TileMapUtils::get_singleton()->map_to_world(Vector2{(real_t)cell_x, (real_t)cell_y});
 	cell->position.x -= CELL_SIZE.x / 2.f;
 	cell->cell_position = Vector2{(real_t)cell_x, (real_t)cell_y};
+	cell->cell_ref = nullptr;
+	
 	change_cell(cell, tile_name, offset, cell_type);
 	return cell;
 }
@@ -215,9 +225,9 @@ const Rect2& CellManager::get_cell_region(CellID cell_id, Vector2 offset , CellT
 
 	if (type == "tile") {
 		return get_ground_cell_region(cell_id, cell_type);
-	} else {
-		assertm(false, "Tile type not found!");
 	}
+
+	assertm(false, "Tile type not found!");
 }
 
 const Vector2& CellManager::get_cell_size(CellID cell_id, CellType cell_type) {

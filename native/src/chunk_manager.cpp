@@ -37,19 +37,14 @@ ChunkManager::~ChunkManager() {
 }
 
 void ChunkManager::_ready() {
-    global = get_node("/root/Global");
     cell_manager = Object::cast_to<CellManager>(get_node("/root/CellManager"));
 
-    assertm(global != nullptr, "Couldn't find 'Global'!");
     assertm(cell_manager != nullptr, "Couldn't find 'CellManager'!");
 
     sh::Helper::get_singleton()->set_timer("ChunkManager");
 
     int max_chunks_size_width = static_cast<int>(MAX_CHUNKS_SIZE_WIDTH);
-    //chunks.resize(max_chunks_size_width * max_chunks_size_width);
-    Godot::print(String("init Chunk size -> ") + String::num(max_chunks_size_width * max_chunks_size_width));
-
-    int test = 0;
+    //Godot::print(String("init Chunk size -> ") + String::num(max_chunks_size_width * max_chunks_size_width));
 
     for (int i = 0; i < max_chunks_size_width * max_chunks_size_width; i++) {
         Chunk* new_chunk = Chunk::_new();
@@ -59,7 +54,7 @@ void ChunkManager::_ready() {
         new_chunk->fill_empty();
     }
 
-    set_draw_range(Vector2(200.0, 200.0), 100, 100);
+    set_draw_range(Vector2(0.0, 100.0), 100, 100);
 
     Godot::print(String("Creating chunks: ") + String::num(chunks.size()));
 
@@ -87,8 +82,7 @@ void ChunkManager::_draw() {
             for (int x = 0; x < draw_width; x++) {
                 int cell_x = int(draw_offset.x) + x + y + i;
                 int cell_y = int(draw_offset.y) -x + y;
-                Vector2 cell_position = {real_t(cell_x), real_t(cell_y)};
-                sh::Cell* cell = get_cellv(cell_position);
+                sh::Cell* cell = get_cell(cell_x, cell_y);
                 if (cell == nullptr) {
                     continue;
                 }
@@ -118,80 +112,75 @@ void ChunkManager::_draw() {
             for (int x = 0; x < draw_width; x++) {
                 int cell_x = int(draw_offset.x) + x + y + i;
                 int cell_y = int(draw_offset.y) -x + y;
-                Vector2 cell_position = {real_t(cell_x), real_t(cell_y)};
-                sh::Cell* cell = get_cellv(cell_position);
+                sh::Cell* cell = get_cell(cell_x, cell_y);
                 if (cell == nullptr) {
                     continue;
                 }
 
-                draw_texture_rect_region(
-                    cell->texture,
-                    Rect2(cell->position + cell->offset + cell->tile_offset, cell->size),
-                    cell->texture_region_rect
-                );
+                assert(cell->texture != nullptr);
+                if (cell->visible) {
+                    draw_texture_rect_region(
+                        cell->texture,
+                        Rect2(cell->position + cell->offset + cell->tile_offset, cell->size),
+                        cell->texture_region_rect
+                    );
+                } else {
+                    draw_texture_rect_region(
+                        cell->texture,
+                        Rect2(cell->position + cell->offset + cell->tile_offset, cell->size),
+                        cell->texture_region_rect, godot::Color(1.0f, 0.0f, 0.0f, 0.1f)
+                    );
+                }
             }    
         }
     }
     sh::Helper::get_singleton()->get_time("ChunkManagerDraw");
 }
 
-Vector2 ChunkManager::get_chunk_position(Vector2 cell_position) {
-    // Godot::print(String("get chunk pos: ") + String(cell_position));
-    Vector2 chunk_position = {};
-    // Godot::print("b1");
-    chunk_position.x = static_cast<real_t>((int)(cell_position.x / CHUNK_SIZEX));
-    chunk_position.y = static_cast<real_t>((int)(cell_position.y / CHUNK_SIZEY));
-    // Godot::print(String("-> ") + String(chunk_position));
-    // Godot::print("b4");
-    return chunk_position;
+Vector2 ChunkManager::get_chunk_position(int cell_x, int cell_y) {
+    return Vector2{
+        (real_t)(int)(cell_x / CHUNK_SIZEX),
+        (real_t)(int)(cell_y / CHUNK_SIZEY)
+    };
 }
 
-int ChunkManager::get_chunk_id(Vector2 cell_position) {
+int ChunkManager::get_chunk_id(int cell_x, int cell_y) {
     // Godot::print(String("cell_position: ") + String(cell_position));
-    Vector2 chunk_pos = get_chunk_position(cell_position);
+    Vector2 chunk_pos = get_chunk_position(cell_x, cell_y);
 
     return int(chunk_pos.x + chunk_pos.y * MAX_CHUNKS_SIZE_WIDTH);
 }
 
-sh::Cell* ChunkManager::get_cellv(Vector2 cell_position) {
-    int chunk_id = get_chunk_id(cell_position);
+sh::Cell* ChunkManager::get_cell(int cell_x, int cell_y) {
+    int chunk_id = get_chunk_id(cell_x, cell_y);
 
     if (chunk_id >= int(chunks.size())) {
         Godot::print(String("Not enough chunks for id: ") + String::num(chunk_id));
 		return nullptr;
     }
 
-    Chunk* chunk = chunks[chunk_id];
-
+    Chunk* chunk = chunks[chunk_id];    
     assertm(chunk != nullptr, "chunk is null!");
-
     if (!chunk->filled) {
         // Godot::print(String("filling chunk get_cellv: ") + String::num(chunk_id));
         chunk->fill();
-        chunk->update();
+        //chunk->update();
     }
 
-    Vector2 cell_in_chunk_position = {
-        static_cast<real_t>(int(cell_position.x) % int(CHUNK_SIZEX)),
-        static_cast<real_t>(int(cell_position.y) % int(CHUNK_SIZEY))
-    };
+    cell_x = ((int)cell_x % int(CHUNK_SIZEX));
+    cell_y = ((int)cell_y % int(CHUNK_SIZEY));
 
-    return chunk->get_cell_by_position(cell_in_chunk_position);
+    return chunk->get_cell_by_position(cell_x, cell_y);
 }
 
-int ChunkManager::set_cellv(Vector2 cell_position, sh::Cell* cell) {
-    int chunk_id = get_chunk_id(cell_position);
+int ChunkManager::set_cell(int cell_x, int cell_y, sh::Cell* cell) {
+    int chunk_id = get_chunk_id(cell_x, cell_y);
     if (chunk_id >= chunks.size()) {
         Godot::print(String("Not enough chunks for id: ") + String::num(chunk_id));
 		return -1;
     }
 
     Chunk* chunk = chunks[chunk_id];
-
-    Vector2 cell_in_chunk_position = {
-        static_cast<real_t>(int(cell_position.x) % int(CHUNK_SIZEX)),
-        static_cast<real_t>(int(cell_position.y) % int(CHUNK_SIZEY))
-    };
     
     if (!chunk->filled) {
         // Godot::print(String("filling chunk set_cellv: ") + String::num(chunk_id));
@@ -199,11 +188,10 @@ int ChunkManager::set_cellv(Vector2 cell_position, sh::Cell* cell) {
         chunk->update();
     }
 
-    chunk->set_cellv(cell_in_chunk_position, cell);
+    chunk->set_cell(int(cell_x) % int(CHUNK_SIZEX), int(cell_y) % int(CHUNK_SIZEY), cell);
 
     return chunk_id;
 }
-
 
 void ChunkManager::set_draw_range(Vector2 offset, int width, int height) {
     this->draw_offset = offset;

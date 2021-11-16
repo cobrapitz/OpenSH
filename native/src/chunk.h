@@ -41,9 +41,9 @@ public:
     void fill();
     void fill_empty();
 
-    void set_cellv(Vector2 cell_position, sh::Cell* cell);
-    sh::Cell* get_cell_by_position(Vector2 cell_position);
-    int get_cell_idv(Vector2 cell_position);
+    void set_cell(int cell_x, int cell_y, sh::Cell* cell);
+    sh::Cell* get_cell_by_position(int cell_x, int cell_y);
+    int get_cell_id(int cell_x, int cell_y);
 
 };
 
