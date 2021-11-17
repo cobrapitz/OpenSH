@@ -71,7 +71,7 @@ void MapManager::batch_change_cell_height_delta(Vector2 offset, int width, int h
                 sh::Cell* cell = chunk_manager->get_cell(cell_x, cell_y);
 
                 if (cell->cell_ref != nullptr) {
-                    int tile_it = cell->cell_ref->tile_type + 1;
+                    int tile_it = cell->cell_ref->cell_type + 1;
 
                     for (int ix = 0; ix < tile_it; ix++) {
                         for (int iy = 0; iy < tile_it; iy++) {
@@ -94,9 +94,9 @@ void MapManager::batch_change_cell_height_delta(Vector2 offset, int width, int h
 					set_cell(int(cell->cell_position.x), int(cell->cell_position.y), 
                             cell->tile_name, cell->offset - Vector2(0, (real_t)height_delta), CellManager::SMALL);
 
-                } else if (cell->tile_type > CellManager::SMALL) {
-                    for (unsigned int iy = 0; iy < cell->tile_type; iy++) {
-                        for (unsigned int ix = 0; ix < cell->tile_type; ix++) {
+                } else if (cell->cell_type > CellManager::SMALL) {
+                    for (unsigned int iy = 0; iy < cell->cell_type; iy++) {
+                        for (unsigned int ix = 0; ix < cell->cell_type; ix++) {
 							sh::Cell* other_cell = chunk_manager->get_cell(cell_x + ix, cell_y + iy);
 							other_cell->cell_ref = nullptr;
                             other_cell->visible = true;
@@ -139,7 +139,7 @@ void MapManager::batch_set_cell_size(Vector2 offset, int width, int height, Stri
             sh::Cell* cell = chunk_manager->get_cell(cell_x, cell_y);
 
             if (cell->cell_ref != nullptr) {
-                auto tile_it = cell->cell_ref->tile_type + 1;
+                auto tile_it = cell->cell_ref->cell_type + 1;
                 assert(tile_it <= CellManager::CELL_SIZES);
                 for (unsigned int ix = 0; ix < tile_it; ix++) {
                     for (unsigned int iy = 0; iy < tile_it; iy++) {
@@ -157,9 +157,9 @@ void MapManager::batch_set_cell_size(Vector2 offset, int width, int height, Stri
                 }
                 cell->cell_ref = nullptr;
                 set_cell((int)cell->cell_position.x, (int)cell->cell_position.y, cell->tile_name, cell->offset, CellManager::SMALL);
-            } else if (cell->tile_type > CellManager::SMALL) {
-                for (unsigned int ix = 0; ix < cell->tile_type + 1; ix++) {
-                    for (unsigned int iy = 0; iy < cell->tile_type + 1; iy++) {
+            } else if (cell->cell_type > CellManager::SMALL) {
+                for (unsigned int ix = 0; ix < cell->cell_type + 1; ix++) {
+                    for (unsigned int iy = 0; iy < cell->cell_type + 1; iy++) {
                         sh::Cell* other_cell = chunk_manager->get_cell(cell_x + ix, cell_y + iy);
                         other_cell->cell_ref = nullptr;
                         set_cell(cell_x + ix, cell_y + iy, cell->tile_name, other_cell->offset, CellManager::SMALL);
@@ -179,16 +179,16 @@ void MapManager::batch_set_cell_size(Vector2 offset, int width, int height, Stri
             //Godot::print(String("height cell: ") + String::num(cell_x) + ", ", String::num(cell_y));
             sh::Cell* cell = chunk_manager->get_cell(cell_x, cell_y);
 
-            unsigned int tile_type = sh::Helper::get_singleton()->get_fixed_value_for_position(cell_x, cell_y);
-            tile_type = tile_type % CellManager::CELL_SIZES;
+            unsigned int cell_type = sh::Helper::get_singleton()->get_fixed_value_for_position(cell_x, cell_y);
+            cell_type = cell_type % CellManager::CELL_SIZES;
             
             bool is_same = true;
             // TODO here is a bug that has to do somethign with either the cell ref
             //      or maybe get_cell (mor unlikely), but somehow the tiles are not identified corectly
             //      I think somehow the wrong cell type is being used (also rename tile type to cell type)
             auto current_biome = String(cell->tile_name);
-            for (unsigned int ix = 0; ix < tile_type + 1; ix++) {
-                for (unsigned int iy = 0; iy < tile_type + 1; iy++) {
+            for (unsigned int ix = 0; ix < cell_type + 1; ix++) {
+                for (unsigned int iy = 0; iy < cell_type + 1; iy++) {
                     sh::Cell* other_cell = chunk_manager->get_cell(cell_x + ix, cell_y + iy);
                     if (other_cell->tile_name != current_biome) {
                         is_same = false;
@@ -206,13 +206,13 @@ void MapManager::batch_set_cell_size(Vector2 offset, int width, int height, Stri
             if (!is_same) {
                 continue;
             }
-            set_cell(cell_x, cell_y, cell->tile_name, cell->offset, tile_type);
+            set_cell(cell_x, cell_y, cell->tile_name, cell->offset, cell_type);
         }
     }
     chunk_manager->update();
 }
 
-void MapManager::set_cell(int cell_x, int cell_y, String tile_name, Vector2 offset, unsigned int tile_type) {
+void MapManager::set_cell(int cell_x, int cell_y, String tile_name, Vector2 offset, unsigned int cell_type) {
     if (cell_x < 0 || cell_y < 0) {
         return;
     }
@@ -225,9 +225,9 @@ void MapManager::set_cell(int cell_x, int cell_y, String tile_name, Vector2 offs
 	sh::Cell* cell = chunk_manager->get_cell((int)cell_position.x, (int)cell_position.y);
 	
     if (cell == nullptr) {
-        cell = cell_manager->create_cell(cell_x, cell_y, tile_name, offset, tile_type);
+        cell = cell_manager->create_cell(cell_x, cell_y, tile_name, offset, cell_type);
     } else {
-        cell_manager->change_cell(cell, tile_name, offset, tile_type);
+        cell_manager->change_cell(cell, tile_name, offset, cell_type);
     }
 
 	// to update the chunks
@@ -238,9 +238,9 @@ void MapManager::set_cell(int cell_x, int cell_y, String tile_name, Vector2 offs
 	int chunk_index = chunk_manager->set_cell((int)cell_position.x, (int)cell_position.y, cell);
     assert(chunk_index != -1);
 
-	if (tile_type > 0) {
-		for (unsigned int x = 0; x < tile_type + 1; x++) {
-            for (unsigned int y = 0; y < tile_type + 1; y++) {
+	if (cell_type > 0) {
+		for (unsigned int x = 0; x < cell_type + 1; x++) {
+            for (unsigned int y = 0; y < cell_type + 1; y++) {
 				sh::Cell* other_cell = chunk_manager->get_cell((int)cell_position.x + x, (int)cell_position.y + y);
 				other_cell->visible = false;
 				other_cell->cell_ref = cell;
@@ -255,7 +255,7 @@ void MapManager::set_cell_biome(int cell_x, int cell_y, String tile_name) {
         return;
     }
     sh::Cell* cell = chunk_manager->get_cell(cell_x, cell_y);
-    cell_manager->change_cell(cell, tile_name, cell->offset, cell->tile_type);
+    cell_manager->change_cell(cell, tile_name, cell->offset, cell->cell_type);
 	int chunk_index = chunk_manager->set_cell(cell_x, cell_y, cell);
     assert(chunk_index != -1);
 }

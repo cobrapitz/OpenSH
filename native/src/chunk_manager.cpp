@@ -86,7 +86,7 @@ void ChunkManager::_draw() {
                 if (cell == nullptr) {
                     continue;
                 }
-                if (!cell->visible || cell->tile_type > 0 || cell->offset.y == 0) {
+                if (!cell->visible || cell->cell_type > 0 || cell->offset.y == 0) {
                     continue;
                 }
                 // Godot::print(String("cell_x: ") + String::num(x));

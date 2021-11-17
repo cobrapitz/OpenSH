@@ -172,7 +172,7 @@ void CellManager::load_cells(String mod_name, String cells_path) {
 
 void CellManager::change_cell(sh::Cell* cell, String tile_name, Vector2 offset, CellType cell_type) {
 	cell->tile_name = tile_name;
-	cell->tile_type = cell_type;
+	cell->cell_type = cell_type;
 	cell->visible = true;
 	cell->offset = offset;
 	cell->size = get_cell_size(tile_name, cell_type);
