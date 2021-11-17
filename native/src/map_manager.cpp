@@ -62,7 +62,6 @@ void MapManager::_draw() {
 
 
 void MapManager::batch_change_cell_height_delta(Vector2 offset, int width, int height, int height_delta) {
-    height_delta = 0;
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             for (int i = 0; i < 2; i++) {
@@ -182,15 +181,14 @@ void MapManager::batch_set_cell_size(Vector2 offset, int width, int height, Stri
 
             unsigned int tile_type = sh::Helper::get_singleton()->get_fixed_value_for_position(cell_x, cell_y);
             tile_type = tile_type % CellManager::CELL_SIZES;
-            tile_type = 1;
             
             bool is_same = true;
             // TODO here is a bug that has to do somethign with either the cell ref
             //      or maybe get_cell (mor unlikely), but somehow the tiles are not identified corectly
             //      I think somehow the wrong cell type is being used (also rename tile type to cell type)
             auto current_biome = String(cell->tile_name);
-            for (unsigned int ix = 0; ix < cell->tile_type + 1; ix++) {
-                for (unsigned int iy = 0; iy < cell->tile_type + 1; iy++) {
+            for (unsigned int ix = 0; ix < tile_type + 1; ix++) {
+                for (unsigned int iy = 0; iy < tile_type + 1; iy++) {
                     sh::Cell* other_cell = chunk_manager->get_cell(cell_x + ix, cell_y + iy);
                     if (other_cell->tile_name != current_biome) {
                         is_same = false;
