@@ -82,7 +82,7 @@ void Chunk::fill() {
             auto cell = cell_manager->create_cell(
                     int(x + (chunk_position.x * chunk_size.x)),
                     int(y + (chunk_position.y * chunk_size.y)),
-                    it_begin->first
+                    "base_sh_grass_tileset" //it_begin->first
             );
             cells[x + y * (int) chunk_size.x] = cell;
         }

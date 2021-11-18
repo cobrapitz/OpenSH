@@ -56,8 +56,20 @@ public:
         std::vector<Rect2> regions;
     };
 
+    struct HillData {
+        String mod_name;
+        String type;
+        String variant;
+        int cell_height;
+        int cell_width;
+        Vector2 cell_size;
+        String texture_name;
+        std::vector<Rect2> regions;
+    };
+
     std::map<String, ChevronData> chevrons;
     std::map<String, CellData> cells;
+    std::map<String, HillData> hills;
 
 
 public:
@@ -71,7 +83,12 @@ public:
     void _process(float delta);
     void _draw();
 
-    void load_cells(String mode_name, String cells_path);
+    void load_cells(String mod_name, String cells_path);
+
+    void load_hill(const String& key, const String& mod_name, const Dictionary& data);
+    void load_cell(const String& key, const String& mod_name, const Dictionary& data);
+    void load_chevron(const String& key, const String& mod_name, const Dictionary& data);
+    
 
     void change_cell(sh::Cell* cell, String tile_name, Vector2 offset = Vector2::ZERO, CellType cell_type = CellManager::SMALL);
     sh::Cell* create_cell(int cell_x, int cell_y, String tile_name, Vector2 offset = Vector2::ZERO, CellType cell_type = CellManager::SMALL);
@@ -84,9 +101,10 @@ public:
     const String& get_cell_texture_name(CellID cell_id, CellType cell_type = CellManager::SMALL);
     
     const Rect2& get_chevron_region(CellID chevron_id, Vector2 offset = Vector2::ZERO, CellType cell_type = CellManager::SMALL);
-    const Vector2& get_chevron_size(CellID chevron_id, CellType cell_type = CellManager::SMALL);
+    const Vector2& get_chevron_size(CellID cell_id, CellType cell_type = CellManager::SMALL);
     const String&  get_cell_chevron_texture_name(CellID cell_id, CellType cell_type = CellManager::SMALL);
-    
+    const String& get_cell_chevron_name(CellID cell_id);
+
     const Rect2& get_ground_cell_region(CellID cell_id, CellType cell_type = CellManager::SMALL);
     Rect2 get_cell_texture_with_shadows(CellID cell_id, CellType cell_type = CellManager::SMALL);
 

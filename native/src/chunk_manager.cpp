@@ -104,7 +104,7 @@ void ChunkManager::_draw() {
                                         cell->position.x + cell->offset.x + 0,
                                         cell->position.y + cell->offset.y +  cell->size.y
                                     ),
-								    cell_manager->call("get_chevron_size", cell->tile_name)
+                                    cell_manager->get_chevron_size(cell->tile_name)
                                 ),
 								cell->chevron_region_rect //, color
                             );
@@ -124,13 +124,14 @@ void ChunkManager::_draw() {
                         Rect2(cell->position + cell->offset + cell->tile_offset, cell->size),
                         cell->texture_region_rect
                     );
-                } else {
-                    draw_texture_rect_region(
-                        cell->texture,
-                        Rect2(cell->position + cell->offset + cell->tile_offset, cell->size),
-                        cell->texture_region_rect, godot::Color(1.0f, 0.0f, 0.0f, 0.1f)
-                    );
                 }
+                //  else {
+                //     draw_texture_rect_region(
+                //         cell->texture,
+                //         Rect2(cell->position + cell->offset + cell->tile_offset, cell->size),
+                //         cell->texture_region_rect, godot::Color(1.0f, 0.0f, 0.0f, 0.1f)
+                //     );
+                // }
             }    
         }
     }

@@ -25,8 +25,6 @@ const unsigned int CELL_SIZES = 4;
 void CellManager::_register_methods() {
     register_method("_init", &CellManager::_init);
     register_method("_ready", &CellManager::_ready);
-
-    
 }
 
 CellManager::CellManager() {
@@ -78,96 +76,141 @@ void CellManager::load_cells(String mod_name, String cells_path) {
 		//Godot::print("loading " + type + " -> " + mod_name + key);
 
 		if (type == "chevron") {
-			auto chevron_data = ChevronData{};
-			
-			chevron_data.mod_name = mod_name;
-			chevron_data.type = type;
-			chevron_data.variant = data["variant"];
-			chevron_data.cell_width = data["cell_width"];
-			chevron_data.cell_height = data["cell_height"];
-			chevron_data.texture_name = mod_name + data["texture"];
-			chevron_data.cell_size = Vector2{(real_t)chevron_data.cell_width, (real_t)chevron_data.cell_height};
-
-			auto texture_regions = (Dictionary) data["texture_regions"];
-
-			auto start_arr = (Array) texture_regions["start"]; 
-			auto end_arr = (Array) texture_regions["end"];
-
-			auto start_x = int(start_arr[0]);
-			auto start_y = int(start_arr[1]);
-			auto end_x = int(end_arr[0]);
-			auto end_y = int(end_arr[1]);
-
-			for (int x = start_x; x < end_x; x++) {
-				for (int y = start_y; y < end_y; y++) {
-					chevron_data.regions.push_back(
-						Rect2{
-							(real_t)x * chevron_data.cell_size.x, (real_t)y * chevron_data.cell_size.y, 
-							chevron_data.cell_size.x, chevron_data.cell_size.y
-					});
-				}	
-			}
-			chevrons.insert(std::make_pair(mod_name+key, chevron_data));
-
+			load_chevron(key, mod_name, data);
+		} else if (type == "hill") {
+			load_hill(key, mod_name, data);
 		} else if (type == "tile") {
-			auto cell_data = CellData{};
-			
-			cell_data.mod_name = mod_name;
-			cell_data.type = data["type"];
-			cell_data.variant = data["variant"];
-			cell_data.height_enabled = data["height_chevrons_enabled"];
-			cell_data.chevrons = data["chevrons"];
-			cell_data.hills = data["hills"];
-
-			auto cell_types = (Dictionary) data["ground_textures"];
-
-			for (int ci = 0; ci < CellManager::CELL_SIZES; ci++) {
-				String cell_type = cell_types.keys()[ci];
-				int cell_type_index = -1;
-				if (cell_type == "small") {
-					cell_type_index = 0;
-				} else if (cell_type == "medium") {
-					cell_type_index = 1;
-				} else if (cell_type == "big") {
-					cell_type_index = 2;
-				} else if (cell_type == "large") {
-					cell_type_index = 3;
-				} else {
-					assertm(false, "Couldn't find cell type!");
-				}
-
-				Dictionary cell_type_data = cell_types[cell_type];
-
-				auto type_data = CellTypeData{};
-				auto cell_size_arr = (Array)cell_type_data["cell_size"];
-				auto cell_size = Vector2{cell_size_arr[0], cell_size_arr[1]};
-				type_data.cell_width = (int)cell_size.x;
-				type_data.cell_height = (int)cell_size.y;
-				type_data.texture_name = mod_name + cell_type_data["texture"];
-				type_data.cell_size = cell_size;
-
-				auto start_arr = (Array) cell_type_data["start"]; 
-				auto end_arr = (Array) cell_type_data["end"];
-
-				auto start_x = int(start_arr[0]);
-				auto start_y = int(start_arr[1]);
-				auto end_x = int(end_arr[0]);
-				auto end_y = int(end_arr[1]);
-
-				for (int x = start_x; x < end_x; x++) {
-					for (int y = start_y; y < end_y; y++) {
-						type_data.regions.push_back(
-							Rect2{
-								(real_t)x * cell_size.x, (real_t)y * cell_size.y, 
-								cell_size.x, cell_size.y
-						});
-					}	
-				}
-				cell_data.ground_texture_data[cell_type_index] = type_data;
-			}
-			cells.insert(std::make_pair(mod_name + key, cell_data));
+			load_cell(key, mod_name, data);
+		} else {
+			Godot::print(String("Type not handled: ") + type);
 		}
 	}
+}
+
+void CellManager::load_hill(const String& key, const String& mod_name, const Dictionary& data) {
+	auto hill_data = HillData{};
+	
+	hill_data.mod_name = mod_name;
+	hill_data.type = data["type"];
+	hill_data.variant = data["variant"];
+	
+	hill_data.cell_width = data["cell_width"];
+	hill_data.cell_height = data["cell_height"];
+	hill_data.texture_name = mod_name + data["texture"];
+	hill_data.cell_size = Vector2{(real_t)hill_data.cell_width, (real_t)hill_data.cell_height};
+
+	auto texture_regions = (Dictionary) data["texture_regions"];
+
+	auto start_arr = (Array) texture_regions["start"]; 
+	auto end_arr = (Array) texture_regions["end"];
+
+	auto start_x = int(start_arr[0]);
+	auto start_y = int(start_arr[1]);
+	auto end_x = int(end_arr[0]);
+	auto end_y = int(end_arr[1]);
+
+	for (int x = start_x; x < end_x; x++) {
+		for (int y = start_y; y < end_y; y++) {
+			hill_data.regions.push_back(
+				Rect2{
+					(real_t)x * hill_data.cell_size.x, (real_t)y * hill_data.cell_size.y, 
+					hill_data.cell_size.x, hill_data.cell_size.y
+			});
+		}	
+	}
+	hills.insert(std::make_pair(mod_name+key, hill_data));
+}
+
+void CellManager::load_cell(const String& key, const String& mod_name, const Dictionary& data) {
+	auto cell_data = CellData{};
+	
+	cell_data.mod_name = mod_name;
+	cell_data.type = data["type"];
+	cell_data.variant = data["variant"];
+	cell_data.height_enabled = data["height_chevrons_enabled"];
+	cell_data.chevrons = data["chevrons"];
+	cell_data.hills = data["hills"];
+
+	auto cell_types = (Dictionary) data["ground_textures"];
+
+	for (int ci = 0; ci < CellManager::CELL_SIZES; ci++) {
+		String cell_type = cell_types.keys()[ci];
+		int cell_type_index = -1;
+		if (cell_type == "small") {
+			cell_type_index = 0;
+		} else if (cell_type == "medium") {
+			cell_type_index = 1;
+		} else if (cell_type == "big") {
+			cell_type_index = 2;
+		} else if (cell_type == "large") {
+			cell_type_index = 3;
+		} else {
+			assertm(false, "Couldn't find cell type!");
+		}
+
+		Dictionary cell_type_data = cell_types[cell_type];
+
+		auto type_data = CellTypeData{};
+		auto cell_size_arr = (Array)cell_type_data["cell_size"];
+		auto cell_size = Vector2{cell_size_arr[0], cell_size_arr[1]};
+		type_data.cell_width = (int)cell_size.x;
+		type_data.cell_height = (int)cell_size.y;
+		type_data.texture_name = mod_name + cell_type_data["texture"];
+		type_data.cell_size = cell_size;
+
+		auto start_arr = (Array) cell_type_data["start"]; 
+		auto end_arr = (Array) cell_type_data["end"];
+
+		auto start_x = int(start_arr[0]);
+		auto start_y = int(start_arr[1]);
+		auto end_x = int(end_arr[0]);
+		auto end_y = int(end_arr[1]);
+
+		for (int x = start_x; x < end_x; x++) {
+			for (int y = start_y; y < end_y; y++) {
+				type_data.regions.push_back(
+					Rect2{
+						(real_t)x * cell_size.x, (real_t)y * cell_size.y, 
+						cell_size.x, cell_size.y
+				});
+			}	
+		}
+		cell_data.ground_texture_data[cell_type_index] = type_data;
+	}
+	cells.insert(std::make_pair(mod_name + key, cell_data));
+}
+
+void CellManager::load_chevron(const String& key, const String& mod_name, const Dictionary& data) {
+	auto chevron_data = ChevronData{};
+	
+	chevron_data.mod_name = mod_name;
+	chevron_data.type = data["type"];
+	chevron_data.variant = data["variant"];
+	chevron_data.cell_width = data["cell_width"];
+	chevron_data.cell_height = data["cell_height"];
+	chevron_data.texture_name = mod_name + data["texture"];
+	chevron_data.cell_size = Vector2{(real_t)chevron_data.cell_width, (real_t)chevron_data.cell_height};
+
+	auto texture_regions = (Dictionary) data["texture_regions"];
+
+	auto start_arr = (Array) texture_regions["start"]; 
+	auto end_arr = (Array) texture_regions["end"];
+
+	auto start_x = int(start_arr[0]);
+	auto start_y = int(start_arr[1]);
+	auto end_x = int(end_arr[0]);
+	auto end_y = int(end_arr[1]);
+
+	for (int x = start_x; x < end_x; x++) {
+		for (int y = start_y; y < end_y; y++) {
+			chevron_data.regions.push_back(
+				Rect2{
+					(real_t)x * chevron_data.cell_size.x, (real_t)y * chevron_data.cell_size.y, 
+					chevron_data.cell_size.x, chevron_data.cell_size.y
+			});
+		}	
+	}
+	chevrons.insert(std::make_pair(mod_name+key, chevron_data));
 }
 
 void CellManager::change_cell(sh::Cell* cell, String tile_name, Vector2 offset, CellType cell_type) {
@@ -184,7 +227,8 @@ void CellManager::change_cell(sh::Cell* cell, String tile_name, Vector2 offset, 
 	
 	String chevron_texture_name = get_cell_chevron_texture_name(tile_name, cell_type);
 	cell->chevron = tileset_manager->get_tileset_texture(chevron_texture_name);
-	cell->chevron_region_rect = get_chevron_region(chevron_texture_name, offset, cell_type);
+	String cell_chevron_name = get_cell_chevron_name(cell->tile_name);
+	cell->chevron_region_rect = get_chevron_region(cell_chevron_name, offset, cell_type);
 }
 
 sh::Cell* CellManager::create_cell(int cell_x, int cell_y, String tile_name, Vector2 offset, CellType cell_type) {
@@ -219,7 +263,6 @@ int CellManager::get_cell_height(CellID cell_id, CellType cell_type) {
 	return cells[cell_id].ground_texture_data[cell_type].cell_height;
 }
 
-
 const Rect2& CellManager::get_cell_region(CellID cell_id, Vector2 offset , CellType cell_type) {
 	const String& type = cells[cell_id].type;
 
@@ -239,17 +282,19 @@ const String& CellManager::get_cell_texture_name(CellID cell_id, CellType cell_t
 }
 
 const Rect2& CellManager::get_chevron_region(CellID chevron_id, Vector2 offset , CellType cell_type) {
-	// TOOD maybe make this changeable separately in config
-	static const Rect2 chevron_region = {0, 0, CELL_SIZE.x, CELL_SIZE.y};
-    return chevron_region;
+	return chevrons[chevron_id].regions[0];
 }
 
-const Vector2& CellManager::get_chevron_size(CellID chevron_id, CellType cell_type) {
-    return chevrons[chevron_id].cell_size;
+const Vector2& CellManager::get_chevron_size(CellID cell_id, CellType cell_type) {
+    return chevrons[cells[cell_id].chevrons].cell_size;
 }
 
 const String& CellManager::get_cell_chevron_texture_name(CellID cell_id, CellType cell_type) {
 	return chevrons[cells[cell_id].chevrons].texture_name;
+}
+
+const String& CellManager::get_cell_chevron_name(CellID cell_id) {
+	return cells[cell_id].chevrons;
 }
 
 const Rect2& CellManager::get_ground_cell_region(CellID cell_id, CellType cell_type) {

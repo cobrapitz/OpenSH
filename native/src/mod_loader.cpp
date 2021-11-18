@@ -100,6 +100,20 @@ void ModLoader::load_mod(String mod_name, String mods_base_path) {
     Godot::print("Finished chevrons tiles.");
 	Godot::print("################################################");
 
+
+	
+    Godot::print("Loading hills...");
+
+    auto hill_paths = get_file_paths(mods_base_path + "/" + mod_name + "/resources/hills");
+
+    for (auto&& hill_name : hill_paths) {
+		Godot::print("loading hills from: " + mods_base_path + "/" + mod_name + "/resources/hills/" + hill_name);
+        cell_manager->load_cells(mod_name + "_", mods_base_path + "/" + mod_name + "/resources/hills/" + hill_name);
+    } 
+
+    Godot::print("Finished hills tiles.");
+	Godot::print("################################################");
+
     Godot::print("Finished Native.");
 }
 
