@@ -104,8 +104,11 @@ void Chunk::set_cell(int cell_x, int cell_y, sh::Cell* cell) {
 
 sh::Cell* Chunk::get_cell_by_position(int cell_x, int cell_y) {
     int cell_id = get_cell_id(cell_x, cell_y);
-    assert(cells[cell_id] != nullptr);
-    assert(cell_id >= 0 && cell_id < cells.size());
+    //assert(cells[cell_id] != nullptr);
+    //assert(cell_id >= 0 && cell_id < cells.size());
+    if (cell_id < 0 || cell_id >= cells.size()) {
+        return nullptr;
+    }
     return cells[cell_id];
 }
 

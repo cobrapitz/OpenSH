@@ -30,6 +30,9 @@ public:
     godot::Ref<godot::Texture> chevron;
     godot::Rect2 chevron_region_rect;
 
+    godot::Ref<godot::Texture> hill;
+    godot::Rect2 hill_region_rect;
+
     Cell* cell_ref;
 
     godot::Array polygons;

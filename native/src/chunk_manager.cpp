@@ -15,7 +15,8 @@ void ChunkManager::_register_methods() {
     register_method("_init", &ChunkManager::_init);
     register_method("_ready", &ChunkManager::_ready);
 
-    //register_method("set_draw_range", &ChunkManager::set_draw_range);
+    register_method("set_draw_range", &ChunkManager::set_draw_range);
+    
     //register_method("get_chunk_position", &ChunkManager::get_chunk_position);
     //register_method("get_chunk_id", &ChunkManager::get_chunk_id);
     //register_method("get_cellv", &ChunkManager::get_cellv);
@@ -70,15 +71,19 @@ void ChunkManager::_process(float delta) {
 }
 
 void ChunkManager::_draw() {
-    // Godot::print("Calling -> ChunkManager::_draw");
-    // Godot::print(String("draw_height: ") + String::num(draw_height));
-    // Godot::print(String("draw_width: ") + String::num(draw_width));
-    // Godot::print(String("draw_offset: " + String(draw_offset)));
-
     sh::Helper::get_singleton()->set_timer("ChunkManagerDraw");
 
     for (int y = 0; y < draw_height; y++) {
         for (int i = 0; i < 2; i++) {
+
+            // differnt cases of how to draw cells
+            // chevron: texture below cell
+            // cliff: is a specific type of chevron
+            // hill_cell: when cell has height
+            // 1. on ground: ground_cell
+            // 2. ground height > 0 and < 20: hill_cell + cell's chevron
+            // 3. ground height >= 20: hill_cell + cliff
+
             for (int x = 0; x < draw_width; x++) {
                 int cell_x = int(draw_offset.x) + x + y + i;
                 int cell_y = int(draw_offset.y) -x + y;
@@ -89,14 +94,6 @@ void ChunkManager::_draw() {
                 if (!cell->visible || cell->cell_type > 0 || cell->offset.y == 0) {
                     continue;
                 }
-                // Godot::print(String("cell_x: ") + String::num(x));
-                // Godot::print(String("cell_y: ") + String::num(x));
-                // Godot::print(String("cell_position: ") + String(cell_position));
-                // Godot::print(String("cell->position: ") + String(cell->position));
-                // Godot::print(String("cell->offset: ") + String(cell->offset));
-                // Godot::print(String("cell->offset: ") + String(cell->tile_offset));
-                // Godot::print(String("cell->size: ") + String(cell->size));
-                // Godot::print(String("cell->texture_region_rect: ") + String(cell->texture_region_rect));
                 draw_texture_rect_region(
 								cell->chevron, 
                                 Rect2(
@@ -124,14 +121,15 @@ void ChunkManager::_draw() {
                         Rect2(cell->position + cell->offset + cell->tile_offset, cell->size),
                         cell->texture_region_rect
                     );
+                    // if (cell->offset.y == 0) { // ground_cell
+                    // } else { // 
+                    //     draw_texture_rect_region(
+                    //         cell->hill,
+                    //         Rect2(cell->position + cell->offset + cell->tile_offset, cell->size),
+                    //         cell->hill_region_rect
+                    //     );    
+                    // }
                 }
-                //  else {
-                //     draw_texture_rect_region(
-                //         cell->texture,
-                //         Rect2(cell->position + cell->offset + cell->tile_offset, cell->size),
-                //         cell->texture_region_rect, godot::Color(1.0f, 0.0f, 0.0f, 0.1f)
-                //     );
-                // }
             }    
         }
     }
@@ -155,7 +153,7 @@ int ChunkManager::get_chunk_id(int cell_x, int cell_y) {
 sh::Cell* ChunkManager::get_cell(int cell_x, int cell_y) {
     int chunk_id = get_chunk_id(cell_x, cell_y);
 
-    if (chunk_id >= int(chunks.size())) {
+    if (chunk_id >= int(chunks.size()) || chunk_id < 0) {
         Godot::print(String("Not enough chunks for id: ") + String::num(chunk_id));
 		return nullptr;
     }

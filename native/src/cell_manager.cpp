@@ -229,6 +229,11 @@ void CellManager::change_cell(sh::Cell* cell, String tile_name, Vector2 offset, 
 	cell->chevron = tileset_manager->get_tileset_texture(chevron_texture_name);
 	String cell_chevron_name = get_cell_chevron_name(cell->tile_name);
 	cell->chevron_region_rect = get_chevron_region(cell_chevron_name, offset, cell_type);
+
+	String hill_texture_name = get_cell_hill_texture_name(tile_name);
+	cell->hill = tileset_manager->get_tileset_texture(hill_texture_name);
+	String cell_hill_name = get_cell_hill_name(cell->tile_name);
+	cell->hill_region_rect = get_hill_region(cell_hill_name);
 }
 
 sh::Cell* CellManager::create_cell(int cell_x, int cell_y, String tile_name, Vector2 offset, CellType cell_type) {
@@ -263,7 +268,7 @@ int CellManager::get_cell_height(CellID cell_id, CellType cell_type) {
 	return cells[cell_id].ground_texture_data[cell_type].cell_height;
 }
 
-const Rect2& CellManager::get_cell_region(CellID cell_id, Vector2 offset , CellType cell_type) {
+const Rect2& CellManager::get_cell_region(CellID cell_id, Vector2 offset, CellType cell_type) {
 	const String& type = cells[cell_id].type;
 
 	if (type == "tile") {
@@ -281,7 +286,8 @@ const String& CellManager::get_cell_texture_name(CellID cell_id, CellType cell_t
 	return cells[cell_id].ground_texture_data[cell_type].texture_name;
 }
 
-const Rect2& CellManager::get_chevron_region(CellID chevron_id, Vector2 offset , CellType cell_type) {
+const Rect2& CellManager::get_chevron_region(CellID chevron_id, Vector2 offset, CellType cell_type) {
+	// TODO maybe change it into a single region or decide on how to split them systematically
 	return chevrons[chevron_id].regions[0];
 }
 
@@ -301,6 +307,18 @@ const Rect2& CellManager::get_ground_cell_region(CellID cell_id, CellType cell_t
     return cells[cell_id].ground_texture_data[cell_type].regions[
 			sh::Helper::get_singleton()->get_pseudo_random() % cells[cell_id].ground_texture_data[cell_type].regions.size()
 		];
+}
+
+const String& CellManager::get_cell_hill_texture_name(CellID cell_id) {
+	return hills[cells[cell_id].hills].texture_name;
+}
+
+const String& CellManager::get_cell_hill_name(CellID cell_id) {
+	return cells[cell_id].hills;
+}
+
+const Rect2& CellManager::get_hill_region(CellID hill_id, Vector2 offset, CellType cell_type) {
+	return hills[hill_id].regions[0];
 }
 
 Rect2 CellManager::get_cell_texture_with_shadows(CellID cell_id, CellType cell_type) {

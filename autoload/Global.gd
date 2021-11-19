@@ -109,12 +109,15 @@ var RANDOM_VALUES = PoolIntArray([
 ])
 
 
+const SCREEN_WIDTH = 1280
+const SCREEN_HEIGHT = 720
 
 func _ready():
 	randomize()
 	add_child(_map)
 	_map.cell_size = CELL_SIZE
 	_map.mode = TileMap.MODE_ISOMETRIC
+	
 	
 
 

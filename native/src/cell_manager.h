@@ -104,6 +104,10 @@ public:
     const Vector2& get_chevron_size(CellID cell_id, CellType cell_type = CellManager::SMALL);
     const String&  get_cell_chevron_texture_name(CellID cell_id, CellType cell_type = CellManager::SMALL);
     const String& get_cell_chevron_name(CellID cell_id);
+    
+	const String& get_cell_hill_texture_name(CellID cell_id);
+	const String& get_cell_hill_name(CellID cell_id);
+    const Rect2& get_hill_region(CellID hill_id, Vector2 offset = Vector2::ZERO, CellType cell_type = CellManager::SMALL);
 
     const Rect2& get_ground_cell_region(CellID cell_id, CellType cell_type = CellManager::SMALL);
     Rect2 get_cell_texture_with_shadows(CellID cell_id, CellType cell_type = CellManager::SMALL);

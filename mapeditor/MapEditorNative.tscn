@@ -29,7 +29,7 @@ tile_data = PoolIntArray( -1, 13, 0, -65536, 13, 0, -65535, 13, 131076, -65534, 
 script = ExtResource( 7 )
 
 [node name="Camera2D" parent="." instance=ExtResource( 4 )]
-position = Vector2( -14.2543, 386.823 )
+position = Vector2( -5, 2944 )
 
 [node name="MouseCollision" type="StaticBody2D" parent="."]
 
@@ -101,25 +101,25 @@ margin_top = 48.0
 margin_right = 255.0
 margin_bottom = 72.0
 
-[node name="BrushRect" type="Button" parent="CanvasLayer/Control/GUIPanel/ScrollContainer/VBoxContainer"]
+[node name="TilesetsSelectionButtons" type="VBoxContainer" parent="CanvasLayer/Control/GUIPanel/ScrollContainer/VBoxContainer"]
 margin_top = 76.0
 margin_right = 255.0
-margin_bottom = 96.0
+margin_bottom = 76.0
+
+[node name="BrushRect" type="Button" parent="CanvasLayer/Control/GUIPanel/ScrollContainer/VBoxContainer"]
+margin_top = 80.0
+margin_right = 255.0
+margin_bottom = 100.0
 text = "Rect"
 
 [node name="BrushSquare" type="Button" parent="CanvasLayer/Control/GUIPanel/ScrollContainer/VBoxContainer"]
-margin_top = 100.0
+margin_top = 104.0
 margin_right = 255.0
-margin_bottom = 120.0
+margin_bottom = 124.0
 text = "Square"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="TilesetsSelectionButtons" type="VBoxContainer" parent="CanvasLayer/Control/GUIPanel/ScrollContainer/VBoxContainer"]
-margin_top = 124.0
-margin_right = 255.0
-margin_bottom = 124.0
 
 [node name="Save" type="Button" parent="CanvasLayer/Control/GUIPanel/ScrollContainer/VBoxContainer"]
 margin_top = 128.0

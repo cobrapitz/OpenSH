@@ -26,8 +26,10 @@ onready var preview = $Preview
 
 onready var astar_tilemap = $AStarMap
 onready var map_manager = $MapManager
+onready var chunk_manager = $MapManager/ChunkManager
 onready var tileset_selection_buttons = find_node("TilesetsSelectionButtons")
 onready var gui_panel = find_node("GUIPanel")
+onready var camera = find_node("Camera2D")
 
 onready var brush_size_box = find_node("BrushSize")
 
@@ -109,6 +111,10 @@ func _unhandled_input(event):
 	pass
 
 
+var cam_x = 0
+var cam_y = 0
+var draw_range_x = 120
+var draw_range_y = 120
 func _process(delta: float) -> void:
 	var mp = map_manager.get_global_mouse_position()
 	preview.global_position = TileMapUtilsgd.map_to_world(TileMapUtilsgd.world_to_map(Vector2(mp.x, mp.y)))
@@ -117,6 +123,25 @@ func _process(delta: float) -> void:
 		if gui_panel.get_rect().has_point(gui_panel.get_global_mouse_position()):
 			return
 		use_current_tool()
+	
+	var cam_pos = camera.get_camera_screen_center()
+	
+	var val = Vector2(Global.SCREEN_WIDTH, Global.SCREEN_HEIGHT) * camera.zoom * 0.5
+	draw_range_x = int(val.x / 12)
+	draw_range_y = draw_range_x
+	print(draw_range_y)
+	if int(cam_pos.x / Global.CHUNK_SIZE.x) != cam_x:
+		cam_x = int(cam_pos.x / Global.CHUNK_SIZE.x)
+		var center = TileMapUtilsgd.world_to_map(cam_pos) # - get_viewport().size * camera.zoom * 0.5
+		center -=  Vector2(draw_range_x, 0)
+		chunk_manager.set_draw_range(center, draw_range_x, draw_range_y)
+		chunk_manager.update()
+	if int(cam_pos.y / Global.CHUNK_SIZE.y) != cam_y:
+		cam_y = int(cam_pos.y / Global.CHUNK_SIZE.y)
+		var center = TileMapUtilsgd.world_to_map(cam_pos) # - get_viewport().size * camera.zoom * 0.5
+		center -=  Vector2(draw_range_x, 0)
+		chunk_manager.set_draw_range(center, draw_range_x, draw_range_y)
+		chunk_manager.update()
 
 
 func use_current_tool():
